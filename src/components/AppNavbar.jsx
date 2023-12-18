@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import { Container, Nav, Navbar, Form, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-
+import { clearSessions } from "../helper/SessionHelper";
 const AppNavbar = () => {
   return (
     <div>
@@ -29,17 +29,26 @@ const AppNavbar = () => {
               </NavLink>
             </Nav>
             <Nav>
-              <Form inline>
+              <Form>
                 <Row>
                   <Col xs="auto">
                     <Form.Control
                       type="text"
                       placeholder="Search"
-                      className=" mr-sm-2"
+                      className="mr-sm-2"
                     />
                   </Col>
                   <Col xs="auto">
                     <Button type="submit">Search</Button>
+                  </Col>
+                  <Col xs="auto">
+                    <button
+                      onClick={clearSessions}
+                      type="button"
+                      className="btn btn-outline-danger"
+                    >
+                      Logout
+                    </button>
                   </Col>
                 </Row>
               </Form>
