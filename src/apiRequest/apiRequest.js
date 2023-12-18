@@ -1,32 +1,28 @@
-// apiRequest.js
 import axios from "axios";
 import { useCookies } from "react-cookie";
-
+import { setToken, setLoggedIn, isLoggedIn } from "../helper/SessionHelper";
 const BASE_URL = "https://workmanager-srijonashraf.vercel.app/api/v1";
+function UserLoginRequest(email, password) {
+  let URL = BASE_URL + "/login";
+  let PostBody = { email: email, password: password };
 
-export const UserLoginRequest = async (email, password) => {
-  const [cookies, setCookie] = useCookies(["token"]);
+  return axios
+    .post(URL, PostBody)
+    .then((res) => {
+      if (res.data.status === "success") {
+        setToken(res.data.token);
+        setLoggedIn(true);
+        console.log(isLoggedIn());
+        return true;
+      } else {
+        setLoggedIn(false);
+        return false;
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
+}
 
-  try {
-    const response = await axios.post(`${BASE_URL}/login`, { email, password });
-
-    if (response.data.status === "success") {
-      const token = response.data.data;
-      // Set the token in cookies with an expiration time (in seconds)
-      setCookie("token", token, {
-        expires: new Date(Date.now() + 60 * 60 * 24 * 1000),
-      }); // Expires in 24 hours
-    }
-
-    return response.data;
-  } catch (error) {
-    console.error("API Request Error:", error);
-    throw error;
-  }
-};
-
-export const isLoggedIn = () => {
-  const [cookies] = useCookies(["token"]);
-  const token = cookies.token;
-  return !!token;
-};
+export { UserLoginRequest }; // Correct export statement
