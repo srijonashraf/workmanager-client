@@ -1,76 +1,112 @@
 import React, { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
 import { UserLoginRequest } from "../apiRequest/apiRequest.js";
 import { useNavigate } from "react-router-dom";
-import SubmitButton from "./SubmitButton.jsx";
+import { Navigate } from "react-router-dom";
+import {
+  Container,
+  Form,
+  FormControl,
+  InputGroup,
+  Button,
+} from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
+import { successToast, errorToast } from "../helper/ToasterHelper.js";
+import { Toaster } from "react-hot-toast";
+import { NavLink } from "react-router-dom";
+import { isLoggedIn } from "../helper/SessionHelper.js";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [btnLoader, setBtnLoader] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [validationError, setValidationError] = useState(false); // New validation state
   const navigate = useNavigate();
 
   const loginUser = async (e) => {
     e.preventDefault();
 
-    if (email.length === 0 || password.length === 0) {
-      toast.error("Email and Password are required!");
-    } else {
-      setBtnLoader(true);
-
-      try {
-        const res = await UserLoginRequest(email, password);
-        setBtnLoader(false);
-
-        if (res.status === "success") {
-          toast.success("Login successful");
-          navigate("/dashboard"); // Redirect to your dashboard or desired route
-        } else {
-          toast.error(res.message);
-        }
-      } catch (error) {
-        // Handle API request error
-        toast.error("Failed to connect to the server");
-        setBtnLoader(false);
+    try {
+      if (email.length === 0 || password.length === 0) {
+        errorToast("Please fill all the fields.");
+        setValidationError(true); // Set validation error to true
+        return;
       }
+
+      setLoading(true);
+      const success = await UserLoginRequest(email, password);
+      if (success) {
+        navigate("/project");
+        successToast("Login Successful.");
+        isLoggedIn(true);
+      } else {
+        console.log("Error");
+        errorToast("Email or Password Not Found.");
+        setValidationError(true);
+      }
+    } catch (error) {
+      errorToast("Failed to connect to the server.");
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleInputFocus = () => {
+    // Reset validation error when input is focused
+    setValidationError(false);
+  };
+
   return (
-    <div className="container section">
-      <div className="row d-flex justify-content-center">
-        <div className="col-md-5">
-          <div className="card h-100 ">
-            <div className="card-body">
-              <form>
-                <label className="form-label my-2">Your Email Address</label>
-                <input
+    <div>
+      <Toaster position="bottom-center" />
+      <Container>
+        <Row className="justify-content-md-center">
+          <Col md={6} lg={5} className="card p-4 border-0 shadow rounded-4">
+            <Form onSubmit={loginUser} className="animated fadeInUp card-body">
+              <h4 className="mb-3">SIGN IN</h4>
+              <InputGroup className="mb-3">
+                <FormControl
+                  type="email"
+                  placeholder="Your Email Address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  type="email"
-                  className="form-control"
+                  onFocus={handleInputFocus} // Handle input focus
+                  style={{ borderColor: validationError ? "red" : "" }}
                 />
+              </InputGroup>
 
-                <label className="form-label my-2">Your Password</label>
-                <input
+              <InputGroup className="mb-3">
+                <FormControl
+                  type="password"
+                  placeholder="Your Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  type="password"
-                  className="form-control"
+                  onFocus={handleInputFocus} // Handle input focus
+                  style={{ borderColor: validationError ? "red" : "" }}
                 />
-
-                <SubmitButton
-                  submit={btnLoader}
-                  text="Login"
-                  onClick={loginUser}
-                  className="btn my-3 btn-primary w-100"
-                />
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      <Toaster position={"bottom-center"} />
+              </InputGroup>
+              <Button
+                onClick={loginUser}
+                variant="primary"
+                type="submit"
+                className="w-100"
+                disabled={loading}
+              >
+                {loading ? "Logging in..." : "Login"}
+              </Button>
+              <Col className="float-end mt-3 d-lg-flex align-items-baseline fw-bold gap-2">
+                <NavLink to="/register" className="nav-link">
+                  SIGN UP
+                </NavLink>
+                <span>|</span>
+                <NavLink to="/forget" className="nav-link">
+                  Forget Password
+                </NavLink>
+              </Col>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
