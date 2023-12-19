@@ -6,13 +6,13 @@ import {
   Navigate,
 } from "react-router-dom";
 import HomePage from "./page/HomePage.jsx";
-import TaskPage from "./page/TaskPage.jsx";
-import ProjectPage from "./page/ProjectPage.jsx";
 import LoginPage from "./page/LoginPage";
 import AppNavbar from "./components/AppNavbar";
 import { isLoggedIn } from "./helper/SessionHelper.js";
 import Error from "./components/404.jsx";
 import RegisterPage from './page/RegisterPage';
+import NewTaskPage from './page/NewTaskPage';
+import TaskListPage from "./page/TaskListPage.jsx";
 
 function App() {
   const loggedIn = isLoggedIn();
@@ -23,8 +23,8 @@ function App() {
         <Router>
           <AppNavbar />
           <Routes>
-            <Route exact path="/task" element={<TaskPage />} />
-            <Route exact path="/project" element={<ProjectPage />} />
+            <Route exact path="/task" element={<NewTaskPage />} />
+            <Route exact path="/allTask" element={<TaskListPage />} />
             <Route exact path="/dashboard" element={<HomePage />} />
             <Route exact path="/" element={<HomePage />} />
             <Route path="*" element={<Error />} />
