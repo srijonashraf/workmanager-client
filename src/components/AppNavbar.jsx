@@ -18,9 +18,9 @@ const AppNavbar = () => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto justify-content-center flex-grow-1">
-              <NavLink className="nav-link" to="/dashboard">
+              {/* <NavLink className="nav-link" to="/dashboard">
                 Dashboard
-              </NavLink>
+              </NavLink> */}
               <NavLink className="nav-link" to="/task">
                 New Task
               </NavLink>
