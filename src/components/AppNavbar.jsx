@@ -11,7 +11,7 @@ const AppNavbar = () => {
         className="bg-dark-subtle"
         data-bs-theme="dark"
       >
-        <Container>
+        <Container className="my-2 my-lg-0">
           <NavLink to={"/"} className="navbar-brand">
             Work Manager
           </NavLink>
@@ -38,7 +38,7 @@ const AppNavbar = () => {
                       className="mr-sm-2"
                     />
                   </Col>
-                  <Col xs="auto">
+                  <Col xs="auto"  className="mb-3 mb-sm-0">
                     <Button type="submit">Search</Button>
                   </Col>
                   <Col xs="auto">
