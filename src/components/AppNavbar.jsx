@@ -22,10 +22,10 @@ const AppNavbar = () => {
                 Dashboard
               </NavLink>
               <NavLink className="nav-link" to="/task">
-                Tasks
+                New Task
               </NavLink>
-              <NavLink className="nav-link" to="/project">
-                Projects
+              <NavLink className="nav-link" to="/allTask">
+                All Task
               </NavLink>
             </Nav>
             <Nav>
