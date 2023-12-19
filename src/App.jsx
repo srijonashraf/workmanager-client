@@ -26,7 +26,8 @@ function App() {
             <Route exact path="/task" element={<NewTaskPage />} />
             <Route exact path="/allTask" element={<TaskListPage />} />
             {/* <Route exact path="/dashboard" element={<HomePage />} /> */}
-            <Route exact path="/" element={<HomePage />} />
+            {/* <Route exact path="/" element={<HomePage />} /> */}
+            <Route exact path="/" element={<TaskListPage />} />
             <Route path="*" element={<Error />} />
           </Routes>
         </Router>
