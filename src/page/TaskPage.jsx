@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 const TaskPage = () => {
   return (
     <div>
-      <h4>TaskPage</h4>
+      <h4 className='text-center my-3'>TaskPage</h4>
     </div>
   );
 };
