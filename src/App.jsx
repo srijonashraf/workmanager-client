@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -18,26 +18,28 @@ function App() {
 
   if (loggedIn) {
     return (
-      <Router>
-        <div>
+      <Fragment>
+        <Router>
           <AppNavbar />
           <Routes>
-            <Route path="/task" element={<TaskPage />} />
-            <Route path="/project" element={<ProjectPage />} />
-            <Route path="/dashboard" element={<HomePage />} />
-            <Route path="*" element={<Navigate to="/dashboard" />} />
+            <Route exact path="/task" element={<TaskPage />} />
+            <Route exact path="/project" element={<ProjectPage />} />
+            <Route exact path="/dashboard" element={<HomePage />} />
+            <Route exact path="/" element={<HomePage />} />
+            <Route path="*" element={<Error />} />
           </Routes>
-        </div>
-      </Router>
+        </Router>
+      </Fragment>
     );
   } else {
     return (
-      <Router>
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          {/* Other Route will also redirect to LoginPage */}
-        </Routes>
-      </Router>
+      <Fragment>
+        <Router>
+          <Routes>
+            <Route exact path="*" element={<LoginPage />} />
+          </Routes>
+        </Router>
+      </Fragment>
     );
   }
 }
