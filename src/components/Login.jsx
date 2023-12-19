@@ -97,7 +97,7 @@ const Login = () => {
                 <span>
                   <NavLink
                     className="text-center h6 animated fadeInUp"
-                    to="/registration"
+                    to="/register"
                   >
                     Sign Up{" "}
                   </NavLink>
@@ -119,4 +119,3 @@ const Login = () => {
 };
 
 export default Login;
-
