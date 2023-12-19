@@ -12,6 +12,7 @@ import LoginPage from "./page/LoginPage";
 import AppNavbar from "./components/AppNavbar";
 import { isLoggedIn } from "./helper/SessionHelper.js";
 import Error from "./components/404.jsx";
+import RegisterPage from './page/RegisterPage';
 
 function App() {
   const loggedIn = isLoggedIn();
@@ -37,6 +38,7 @@ function App() {
         <Router>
           <Routes>
             <Route exact path="*" element={<LoginPage />} />
+            <Route exact path="/register" element={<RegisterPage />} />
           </Routes>
         </Router>
       </Fragment>
