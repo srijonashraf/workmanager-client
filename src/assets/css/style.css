@@ -1,14 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 * {
-    font-family: Poppins, sans-serif;
+  font-family: Poppins, sans-serif;
 }
 
-.sm-text{
-    font-size: 12px;
+.sm-text {
+  font-size: 12px;
 }
-
 
 .modal.fade.in {
-    opacity: 1 !important;  /* Set the modal opacity to 1 when it's in */
+  opacity: 1 !important; /* Set the modal opacity to 1 when it's in */
+}
+
+.blog-title-emoji {
+  animation-name: wave-animation;
+  animation-duration: 2.5s;
+  animation-iteration-count: 2;
+  transform-origin: 70% 70%;
+  display: inline-block;
+}
+
+@keyframes wave-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  15% {
+    transform: rotate(14deg);
+  }
+  30% {
+    transform: rotate(-8deg);
+  }
+  40% {
+    transform: rotate(14deg);
+  }
+  50% {
+    transform: rotate(-4deg);
+  }
+  60% {
+    transform: rotate(10deg);
+  }
+  70% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
