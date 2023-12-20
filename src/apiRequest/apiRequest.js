@@ -4,7 +4,7 @@ import {
   getToken,
   setLoggedIn,
   setUserEmail,
-  isLoggedIn,
+  isLoggedIn
 } from "../helper/SessionHelper";
 
 const BASE_URL = "https://workmanager-srijonashraf.vercel.app/api/v1";
@@ -20,6 +20,7 @@ function UserLogin(email, password) {
         setToken(res.data.token);
         setUserEmail(email);
         setLoggedIn(true);
+        console.log(JSON.stringify(res.data.firstName))
         console.log("Login Successful");
         return res;
       } else {
