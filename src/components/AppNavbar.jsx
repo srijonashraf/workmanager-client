@@ -44,7 +44,7 @@ const AppNavbar = () => {
               <Button onClick={clearSessions} variant="danger">
                 Logout
               </Button>
-              <h6 className="text-light ms-3 ">{userEmail}</h6>
+              {/* <h6 className="text-light ms-3 ">{userEmail}</h6> */}
             </Form>
           </Navbar.Collapse>
         </Container>
