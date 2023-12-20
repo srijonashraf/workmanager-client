@@ -8,7 +8,7 @@ import {
 
 const BASE_URL = "https://workmanager-srijonashraf.vercel.app/api/v1";
 
-function UserLoginRequest(email, password) {
+function UserLogin(email, password) {
   const URL = BASE_URL + "/login";
   const postBody = { email, password };
 
@@ -32,7 +32,7 @@ function UserLoginRequest(email, password) {
     });
 }
 
-function UserRegistrationRequest(formValues) {
+function UserRegistration(formValues) {
   const URL = BASE_URL + "/registration";
   const postBody = {
     employeeId: formValues.employeeId,
@@ -101,4 +101,38 @@ function AllTask() {
     });
 }
 
-export { UserLoginRequest, UserRegistrationRequest, AddNewTask, AllTask };
+function DeleteTask(id) {
+  const URL = BASE_URL + "/deleteWork/" + id;
+  return axios
+    .get(URL, { headers: { token: getToken() } })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
+}
+
+function UpdateTaskStatus(id,status) {
+  const URL = BASE_URL + "/updateWorkStatus/" + id + "/" + status;
+  console.log(URL);
+  return axios
+    .get(URL, { headers: { token: getToken() } })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
+}
+
+export {
+  UserLogin,
+  UserRegistration,
+  AddNewTask,
+  AllTask,
+  DeleteTask,
+  UpdateTaskStatus,
+};
