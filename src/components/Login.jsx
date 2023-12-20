@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { UserLoginRequest } from "../apiRequest/apiRequest.js";
-import { useNavigate } from "react-router-dom";
+import { UserLogin } from "../apiRequest/apiRequest.js";
 import {
   Container,
   Form,
@@ -19,34 +18,34 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState(false);
 
-  const loginUser = async (e) => {
+  const UserLoginRequest = async (e) => {
     e.preventDefault();
 
     try {
       if (email.length === 0 || password.length === 0) {
-        errorToast("Please fill in all the fields.");
+        errorToast("Please fill in all the fields");
         setValidationError(true);
         return;
       }
 
       setLoading(true);
-      const success = await UserLoginRequest(email, password);
+      const success = await UserLogin(email, password);
       if (success) {
         window.location.href = "/";
-        successToast("Login Successful.");
+        successToast("Login successful");
       } else {
-        errorToast("Email or Password Not Found.");
+        errorToast("User not found");
         setValidationError(true);
       }
     } catch (error) {
-      errorToast("Failed to connect to the server.");
+      errorToast("Failed to connect to the server");
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleInputFocus = () => {
+  const HandleInputFocus = () => {
     setValidationError(false);
   };
 
@@ -61,7 +60,10 @@ const Login = () => {
             lg={5}
             className="card p-4 border-0 shadow rounded-4 mx-auto" // Add mx-auto for centering
           >
-            <Form onSubmit={loginUser} className="animated fadeInUp card-body">
+            <Form
+              onSubmit={UserLoginRequest}
+              className="animated fadeInUp card-body"
+            >
               <h4 className="mb-3">SIGN IN</h4>
               <InputGroup className="mb-3">
                 <FormControl
@@ -69,7 +71,7 @@ const Login = () => {
                   placeholder="Your Email Address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  onFocus={handleInputFocus}
+                  onFocus={HandleInputFocus}
                   style={{ borderColor: validationError ? "red" : "" }}
                 />
               </InputGroup>
@@ -80,12 +82,12 @@ const Login = () => {
                   placeholder="Your Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  onFocus={handleInputFocus}
+                  onFocus={HandleInputFocus}
                   style={{ borderColor: validationError ? "red" : "" }}
                 />
               </InputGroup>
               <Button
-                onClick={loginUser}
+                onClick={UserLoginRequest}
                 variant="primary"
                 type="submit"
                 className="w-100 mb-3"
