@@ -16,7 +16,6 @@ const CreateTask = () => {
 
       if (success) {
         successToast("New task added.");
-        // Optionally, redirect or perform other actions after adding the task
       } else {
         errorToast("Failed to add new task.");
       }
