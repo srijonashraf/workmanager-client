@@ -22,7 +22,6 @@ const TaskList = () => {
     workDescription: "",
   });
 
-
   useEffect(() => {
     FetchAllTasks();
   }, []);
@@ -100,8 +99,6 @@ const TaskList = () => {
   const HandleUpdateTask = () => {
     if (selectedTaskIdForUpdate) {
       UpdateTaskRequest(selectedTaskIdForUpdate, editableFields);
-      console.log(editableFields);
-      console.log(selectedTaskIdForUpdate);
       setShowEditModal(false);
     }
   };

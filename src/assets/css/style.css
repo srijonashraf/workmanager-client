@@ -7,3 +7,8 @@
 .sm-text{
     font-size: 12px;
 }
+
+
+.modal.fade.in {
+    opacity: 1 !important;  /* Set the modal opacity to 1 when it's in */
+}
