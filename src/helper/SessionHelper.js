@@ -14,6 +14,14 @@ class SessionHelper {
   getUserEmail() {
     return localStorage.getItem("email");
   }
+
+  setFName(fname) {
+    localStorage.setItem("FirstName", fname);
+  }
+
+  getFName() {
+    return JSON.parse(localStorage.getItem("FirstName")) || null;
+  }
   clearSessions() {
     localStorage.clear();
     window.location.href = "/";
@@ -36,4 +44,6 @@ export const {
   isLoggedIn,
   setUserEmail,
   getUserEmail,
+  setFName,
+  getFName,
 } = new SessionHelper();
