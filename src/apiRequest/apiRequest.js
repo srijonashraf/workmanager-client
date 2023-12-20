@@ -3,6 +3,7 @@ import {
   setToken,
   getToken,
   setLoggedIn,
+  setUserEmail,
   isLoggedIn,
 } from "../helper/SessionHelper";
 
@@ -17,6 +18,7 @@ function UserLogin(email, password) {
     .then((res) => {
       if (res.data.status === "success") {
         setToken(res.data.token);
+        setUserEmail(email);
         setLoggedIn(true);
         console.log("Login Successful");
         return res;
