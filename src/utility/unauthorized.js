@@ -9,6 +9,6 @@ export default function unauthorized(code){
         let lastLocation=window.location
         sessionStorage.setItem("lastLocation",lastLocation);
 
-        window.location.href="/login"
+        window.location.href="/"
     }
 }
