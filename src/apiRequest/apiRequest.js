@@ -114,7 +114,7 @@ function DeleteTask(id) {
     });
 }
 
-function UpdateTaskStatus(id,status) {
+function UpdateTaskStatus(id, status) {
   const URL = BASE_URL + "/updateWorkStatus/" + id + "/" + status;
   console.log(URL);
   return axios
@@ -128,6 +128,18 @@ function UpdateTaskStatus(id,status) {
     });
 }
 
+const updateTaskData = async (id, updatedFields) => {
+  try {
+    const URL = BASE_URL + "/updateWork/" + id;
+    console.log(URL);
+    await axios.post(URL, updatedFields, { headers: { token: getToken() } });
+    return true;
+  } catch (error) {
+    console.error("Failed to update task:", error);
+    return false;
+  }
+};
+
 export {
   UserLogin,
   UserRegistration,
@@ -135,4 +147,5 @@ export {
   AllTask,
   DeleteTask,
   UpdateTaskStatus,
+  updateTaskData,
 };

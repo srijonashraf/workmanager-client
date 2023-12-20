@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Container, Card, Row, Col, Button, Modal } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import {
   AllTask,
   DeleteTask,
   UpdateTaskStatus,
+  updateTaskData,
 } from "../apiRequest/apiRequest";
 import { errorToast, successToast } from "../helper/ToasterHelper";
 import { Toaster } from "react-hot-toast";
@@ -11,41 +13,21 @@ import { Toaster } from "react-hot-toast";
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
+  const [showStatusModal, setShowStatusModal] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
-  const [selectedTaskStatus, setSelectedTaskStatus] = useState("Done"); // Set the initial status here
+  const [selectedTaskIdForUpdate, setSelectedTaskIdForUpdate] = useState(null);
+  const [selectedTaskStatus, setSelectedTaskStatus] = useState("Done");
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editableFields, setEditableFields] = useState({
+    workTitle: "",
+    workDescription: "",
+  });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     FetchAllTasks();
   }, []);
-
-  const DeleteTaskRequest = async (id) => {
-    try {
-      const response = await DeleteTask(id);
-      if (response) {
-        successToast("Task deleted successfully");
-        FetchAllTasks();
-      } else {
-        errorToast("Failed to delete task");
-      }
-    } catch (err) {
-      console.log("Failed to reach server");
-    }
-  };
-
-  const UpdateTaskStatusRequest = async (taskId, status) => {
-    try {
-      const response = await UpdateTaskStatus(taskId, status);
-      if (response) {
-        successToast("Task status updated");
-        FetchAllTasks();
-      } else {
-        errorToast("Failed to update");
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const FetchAllTasks = async () => {
     try {
@@ -66,10 +48,80 @@ const TaskList = () => {
     }
   };
 
-  const handleUpdateStatus = () => {
+  const DeleteTaskRequest = async (id) => {
+    try {
+      const response = await DeleteTask(id);
+      if (response) {
+        successToast("Task deleted successfully");
+        FetchAllTasks();
+      } else {
+        errorToast("Failed to delete task");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const HandleUpdateStatus = () => {
     if (selectedTaskId) {
       UpdateTaskStatusRequest(selectedTaskId, selectedTaskStatus);
-      setShowModal(false);
+      setShowStatusModal(false);
+    }
+  };
+
+  const UpdateTaskStatusRequest = async (taskId, status) => {
+    try {
+      const response = await UpdateTaskStatus(taskId, status);
+      if (response) {
+        successToast("Task status updated");
+        FetchAllTasks();
+      } else {
+        errorToast("Failed to update");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const HandleTitleChange = (e) => {
+    const { value } = e.target;
+    setEditableFields((prevFields) => ({
+      ...prevFields,
+      workTitle: value,
+    }));
+  };
+
+  const HandleDescriptionChange = (e) => {
+    const { value } = e.target;
+    setEditableFields((prevFields) => ({
+      ...prevFields,
+      workDescription: value,
+    }));
+  };
+
+  const HandleUpdateTask = () => {
+    if (selectedTaskIdForUpdate) {
+      UpdateTaskRequest(selectedTaskIdForUpdate, editableFields);
+      console.log(editableFields);
+      console.log(selectedTaskIdForUpdate);
+      setShowEditModal(false);
+    }
+  };
+
+  const UpdateTaskRequest = async (selectedTaskIdForUpdate, editableFields) => {
+    try {
+      const response = await updateTaskData(
+        selectedTaskIdForUpdate,
+        editableFields
+      );
+      if (response) {
+        successToast("Task updated successfully");
+        FetchAllTasks();
+      } else {
+        errorToast("Failed to update task");
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -80,6 +132,10 @@ const TaskList = () => {
         {loading ? (
           <Col className="mb-3">
             <p>Loading...</p>
+          </Col>
+        ) : tasks.length === 0 ? (
+          <Col className="mb-3">
+            <h4 className="animated flash">No task here!</h4>
           </Col>
         ) : (
           tasks.map((task) => (
@@ -107,17 +163,17 @@ const TaskList = () => {
                             variant={variant}
                             className="text-white rounded-1 btn-sm me-2"
                             onClick={() => {
-                              setShowModal(true);
+                              setShowStatusModal(true);
                               setSelectedTaskId(task._id);
                             }}
                           >
                             {task.workStatus}
                           </Button>
 
-                          {/* Modal for updating task status */}
+                          {/* Update Task Status Modal */}
                           <Modal
-                            show={showModal}
-                            onHide={() => setShowModal(false)}
+                            show={showStatusModal}
+                            onHide={() => setShowStatusModal(false)}
                           >
                             <Modal.Header closeButton>
                               <Modal.Title>Update Task Status</Modal.Title>
@@ -139,13 +195,13 @@ const TaskList = () => {
                             <Modal.Footer>
                               <Button
                                 variant="secondary"
-                                onClick={() => setShowModal(false)}
+                                onClick={() => setShowStatusModal(false)}
                               >
                                 Close
                               </Button>
                               <Button
                                 variant="primary"
-                                onClick={handleUpdateStatus}
+                                onClick={HandleUpdateStatus}
                               >
                                 Save Changes
                               </Button>
@@ -154,8 +210,24 @@ const TaskList = () => {
                         </>
                       );
                     })()}
-                    {/* Edit Button is disabled TEMPORARY */}
-                    <Button className="d-none btn-sm rounded-1 btn-dark me-2"> 
+
+                    <Button
+                      className="btn-sm rounded-1 btn-dark me-2"
+                      onClick={() => {
+                        const taskDetails = tasks.find(
+                          (t) => t._id === task._id
+                        );
+
+                        if (taskDetails) {
+                          setEditableFields({
+                            workTitle: taskDetails.workTitle,
+                            workDescription: taskDetails.workDescription,
+                          });
+                          setShowEditModal(true);
+                          setSelectedTaskIdForUpdate(task._id);
+                        }
+                      }}
+                    >
                       Edit
                     </Button>
                     <Button
@@ -174,6 +246,36 @@ const TaskList = () => {
           ))
         )}
       </Row>
+
+      {/* Edit Task Modal */}
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Task</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <label>Title:</label>
+          <input
+            type="text"
+            className="form-control"
+            value={editableFields.workTitle}
+            onChange={HandleTitleChange}
+          />
+          <label className="mt-3">Description:</label>
+          <textarea
+            className="form-control"
+            value={editableFields.workDescription}
+            onChange={HandleDescriptionChange}
+          ></textarea>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={HandleUpdateTask}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
