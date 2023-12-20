@@ -19,7 +19,7 @@ function UserLogin(email, password) {
         setToken(res.data.token);
         setLoggedIn(true);
         console.log("Login Successful");
-        return true;
+        return res;
       } else {
         setLoggedIn(false);
         console.log("Login Failed");
@@ -51,7 +51,7 @@ function UserRegistration(formValues) {
     .then((res) => {
       if (res.data.status === "success") {
         console.log("Registration Successful");
-        return true;
+        return res;
       } else {
         console.log("Registration Failed");
         return false;
@@ -76,7 +76,7 @@ function AddNewTask(taskTitle, taskDescription) {
     .then((res) => {
       if (res.data.status === "success") {
         console.log("Data Added.");
-        return true;
+        return res;
       } else {
         console.log("Data Not Added.");
         return false;
@@ -93,7 +93,13 @@ function AllTask() {
   return axios
     .get(URL, { headers: { token: getToken() } })
     .then((res) => {
-      return res; // Return the entire response object
+      if (res.data.status === "success") {
+        console.log("Data fetched");
+        return res;
+      } else {
+        console.log("Data didn't fetched");
+        return false;
+      }
     })
     .catch((err) => {
       console.error(err);
@@ -106,39 +112,79 @@ function DeleteTask(id) {
   return axios
     .get(URL, { headers: { token: getToken() } })
     .then((res) => {
-      return res;
+      if (res.data.status === "success") {
+        console.log("Data deleted");
+        return res;
+      } else {
+        console.log("Data didn't deleted");
+        return false;
+      }
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       return false;
     });
 }
 
 function UpdateTaskStatus(id, status) {
   const URL = BASE_URL + "/updateWorkStatus/" + id + "/" + status;
-  console.log(URL);
   return axios
-    .get(URL, { headers: { token: getToken() } })
+    .get(URL,{ headers: { token: getToken() } })
     .then((res) => {
-      return res;
+      if (res.data.status === "success") {
+        console.log("Work status updated");
+        return res;
+      } else {
+        console.log("Work status didn't updated");
+        return false;
+      }
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       return false;
     });
 }
 
-const updateTaskData = async (id, updatedFields) => {
-  try {
-    const URL = BASE_URL + "/updateWork/" + id;
-    console.log(URL);
-    await axios.post(URL, updatedFields, { headers: { token: getToken() } });
-    return true;
-  } catch (error) {
-    console.error("Failed to update task:", error);
-    return false;
-  }
-};
+
+
+function UpdateTaskData(id, updatedFields) {
+  const URL = BASE_URL + "/updateWork/" + id;
+  return axios
+    .post(URL, updatedFields, { headers: { token: getToken() } })
+    .then((res) => {
+      if (res.data.status === "success") {
+        console.log("Work updated");
+        return res;
+      } else {
+        console.log("Work didn't updated");
+        return false;
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      return false;
+    });
+}
+
+function FetchTaskCount() {
+  const URL = BASE_URL + "/workStatusCount";
+  return axios
+    .get(URL, { headers: { token: getToken() } })
+    .then((res) => {
+      if (res.data.status === "success") {
+        console.log("Work status updated");
+        return res;
+      } else {
+        console.log("Work status didn't updated");
+        return false;
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      return false;
+    });
+}
+
 
 export {
   UserLogin,
@@ -147,5 +193,6 @@ export {
   AllTask,
   DeleteTask,
   UpdateTaskStatus,
-  updateTaskData,
+  UpdateTaskData,
+  FetchTaskCount,
 };
