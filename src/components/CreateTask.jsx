@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Card, Container, InputGroup, FormControl, Button } from "react-bootstrap";
+import {
+  Card,
+  Container,
+  InputGroup,
+  FormControl,
+  Button,
+} from "react-bootstrap";
 import { AddNewTask } from "../apiRequest/apiRequest";
 import { successToast, errorToast } from "../helper/ToasterHelper";
 import { Toaster } from "react-hot-toast";
@@ -11,13 +17,19 @@ const CreateTask = () => {
 
   const handleAddTask = async () => {
     try {
+      if (!taskTitle && !taskDescription) {
+        // If both title and description are empty, show an error message
+        errorToast("Please provide either a title or a description.");
+        return;
+      }
+  
       setLoading(true); // Set loading to true when adding task
       const success = await AddNewTask(taskTitle, taskDescription);
 
       if (success) {
         successToast("New task added.");
       } else {
-        errorToast("Failed to add new task.");
+        errorToast("Failed to add a new task.");
       }
     } catch (error) {
       console.error(error);
