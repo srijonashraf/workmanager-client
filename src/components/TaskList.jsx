@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Container, Card, Row, Col, Button, Modal } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import {
   AllTask,
   DeleteTask,
   UpdateTaskStatus,
-  updateTaskData,
+  UpdateTaskData,
 } from "../apiRequest/apiRequest";
 import { errorToast, successToast } from "../helper/ToasterHelper";
 import { Toaster } from "react-hot-toast";
@@ -23,7 +22,6 @@ const TaskList = () => {
     workDescription: "",
   });
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     FetchAllTasks();
@@ -110,7 +108,7 @@ const TaskList = () => {
 
   const UpdateTaskRequest = async (selectedTaskIdForUpdate, editableFields) => {
     try {
-      const response = await updateTaskData(
+      const response = await UpdateTaskData(
         selectedTaskIdForUpdate,
         editableFields
       );
