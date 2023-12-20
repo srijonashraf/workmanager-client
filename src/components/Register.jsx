@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { UserRegistrationRequest } from "../apiRequest/apiRequest.js";
+import { UserRegistration } from "../apiRequest/apiRequest.js";
 import {
   Container,
   Form,
@@ -28,7 +28,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState(false);
 
-  const registerUser = async (e) => {
+  const UserRegisterRequest = async (e) => {
     e.preventDefault();
 
     try {
@@ -41,23 +41,23 @@ const Register = () => {
       }
 
       setLoading(true);
-      const success = await UserRegistrationRequest(formValues);
+      const success = await UserRegistration(formValues);
       if (success) {
         window.location.href = "/";
-        successToast("Registration Successful.");
+        successToast("Registration successful");
       } else {
-        errorToast("Failed to register user.");
+        errorToast("Failed to register user");
         setValidationError(true);
       }
     } catch (error) {
-      errorToast("Failed to connect to the server.");
+      errorToast("Failed to connect to the server");
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleInputChange = (e) => {
+  const HandleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
@@ -65,7 +65,7 @@ const Register = () => {
     });
   };
 
-  const handleInputFocus = () => {
+  const HandleInputFocus = () => {
     setValidationError(false);
   };
 
@@ -81,7 +81,7 @@ const Register = () => {
             className="card p-4 border-0 shadow rounded-4 mx-auto"
           >
             <Form
-              onSubmit={registerUser}
+              onSubmit={UserRegisterRequest}
               className="animated fadeInUp card-body"
             >
               <h4 className="mb-3">SIGN UP</h4>
@@ -91,8 +91,8 @@ const Register = () => {
                   placeholder="Employee ID"
                   name="employeeId"
                   value={formValues.employeeId}
-                  onChange={handleInputChange}
-                  onFocus={handleInputFocus}
+                  onChange={HandleInputChange}
+                  onFocus={HandleInputFocus}
                   style={{
                     borderColor:
                       validationError &&
@@ -109,8 +109,8 @@ const Register = () => {
                   placeholder="Email"
                   name="email"
                   value={formValues.email}
-                  onChange={handleInputChange}
-                  onFocus={handleInputFocus}
+                  onChange={HandleInputChange}
+                  onFocus={HandleInputFocus}
                   style={{
                     borderColor:
                       validationError && formValues.email.trim().length === 0
@@ -126,8 +126,8 @@ const Register = () => {
                   placeholder="First Name"
                   name="firstName"
                   value={formValues.firstName}
-                  onChange={handleInputChange}
-                  onFocus={handleInputFocus}
+                  onChange={HandleInputChange}
+                  onFocus={HandleInputFocus}
                   style={{
                     borderColor:
                       validationError &&
@@ -144,8 +144,8 @@ const Register = () => {
                   placeholder="Last Name"
                   name="lastName"
                   value={formValues.lastName}
-                  onChange={handleInputChange}
-                  onFocus={handleInputFocus}
+                  onChange={HandleInputChange}
+                  onFocus={HandleInputFocus}
                   style={{
                     borderColor:
                       validationError && formValues.lastName.trim().length === 0
@@ -161,8 +161,8 @@ const Register = () => {
                   placeholder="Mobile"
                   name="mobile"
                   value={formValues.mobile}
-                  onChange={handleInputChange}
-                  onFocus={handleInputFocus}
+                  onChange={HandleInputChange}
+                  onFocus={HandleInputFocus}
                   style={{
                     borderColor:
                       validationError && formValues.mobile.trim().length === 0
@@ -178,8 +178,8 @@ const Register = () => {
                   placeholder="Password"
                   name="password"
                   value={formValues.password}
-                  onChange={handleInputChange}
-                  onFocus={handleInputFocus}
+                  onChange={HandleInputChange}
+                  onFocus={HandleInputFocus}
                   style={{
                     borderColor:
                       validationError && formValues.password.trim().length === 0
@@ -195,8 +195,8 @@ const Register = () => {
                   placeholder="Address"
                   name="address"
                   value={formValues.address}
-                  onChange={handleInputChange}
-                  onFocus={handleInputFocus}
+                  onChange={HandleInputChange}
+                  onFocus={HandleInputFocus}
                   style={{
                     borderColor:
                       validationError && formValues.address.trim().length === 0
@@ -212,8 +212,8 @@ const Register = () => {
                   placeholder="Position"
                   name="position"
                   value={formValues.position}
-                  onChange={handleInputChange}
-                  onFocus={handleInputFocus}
+                  onChange={HandleInputChange}
+                  onFocus={HandleInputFocus}
                   style={{
                     borderColor:
                       validationError && formValues.position.trim().length === 0
@@ -229,8 +229,8 @@ const Register = () => {
                   placeholder="Department"
                   name="department"
                   value={formValues.department}
-                  onChange={handleInputChange}
-                  onFocus={handleInputFocus}
+                  onChange={HandleInputChange}
+                  onFocus={HandleInputFocus}
                   style={{
                     borderColor:
                       validationError &&
@@ -242,7 +242,7 @@ const Register = () => {
               </InputGroup>
 
               <Button
-                onClick={registerUser}
+                onClick={UserRegisterRequest}
                 variant="primary"
                 type="submit"
                 className="w-100 mb-3"
