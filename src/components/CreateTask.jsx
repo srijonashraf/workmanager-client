@@ -7,9 +7,11 @@ import { Toaster } from "react-hot-toast";
 const CreateTask = () => {
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
+  const [loading, setLoading] = useState(false); // Initialize loading as false
 
   const handleAddTask = async () => {
     try {
+      setLoading(true); // Set loading to true when adding task
       const success = await AddNewTask(taskTitle, taskDescription);
 
       if (success) {
@@ -25,6 +27,7 @@ const CreateTask = () => {
       // Reset input fields after adding the task or handling the error
       setTaskTitle("");
       setTaskDescription("");
+      setLoading(false); // Set loading back to false after completing the task addition
     }
   };
 
@@ -52,7 +55,13 @@ const CreateTask = () => {
                 onChange={(e) => setTaskDescription(e.target.value)}
               />
             </InputGroup>
-            <Button onClick={handleAddTask}>Add Task</Button>
+            {loading ? (
+              <Button disabled className="btn-disabled">
+                Task Adding...
+              </Button>
+            ) : (
+              <Button onClick={handleAddTask}>Add Task</Button>
+            )}
           </Card.Body>
         </Card>
       </Container>
