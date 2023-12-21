@@ -4,7 +4,7 @@ import {
   getToken,
   setLoggedIn,
   setUserEmail,
-  isLoggedIn
+  isLoggedIn,
 } from "../helper/SessionHelper";
 
 const BASE_URL = "https://workmanager-srijonashraf.vercel.app/api/v1";
@@ -20,7 +20,7 @@ function UserLogin(email, password) {
         setToken(res.data.token);
         setUserEmail(email);
         setLoggedIn(true);
-        console.log(JSON.stringify(res.data.firstName))
+        console.log(JSON.stringify(res.data.firstName));
         console.log("Login Successful");
         return res;
       } else {
@@ -132,7 +132,7 @@ function DeleteTask(id) {
 function UpdateTaskStatus(id, status) {
   const URL = BASE_URL + "/updateWorkStatus/" + id + "/" + status;
   return axios
-    .get(URL,{ headers: { token: getToken() } })
+    .get(URL, { headers: { token: getToken() } })
     .then((res) => {
       if (res.data.status === "success") {
         console.log("Work status updated");
@@ -147,8 +147,6 @@ function UpdateTaskStatus(id, status) {
       return false;
     });
 }
-
-
 
 function UpdateTaskData(id, updatedFields) {
   const URL = BASE_URL + "/updateWork/" + id;
@@ -195,10 +193,13 @@ async function RecoverVerifyEmail(email) {
     const response = await axios.get(URL);
 
     if (response.data.status === "success") {
-      console.log('6 Digit Verification Code has been sent');
+      console.log("6 Digit Verification Code has been sent");
+      return response;
+    } else if (response.data.status === "fail") {
+      console.log("User not found");
       return response;
     } else {
-      console.log('Failed to send verification code');
+      console.log("Failed to send verification code");
       return false;
     }
   } catch (error) {
@@ -206,9 +207,6 @@ async function RecoverVerifyEmail(email) {
     return false;
   }
 }
-
-
-
 
 export {
   UserLogin,
@@ -219,5 +217,5 @@ export {
   UpdateTaskStatus,
   UpdateTaskData,
   FetchTaskCount,
-  RecoverVerifyEmail
+  RecoverVerifyEmail,
 };

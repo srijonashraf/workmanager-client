@@ -27,15 +27,19 @@ const SendOTP = () => {
       }
 
       setLoading(true);
-      const success = await RecoverVerifyEmail(email);
-      if (success) {
-        // window.location.href = "/";
-        successToast("Check email for verification code");
+      const response = await RecoverVerifyEmail(email);
+
+      if (response) {
+        if (response.data.status === "success") {
+          successToast("Check email for verification code");
+        } else if (response.data.status === "fail") {
+          errorToast("User not found");
+        }
       } else {
-        errorToast("User not found");
+        errorToast("Failed to connect to the server");
       }
     } catch (error) {
-      errorToast("Failed to connect to the server");
+      errorToast("An unexpected error occurred");
       console.error(error);
     } finally {
       setLoading(false);
