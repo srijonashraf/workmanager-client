@@ -208,7 +208,7 @@ async function RecoverVerifyEmail(email) {
   }
 }
 
-async function VerifyOTP(value,email) {
+async function VerifyOTP(value, email) {
   const URL = `${BASE_URL}/RecoverVerifyOTP/${email}/${value}`;
   console.log(URL);
   try {
@@ -218,6 +218,26 @@ async function VerifyOTP(value,email) {
       return response;
     } else {
       console.log("OTP not matched");
+      return false;
+    }
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
+
+async function RecoverPassword(email, otp, password) {
+  const URL = BASE_URL + "/RecoverResetPass";
+  const postBody = { email:email, OTP:otp, password:password };
+  console.log(URL);
+  try {
+    const response = await axios.post(URL, postBody);
+    if (response.data.status === "success") {
+      console.log(response);
+      return response;
+    }
+     else {
+      console.log("Failed to reset password");
       return false;
     }
   } catch (err) {
@@ -237,5 +257,5 @@ export {
   FetchTaskCount,
   RecoverVerifyEmail,
   VerifyOTP,
-  
+  RecoverPassword,
 };
