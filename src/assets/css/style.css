@@ -12,6 +12,14 @@
   opacity: 1 !important; /* Set the modal opacity to 1 when it's in */
 }
 
+.center-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
 .blog-title-emoji {
   animation-name: wave-animation;
   animation-duration: 2.5s;

@@ -188,6 +188,27 @@ function FetchTaskCount() {
     });
 }
 
+async function RecoverVerifyEmail(email) {
+  const URL = `${BASE_URL}/RecoverVerifyEmail/${email}`;
+
+  try {
+    const response = await axios.get(URL);
+
+    if (response.data.status === "success") {
+      console.log('6 Digit Verification Code has been sent');
+      return response;
+    } else {
+      console.log('Failed to send verification code');
+      return false;
+    }
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
+
+
 
 export {
   UserLogin,
@@ -198,4 +219,5 @@ export {
   UpdateTaskStatus,
   UpdateTaskData,
   FetchTaskCount,
+  RecoverVerifyEmail
 };
