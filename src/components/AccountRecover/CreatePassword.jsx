@@ -41,7 +41,7 @@ const CreatePassword = () => {
       if (response && response.data.status === "success") {
         console.log(response);
         successToast("Password Changed");
-        window.location.href = "/";
+        window.location.href = "/login";
       } else {
         errorToast("Failed to change password. Please try again.");
       }

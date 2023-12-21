@@ -41,6 +41,7 @@ function App() {
         <Router>
           <Routes>
             <Route exact path="*" element={<LoginPage />} />
+            <Route exact path="/login" element={<LoginPage />} />
             <Route exact path="/register" element={<RegisterPage />} />
             <Route exact path="/sendOTP" element={<SendOTPPage/>} />
             <Route exact path="/verifyOTP" element={<VerifyOTPPage/>} />
