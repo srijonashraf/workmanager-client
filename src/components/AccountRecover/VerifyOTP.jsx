@@ -4,7 +4,7 @@ import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { successToast, errorToast } from "../../helper/ToasterHelper";
 import { VerifyOTP as VerifyOTPApi } from "../../apiRequest/apiRequest";
 import VerificationInput from "react-verification-input";
-import { getOTPRequested, getOTPEmail,setOTP as setOTPFunction } from "../../helper/SessionHelper";
+import { getOTPRequested, getOTPEmail,setOTP as setOTPFunction,getNewUser } from "../../helper/SessionHelper";
 
 const VerifyOTP = () => {
   const otpRequested = getOTPRequested();
