@@ -12,7 +12,7 @@ import {
   Card,
 } from "react-bootstrap";
 import { RecoverVerifyEmail } from "../../apiRequest/apiRequest";
-import { setOTPRequested,setOTPEmail } from "../../helper/SessionHelper";
+import { setOTPRequested, setOTPEmail } from "../../helper/SessionHelper";
 
 const SendOTP = () => {
   const [email, setEmail] = useState("");
