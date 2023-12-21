@@ -13,7 +13,7 @@ import RegisterPage from './page/RegisterPage';
 import NewTaskPage from './page/NewTaskPage';
 import TaskListPage from "./page/TaskListPage.jsx";
 import DashboardPage from "./page/DashboardPage.jsx";
-import SendOTP from "./components/AccountRecover/SendOTP.jsx";
+import SendOTPPage from './page/SendOTPPage';
 
 function App() {
   const loggedIn = isLoggedIn();
@@ -40,7 +40,7 @@ function App() {
           <Routes>
             <Route exact path="*" element={<LoginPage />} />
             <Route exact path="/register" element={<RegisterPage />} />
-            <Route exact path="/sendOTP" element={<SendOTP/>} />
+            <Route exact path="/sendOTP" element={<SendOTPPage/>} />
           </Routes>
         </Router>
       </Fragment>
