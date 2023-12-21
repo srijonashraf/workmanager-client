@@ -15,6 +15,14 @@ class SessionHelper {
     return JSON.parse(localStorage.getItem("otpRequested")) || false;
   }
 
+  setOTP(value) {
+    localStorage.setItem("otp", JSON.stringify(value));
+  }
+
+  getOTP() {
+    return JSON.parse(localStorage.getItem("otp")) || false;
+  }
+
   setOTPEmail(otpEmail) {
     localStorage.setItem("otpEmail", JSON.stringify(otpEmail));
   }
@@ -66,4 +74,6 @@ export const {
   getOTPRequested,
   setOTPEmail,
   getOTPEmail,
+  setOTP,
+  getOTP
 } = new SessionHelper();
