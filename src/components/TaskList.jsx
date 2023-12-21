@@ -26,6 +26,7 @@ const TaskList = () => {
     FetchAllTasks();
   }, []);
 
+  //Fetch all the tasks
   const FetchAllTasks = async () => {
     try {
       setLoading(true);
@@ -45,6 +46,7 @@ const TaskList = () => {
     }
   };
 
+  //Delete task using id
   const DeleteTaskRequest = async (id) => {
     try {
       const response = await DeleteTask(id);
@@ -59,6 +61,7 @@ const TaskList = () => {
     }
   };
 
+  //Update task status
   const HandleUpdateStatus = () => {
     if (selectedTaskId) {
       UpdateTaskStatusRequest(selectedTaskId, selectedTaskStatus);
@@ -80,6 +83,7 @@ const TaskList = () => {
     }
   };
 
+  //Edit Task
   const HandleTitleChange = (e) => {
     const { value } = e.target;
     setEditableFields((prevFields) => ({
