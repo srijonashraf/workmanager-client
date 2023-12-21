@@ -4,16 +4,13 @@ import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { successToast, errorToast } from "../../helper/ToasterHelper";
 import { VerifyOTP as VerifyOTPApi } from "../../apiRequest/apiRequest";
 import VerificationInput from "react-verification-input";
-import {
-  getOTPRequested,
-  getOTPEmail,
-} from "../../helper/SessionHelper";
+import { getOTPRequested, getOTPEmail,setOTP as setOTPFunction } from "../../helper/SessionHelper";
 
 const VerifyOTP = () => {
   const otpRequested = getOTPRequested();
   const otpEmail = getOTPEmail();
   if (!otpRequested) {
-    window.location.href = "/sendOTP";
+    window.location.href = "/";
   }
 
   const [OTP, setOTP] = useState("");
@@ -34,7 +31,8 @@ const VerifyOTP = () => {
       if (response) {
         if (response.data.status === "success") {
           successToast("Verification Complete");
-          //   history.push("/next-page"); // Replace "/next-page" with your desired path
+          setOTPFunction(OTP);
+          window.location.href = "/createPassword";
         } else if (response.data.status === "fail") {
           errorToast("OTP not matched");
         }
@@ -58,7 +56,10 @@ const VerifyOTP = () => {
             <Card className="border-0 rounded-4 mx-auto shadow p-3">
               <Card.Body>
                 <h4 className="mb-3">OTP Verification</h4>
-                <Form onSubmit={handleVerifyOTP} className="animated fadeInUp d-flex flex-column gap-3 align-items-center">
+                <Form
+                  onSubmit={handleVerifyOTP}
+                  className="animated fadeInUp d-flex flex-column gap-3 align-items-center"
+                >
                   <VerificationInput
                     onChange={(value) => setOTP(value)}
                     // inputStyle={defaultInputStyle}
