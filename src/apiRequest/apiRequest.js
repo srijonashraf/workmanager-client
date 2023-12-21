@@ -208,6 +208,24 @@ async function RecoverVerifyEmail(email) {
   }
 }
 
+async function VerifyOTP(value,email) {
+  const URL = `${BASE_URL}/RecoverVerifyOTP/${email}/${value}`;
+  console.log(URL);
+  try {
+    const response = await axios.get(URL);
+    if (response.data.status === "success") {
+      console.log(response);
+      return response;
+    } else {
+      console.log("OTP not matched");
+      return false;
+    }
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
+
 export {
   UserLogin,
   UserRegistration,
@@ -218,4 +236,6 @@ export {
   UpdateTaskData,
   FetchTaskCount,
   RecoverVerifyEmail,
+  VerifyOTP,
+  
 };

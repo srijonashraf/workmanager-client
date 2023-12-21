@@ -12,7 +12,7 @@ import {
   Card,
 } from "react-bootstrap";
 import { RecoverVerifyEmail } from "../../apiRequest/apiRequest";
-import { setOTPRequested } from "../../helper/SessionHelper";
+import { setOTPRequested,setOTPEmail } from "../../helper/SessionHelper";
 
 const SendOTP = () => {
   const [email, setEmail] = useState("");
@@ -33,7 +33,7 @@ const SendOTP = () => {
       if (response) {
         if (response.data.status === "success") {
           setOTPRequested(true);
-          console.log(setOTPRequested);
+          setOTPEmail(email);
           successToast("Check email for verification code");
           window.location.href = "/verifyOTP";
         } else if (response.data.status === "fail") {
