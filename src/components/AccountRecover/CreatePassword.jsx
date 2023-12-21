@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { Container, FormControl, InputGroup, Button } from "react-bootstrap";
 import { Row, Col, Card, Form } from "react-bootstrap";
 import { RecoverPassword } from "../../apiRequest/apiRequest";
-import {
-  getOTPEmail,
-  getOTP,
-  clearSessions,
-} from "../../helper/SessionHelper";
+import { getOTPEmail, getOTP, clearSessions } from "../../helper/SessionHelper";
 import { Toaster } from "react-hot-toast";
 import { successToast, errorToast } from "../../helper/ToasterHelper";
 
@@ -16,6 +12,10 @@ const CreatePassword = () => {
   const [loading, setLoading] = useState(false);
   const email = getOTPEmail();
   const otp = getOTP();
+
+  if (!otp) {
+    window.location.href = "/sendOTP";
+  }
 
   const handlePasswordChange = (e) => {
     setInitialPass(e.target.value);
@@ -62,7 +62,7 @@ const CreatePassword = () => {
           <Col xs={12} md={6} lg={5}>
             <Card className="border-0 rounded-4 mx-auto shadow p-3">
               <Card.Body>
-                <h4>New Password</h4>
+                <h4>Create New Password</h4>
                 <Form onSubmit={handleSubmit}>
                   <InputGroup className="mb-3">
                     <FormControl
