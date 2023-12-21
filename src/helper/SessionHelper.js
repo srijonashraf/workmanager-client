@@ -39,6 +39,13 @@ class SessionHelper {
     return localStorage.getItem("email");
   }
 
+  setNewUser(value) {
+    localStorage.setItem("newUser", value);
+  }
+  getNewUser() {
+    return JSON.parse(localStorage.getItem("newUser")) || null;
+  }
+
   setFName(fname) {
     localStorage.setItem("FirstName", fname);
   }
@@ -75,5 +82,7 @@ export const {
   setOTPEmail,
   getOTPEmail,
   setOTP,
-  getOTP
+  getOTP,
+  setNewUser,
+  getNewUser
 } = new SessionHelper();
