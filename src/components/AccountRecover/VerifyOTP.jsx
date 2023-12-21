@@ -12,9 +12,9 @@ import {
 const VerifyOTP = () => {
   const otpRequested = getOTPRequested();
   const otpEmail = getOTPEmail();
-//   if (!otpRequested) {
-//     window.location.href = "/sendOTP";
-//   }
+  if (!otpRequested) {
+    window.location.href = "/sendOTP";
+  }
 
   const [OTP, setOTP] = useState("");
   const [loading, setLoading] = useState(false);
