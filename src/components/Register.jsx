@@ -43,8 +43,8 @@ const Register = () => {
       setLoading(true);
       const success = await UserRegistration(formValues);
       if (success) {
-        window.location.href = "/";
         successToast("Registration successful");
+        window.location.href = "/";
       } else {
         errorToast("Failed to register user");
         setValidationError(true);
