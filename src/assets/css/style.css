@@ -8,6 +8,10 @@
   font-size: 12px;
 }
 
+.md-text{
+  font-size: 14px;
+}
+
 .modal.fade.in {
   opacity: 1 !important; /* Set the modal opacity to 1 when it's in */
 }
