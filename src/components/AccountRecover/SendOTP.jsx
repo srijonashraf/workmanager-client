@@ -58,7 +58,8 @@ const SendOTP = () => {
           <Col xs={12} md={6} lg={5}>
             <Card className="border-0 rounded-4 mx-auto shadow">
               <Card.Body>
-                <h4 className="mb-3">Verify Email</h4>
+                <h4 className="mb-3">Forgot Password</h4>
+                <p className="md-text">Please provide your email address, and we will send you a 6-digit OTP for verification.</p>
                 <Form onSubmit={SendOTPRequest} className="animated fadeInUp">
                   <InputGroup className="mb-3">
                     <FormControl
