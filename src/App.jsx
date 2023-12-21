@@ -14,6 +14,7 @@ import NewTaskPage from './page/NewTaskPage';
 import TaskListPage from "./page/TaskListPage.jsx";
 import DashboardPage from "./page/DashboardPage.jsx";
 import SendOTPPage from './page/SendOTPPage';
+import VerifyOTPPage from './page/VerifyOTPPage';
 
 function App() {
   const loggedIn = isLoggedIn();
@@ -41,6 +42,7 @@ function App() {
             <Route exact path="*" element={<LoginPage />} />
             <Route exact path="/register" element={<RegisterPage />} />
             <Route exact path="/sendOTP" element={<SendOTPPage/>} />
+            <Route exact path="/verifyOTP" element={<VerifyOTPPage/>} />
           </Routes>
         </Router>
       </Fragment>

@@ -12,6 +12,7 @@ import {
   Card,
 } from "react-bootstrap";
 import { RecoverVerifyEmail } from "../../apiRequest/apiRequest";
+import { setOTPRequested } from "../../helper/SessionHelper";
 
 const SendOTP = () => {
   const [email, setEmail] = useState("");
@@ -31,7 +32,10 @@ const SendOTP = () => {
 
       if (response) {
         if (response.data.status === "success") {
+          setOTPRequested(true);
+          console.log(setOTPRequested);
           successToast("Check email for verification code");
+          window.location.href = "/verifyOTP";
         } else if (response.data.status === "fail") {
           errorToast("User not found");
         }
