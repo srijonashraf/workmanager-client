@@ -14,7 +14,7 @@ const CreatePassword = () => {
   const otp = getOTP();
 
   if (!otp) {
-    window.location.href = "/sendOTP";
+    window.location.href = "/login";
   }
 
   const handlePasswordChange = (e) => {
