@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import LoginPage from "./page/LoginPage";
 import AppNavbar from "./components/AppNavbar";
-import { isLoggedIn } from "./helper/SessionHelper.js";
+import { isLoggedIn,setLoggedIn } from "./helper/SessionHelper.js";
 import Error from "./components/404.jsx";
 import RegisterPage from './page/RegisterPage';
 import NewTaskPage from './page/NewTaskPage';
@@ -16,10 +16,10 @@ import DashboardPage from "./page/DashboardPage.jsx";
 import SendOTPPage from './page/SendOTPPage';
 import VerifyOTPPage from './page/VerifyOTPPage';
 import CreatePasswordPage from './page/CreatePasswordPage';
+import ProfilePage from './page/ProfilePage';
 
 function App() {
   const loggedIn = isLoggedIn();
-
   if (loggedIn) {
     return (
       <Fragment>
@@ -30,6 +30,7 @@ function App() {
             <Route exact path="/allTask" element={<TaskListPage />} />
             <Route exact path="/dashboard" element={<DashboardPage />} />
             <Route exact path="/" element={<DashboardPage />} />
+            <Route exact path="/profile" element={<ProfilePage/>} />
             <Route path="*" element={<Error />} />
           </Routes>
         </Router>
@@ -46,6 +47,7 @@ function App() {
             <Route exact path="/sendOTP" element={<SendOTPPage/>} />
             <Route exact path="/verifyOTP" element={<VerifyOTPPage/>} />
             <Route exact path="/createPassword" element={<CreatePasswordPage/>} />
+           
           </Routes>
         </Router>
       </Fragment>
