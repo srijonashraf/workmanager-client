@@ -4,7 +4,6 @@ import {
   getToken,
   setLoggedIn,
   setUserEmail,
-  isLoggedIn,
 } from "../helper/SessionHelper";
 
 const BASE_URL = "https://workmanager-srijonashraf.vercel.app/api/v1";
@@ -228,16 +227,62 @@ async function VerifyOTP(value, email) {
 
 async function RecoverPassword(email, otp, password) {
   const URL = BASE_URL + "/RecoverResetPass";
-  const postBody = { email:email, OTP:otp, password:password };
+  const postBody = { email: email, OTP: otp, password: password };
   console.log(URL);
   try {
     const response = await axios.post(URL, postBody);
     if (response.data.status === "success") {
       console.log(response);
       return response;
-    }
-     else {
+    } else {
       console.log("Failed to reset password");
+      return false;
+    }
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
+
+async function GetProfileDetails() {
+  const URL = `${BASE_URL}/profileDetails`;
+  try {
+    const response = await axios.get(URL, { headers: { token: getToken() } });
+    if (response.data.status === "success") {
+      return response;
+    } else {
+      console.log("API: Profile Details failed to fetch");
+      return false;
+    }
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
+
+async function ProfileUpdate(formValues) {
+  const URL = `${BASE_URL}/profileUpdate`;
+  const PostBody = {
+    employeeId: formValues.employeeId,
+    email: formValues.email,
+    firstName: formValues.firstName,
+    lastName: formValues.lastName,
+    mobile: formValues.mobile,
+    password: formValues.password,
+    address: formValues.address,
+    position: formValues.position,
+    department: formValues.department,
+  };
+
+  try {
+    const response = await axios.post(URL, PostBody, {
+      headers: { token: getToken() },
+    });
+    if (response.data.status === "success") {
+      // console.log(response);
+      return response;
+    } else {
+      console.log("Profile Details failed to update");
       return false;
     }
   } catch (err) {
@@ -258,4 +303,6 @@ export {
   RecoverVerifyEmail,
   VerifyOTP,
   RecoverPassword,
+  GetProfileDetails,
+  ProfileUpdate,
 };
