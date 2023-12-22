@@ -89,12 +89,47 @@ const AppNavbar = () => {
             </li>
             <li>
               <NavLink
+                to="/pending"
+                className="list-group-item border-0 rounded-1"
+              >
+                Pending
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/inProgress"
+                className="list-group-item border-0 rounded-1"
+              >
+                In Progress
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/done"
+                className="list-group-item border-0 rounded-1"
+              >
+                Done
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/cencelled"
+                className="list-group-item border-0 rounded-1"
+              >
+                Cancelled
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
                 to="/profile"
                 className="list-group-item border-0 rounded-1"
               >
                 Settings
               </NavLink>
             </li>
+            <Button onClick={clearSessions} className="d-flex" variant="danger">
+                Logout
+              </Button>
           </ul>
         </Offcanvas.Body>
       </Offcanvas>

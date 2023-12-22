@@ -17,6 +17,10 @@ import SendOTPPage from './page/SendOTPPage';
 import VerifyOTPPage from './page/VerifyOTPPage';
 import CreatePasswordPage from './page/CreatePasswordPage';
 import ProfilePage from './page/ProfilePage';
+import PendingPage from './page/PendingPage';
+import InProgressPage from './page/InProgressPage';
+import DonePage from './page/DonePage';
+import CancelledPage from './page/CancelledPage';
 
 function App() {
   const loggedIn = isLoggedIn();
@@ -31,6 +35,10 @@ function App() {
             <Route exact path="/dashboard" element={<DashboardPage />} />
             <Route exact path="/" element={<DashboardPage />} />
             <Route exact path="/profile" element={<ProfilePage/>} />
+            <Route exact path="/pending" element={<PendingPage/>} />
+            <Route exact path="/inProgress" element={<InProgressPage/>} />
+            <Route exact path="/done" element={<DonePage/>} />
+            <Route exact path="/cencelled" element={<CancelledPage/>} />
             <Route path="*" element={<Error />} />
           </Routes>
         </Router>
