@@ -33,7 +33,7 @@ const Login = () => {
       if (success) {
         setTimeout(() => {
           window.location.href = "/";
-        }, 2000);
+        }, 1000);
         successToast("Login successful");
       } else {
         errorToast("User not found");
