@@ -30,7 +30,6 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfileDetails = async () => {
       try {
-        setLoading(true);
         const response = await GetProfileDetails();
         // console.log("Profile Details Response:", response);
 
@@ -56,8 +55,6 @@ const Profile = () => {
         }
       } catch (error) {
         console.error("Error fetching profile details:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -110,7 +107,11 @@ const Profile = () => {
 
         if (response) {
           successToast("Profile Updated Successfully!");
-          // window.location.href="/";
+
+          // Set a timer for 2 seconds before redirecting
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 2000);
         } else {
           errorToast("Failed to update Profile Data!");
         }
@@ -157,7 +158,7 @@ const Profile = () => {
                   onSubmit={handleSubmit}
                 >
                   <Row className="mb-3">
-                    <Col xs={12} md={4}>
+                    <Col>
                       <InputGroup>
                         <FormControl
                           type="email"
@@ -167,7 +168,10 @@ const Profile = () => {
                         />
                       </InputGroup>
                     </Col>
-                    <Col xs={12} md={4}>
+                  </Row>
+
+                  <Row className="mb-3">
+                    <Col>
                       <InputGroup>
                         <FormControl
                           type="text"
@@ -179,7 +183,7 @@ const Profile = () => {
                         />
                       </InputGroup>
                     </Col>
-                    <Col xs={12} md={4}>
+                    <Col>
                       <InputGroup>
                         <FormControl
                           type="text"
@@ -192,8 +196,9 @@ const Profile = () => {
                       </InputGroup>
                     </Col>
                   </Row>
+
                   <Row className="mb-3">
-                    <Col xs={12} md={6}>
+                    <Col>
                       <InputGroup>
                         <FormControl
                           type="password"
@@ -205,7 +210,7 @@ const Profile = () => {
                         />
                       </InputGroup>
                     </Col>
-                    <Col xs={12} md={6}>
+                    <Col>
                       <InputGroup>
                         <FormControl
                           type="password"
@@ -218,8 +223,9 @@ const Profile = () => {
                       </InputGroup>
                     </Col>
                   </Row>
+
                   <Row className="mb-3">
-                    <Col xs={12} md={6}>
+                    <Col>
                       <InputGroup>
                         <FormControl
                           type="tel"
@@ -231,18 +237,32 @@ const Profile = () => {
                         />
                       </InputGroup>
                     </Col>
-                    <Col xs={12} md={6}>
-                      <Button
-                        variant="primary"
-                        type="submit"
-                        className="w-100"
-                        onClick={handleSubmit}
-                        disabled={loading}
-                      >
-                        {loading ? "Loading..." : "Update Profile"}
-                      </Button>
+                  </Row>
+
+                  <Row className="mb-3">
+                    <Col>
+                      <InputGroup>
+                        <FormControl
+                          type="text"
+                          placeholder="Address"
+                          name="address"
+                          value={formValues.address}
+                          onChange={handleChange}
+                          required
+                        />
+                      </InputGroup>
                     </Col>
                   </Row>
+
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className="w-100"
+                    onClick={handleSubmit}
+                    disabled={loading}
+                  >
+                    {loading ? "Loading..." : "Update Profile"}
+                  </Button>
                 </Form>
               </Card.Body>
             </Card>
