@@ -4,7 +4,12 @@ import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { successToast, errorToast } from "../../helper/ToasterHelper";
 import { VerifyOTP as VerifyOTPApi } from "../../apiRequest/apiRequest";
 import VerificationInput from "react-verification-input";
-import { getOTPRequested, getOTPEmail,setOTP as setOTPFunction,getNewUser } from "../../helper/SessionHelper";
+import {
+  getOTPRequested,
+  getOTPEmail,
+  setOTP as setOTPFunction,
+  getNewUser,
+} from "../../helper/SessionHelper";
 
 const VerifyOTP = () => {
   const otpRequested = getOTPRequested();
@@ -32,7 +37,9 @@ const VerifyOTP = () => {
         if (response.data.status === "success") {
           successToast("Verification Complete");
           setOTPFunction(OTP);
-          window.location.href = "/createPassword";
+          setTimeout(() => {
+            window.location.href = "/createPassword";
+          }, 2000);
         } else if (response.data.status === "fail") {
           errorToast("OTP not matched");
         }

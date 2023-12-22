@@ -36,7 +36,9 @@ const SendOTP = () => {
           setOTPRequested(true);
           setOTPEmail(email);
           successToast("Check email for verification code");
-          window.location.href = "/verifyOTP";
+          setTimeout(() => {
+            window.location.href = "/verifyOTP";
+          }, 2000);
         } else if (response.data.status === "fail") {
           errorToast("User not found");
         }
@@ -82,7 +84,9 @@ const SendOTP = () => {
                     {loading ? "Loading..." : "Next"}
                   </Button>
                   <Button variant="dark" type="button" className="w-100 mt-3">
-                    <NavLink className="nav-link" to="/login">Return To Login</NavLink>
+                    <NavLink className="nav-link" to="/login">
+                      Return To Login
+                    </NavLink>
                   </Button>
                 </Form>
               </Card.Body>

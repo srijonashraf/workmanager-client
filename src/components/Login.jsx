@@ -31,7 +31,9 @@ const Login = () => {
       setLoading(true);
       const success = await UserLogin(email, password);
       if (success) {
-        window.location.href = "/";
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
         successToast("Login successful");
       } else {
         errorToast("User not found");
