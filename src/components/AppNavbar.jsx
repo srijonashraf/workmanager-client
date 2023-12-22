@@ -9,10 +9,8 @@ import {
   FormControl,
 } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { BiUserCircle } from "react-icons/bi";
 import { clearSessions } from "../helper/SessionHelper";
-import { getUserEmail } from "../helper/SessionHelper";
-
-const userEmail = getUserEmail();
 const AppNavbar = () => {
   return (
     <div>
@@ -44,7 +42,7 @@ const AppNavbar = () => {
               <Button onClick={clearSessions} variant="danger">
                 Logout
               </Button>
-              {/* <h6 className="text-light ms-3 ">{userEmail}</h6> */}
+              <BiUserCircle className="navBarUserIcon" onClick={()=>window.location.href="/profile"}></BiUserCircle>
             </Form>
           </Navbar.Collapse>
         </Container>
