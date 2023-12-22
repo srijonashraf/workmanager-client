@@ -1,4 +1,3 @@
-// AppNavbar.js
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import {
@@ -10,6 +9,7 @@ import {
   FormControl,
   Offcanvas,
 } from "react-bootstrap";
+import { clearSessions } from "../helper/SessionHelper";
 import { NavLink } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
 import { RiMenuUnfoldFill } from "react-icons/ri";
@@ -56,6 +56,9 @@ const AppNavbar = () => {
                 <FormControl type="text" placeholder="Search" />
                 <Button variant="primary">Search</Button>
               </InputGroup>
+              <Button onClick={clearSessions} variant="danger">
+                Logout
+              </Button>
               <BiUserCircle
                 className="navBarUserIcon"
                 onClick={() => (window.location.href = "/profile")}
