@@ -1,4 +1,5 @@
-import React from "react";
+// AppNavbar.js
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import {
   Container,
@@ -7,13 +8,25 @@ import {
   Form,
   InputGroup,
   FormControl,
+  Offcanvas,
 } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
-import { clearSessions } from "../helper/SessionHelper";
+import { RiMenuUnfoldFill } from "react-icons/ri";
+
 const AppNavbar = () => {
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
+
+  const toggleOffcanvas = () => {
+    setShowOffcanvas(!showOffcanvas);
+  };
+
+  const closeOffcanvas = () => {
+    setShowOffcanvas(false);
+  };
+
   return (
-    <div>
+    <div className={`app-container ${showOffcanvas ? "offcanvas-open" : ""}`}>
       <Navbar
         collapseOnSelect
         expand="lg"
@@ -21,6 +34,10 @@ const AppNavbar = () => {
         data-bs-theme="dark"
       >
         <Container className="my-2 my-lg-0">
+          <RiMenuUnfoldFill
+            className="text-warning mx-2 cursorPointer"
+            onClick={toggleOffcanvas}
+          />
           <NavLink to={"/"} className="navbar-brand">
             Work Manager
           </NavLink>
@@ -39,14 +56,45 @@ const AppNavbar = () => {
                 <FormControl type="text" placeholder="Search" />
                 <Button variant="primary">Search</Button>
               </InputGroup>
-              <Button onClick={clearSessions} variant="danger">
-                Logout
-              </Button>
-              <BiUserCircle className="navBarUserIcon" onClick={()=>window.location.href="/profile"}></BiUserCircle>
+              <BiUserCircle
+                className="navBarUserIcon"
+                onClick={() => (window.location.href = "/profile")}
+              />
             </Form>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+
+      <Offcanvas show={showOffcanvas} onHide={closeOffcanvas} placement="start">
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Side Menu</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <ul className="list-group list-group-flush list-unstyled">
+            <li>
+              <NavLink to="/" className="list-group-item border-0 rounded-1">
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/task"
+                className="list-group-item border-0 rounded-1"
+              >
+                New Task
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/profile"
+                className="list-group-item border-0 rounded-1"
+              >
+                Settings
+              </NavLink>
+            </li>
+          </ul>
+        </Offcanvas.Body>
+      </Offcanvas>
     </div>
   );
 };
