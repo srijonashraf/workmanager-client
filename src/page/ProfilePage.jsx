@@ -1,9 +1,10 @@
 import React from 'react';
+import Profile from './../components/Profile';
 
 const ProfilePage = () => {
     return (
         <div>
-            <h4 className='text-center my-3'> Profile Page</h4>
+           <Profile/>
         </div>
     );
 };

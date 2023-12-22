@@ -8,12 +8,19 @@
   font-size: 12px;
 }
 
-.md-text{
+.md-text {
   font-size: 14px;
 }
 
+.navBarUserIcon {
+  font-size:3rem;
+  color: rgb(255, 255, 255);
+  margin-left: 0.75rem;
+  cursor: pointer;
+}
+
 .modal.fade.in {
-  opacity: 1 !important; /* Set the modal opacity to 1 when it's in */
+  opacity: 1 !important;
 }
 
 .center-screen {
