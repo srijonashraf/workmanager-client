@@ -85,7 +85,7 @@ const AppNavbar = () => {
         </Container>
       </Navbar>
 
-      <Offcanvas show={showOffcanvas} onHide={closeOffcanvas} placement="start" className="w-25">
+      <Offcanvas show={showOffcanvas} onHide={closeOffcanvas} placement="start">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Work Manager</Offcanvas.Title>
         </Offcanvas.Header>
