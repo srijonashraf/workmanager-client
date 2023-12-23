@@ -66,7 +66,7 @@ const AppNavbar = () => {
             >
               <BiUserCircle className="navBarUserIcon" />
             </Dropdown.Toggle>
-            <Dropdown.Menu className="custom-dropdown-menu">
+            <Dropdown.Menu className="custom-dropdown-menu d-flex flex-column gap-2">
               <Dropdown.Item
                 className="d-flex align-items-center gap-1"
                 href="/profile"
