@@ -38,7 +38,7 @@ function App() {
             <Route exact path="/pending" element={<PendingPage/>} />
             <Route exact path="/inProgress" element={<InProgressPage/>} />
             <Route exact path="/done" element={<DonePage/>} />
-            <Route exact path="/cencelled" element={<CancelledPage/>} />
+            <Route exact path="/cancelled" element={<CancelledPage/>} />
             <Route path="*" element={<Error />} />
           </Routes>
         </Router>
