@@ -207,6 +207,24 @@ async function RecoverVerifyEmail(email) {
   }
 }
 
+async function ShowTaskByStatus(workStatus) {
+  const URL = `${BASE_URL}/listWorkByStatus/${workStatus}`;
+  try {
+    const response = await axios.get(URL, { headers: { token: getToken() } });
+
+    if (response.data.status === "success") {
+      console.log("API: Fetched data by status.");
+      return response;
+    } else {
+      console.log("API: Failed to fetched data by status.");
+      return false;
+    }
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
 async function VerifyOTP(value, email) {
   const URL = `${BASE_URL}/RecoverVerifyOTP/${email}/${value}`;
   console.log(URL);
@@ -305,4 +323,5 @@ export {
   RecoverPassword,
   GetProfileDetails,
   ProfileUpdate,
+  ShowTaskByStatus
 };
