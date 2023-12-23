@@ -117,7 +117,7 @@ const AppNavbar = () => {
             </li>
             <li>
               <NavLink
-                to="/cencelled"
+                to="/cancelled"
                 className="list-group-item border-0 rounded-1"
                 onClick={closeOffcanvas}
               >
