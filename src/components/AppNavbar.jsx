@@ -75,7 +75,7 @@ const AppNavbar = () => {
         <Offcanvas.Body>
           <ul className="list-group list-group-flush list-unstyled">
             <li>
-              <NavLink to="/" className="list-group-item border-0 rounded-1">
+              <NavLink to="/" className="list-group-item border-0 rounded-1" onClick={closeOffcanvas}>
                 Dashboard
               </NavLink>
             </li>
@@ -83,6 +83,7 @@ const AppNavbar = () => {
               <NavLink
                 to="/task"
                 className="list-group-item border-0 rounded-1"
+                onClick={closeOffcanvas}
               >
                 New Task
               </NavLink>
@@ -91,6 +92,7 @@ const AppNavbar = () => {
               <NavLink
                 to="/pending"
                 className="list-group-item border-0 rounded-1"
+                onClick={closeOffcanvas}
               >
                 Pending
               </NavLink>
@@ -99,6 +101,7 @@ const AppNavbar = () => {
               <NavLink
                 to="/inProgress"
                 className="list-group-item border-0 rounded-1"
+                onClick={closeOffcanvas}
               >
                 In Progress
               </NavLink>
@@ -107,6 +110,7 @@ const AppNavbar = () => {
               <NavLink
                 to="/done"
                 className="list-group-item border-0 rounded-1"
+                onClick={closeOffcanvas}
               >
                 Done
               </NavLink>
@@ -115,6 +119,7 @@ const AppNavbar = () => {
               <NavLink
                 to="/cencelled"
                 className="list-group-item border-0 rounded-1"
+                onClick={closeOffcanvas}
               >
                 Cancelled
               </NavLink>
@@ -123,6 +128,7 @@ const AppNavbar = () => {
               <NavLink
                 to="/profile"
                 className="list-group-item border-0 rounded-1"
+                onClick={closeOffcanvas}
               >
                 Settings
               </NavLink>
