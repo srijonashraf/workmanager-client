@@ -12,6 +12,7 @@ import {
 import { ProfileUpdate, GetProfileDetails } from "../apiRequest/apiRequest";
 import { successToast, errorToast } from "../helper/ToasterHelper";
 import { Toaster } from "react-hot-toast";
+import { BiUserCircle } from "react-icons/bi";
 
 const Profile = () => {
   const [loading, setLoading] = useState(false);
@@ -108,10 +109,10 @@ const Profile = () => {
         if (response) {
           successToast("Profile Updated Successfully!");
 
-          // Set a timer for 2 seconds before redirecting
+          // Set a timer for 1 second before redirecting
           setTimeout(() => {
             window.location.href = "/";
-          }, 2000);
+          }, 1000);
         } else {
           errorToast("Failed to update Profile Data!");
         }
@@ -147,12 +148,7 @@ const Profile = () => {
           <Col xs={12} md={8} lg={8}>
             <Card className="border-0 rounded-4 mx-auto shadow">
               <Card.Body>
-                <img
-                  className="img-fluid"
-                  src="../../src/assets/img/profile-icon.png"
-                  alt=""
-                />
-                <hr />
+                <BiUserCircle className="display-1 text-primary" /> <hr />
                 <Form
                   className="animated fadeInUp mt-2"
                   onSubmit={handleSubmit}
