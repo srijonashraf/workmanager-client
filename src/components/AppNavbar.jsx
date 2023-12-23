@@ -85,9 +85,9 @@ const AppNavbar = () => {
         </Container>
       </Navbar>
 
-      <Offcanvas show={showOffcanvas} onHide={closeOffcanvas} placement="start">
+      <Offcanvas show={showOffcanvas} onHide={closeOffcanvas} placement="start" className="w-25">
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Side Menu</Offcanvas.Title>
+          <Offcanvas.Title>Work Manager</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
           <ul className="list-group list-group-flush list-unstyled">
@@ -163,7 +163,11 @@ const AppNavbar = () => {
                 Settings
               </NavLink>
             </li>
-            <Button onClick={clearSessions} className="d-flex" variant="danger">
+            <Button
+              onClick={clearSessions}
+              className="d-flex rounded-1"
+              variant="danger"
+            >
               Logout
             </Button>
           </ul>
