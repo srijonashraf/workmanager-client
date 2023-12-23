@@ -230,9 +230,6 @@ const Profile = () => {
                         />
                       </InputGroup>
                     </Col>
-                  </Row>
-
-                  <Row className="mb-3">
                     <Col>
                       <InputGroup>
                         <FormControl
