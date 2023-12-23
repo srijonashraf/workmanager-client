@@ -13,9 +13,13 @@ import { clearSessions } from "../helper/SessionHelper";
 import { NavLink } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
 import { RiMenuUnfoldFill } from "react-icons/ri";
+import { IoSettingsOutline } from "react-icons/io5";
+import Dropdown from "react-bootstrap/Dropdown";
+import { CiLogout } from "react-icons/ci";
 
 const AppNavbar = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleOffcanvas = () => {
     setShowOffcanvas(!showOffcanvas);
@@ -23,6 +27,13 @@ const AppNavbar = () => {
 
   const closeOffcanvas = () => {
     setShowOffcanvas(false);
+  };
+  const handleMouseOver = () => {
+    setDropdownOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    setDropdownOpen(false);
   };
 
   return (
@@ -33,38 +44,44 @@ const AppNavbar = () => {
         className="bg-dark-subtle"
         data-bs-theme="dark"
       >
-        <Container className="my-2 my-lg-0">
-          <RiMenuUnfoldFill
-            className="text-warning mx-2 cursorPointer fs-5"
-            onClick={toggleOffcanvas}
-          />
-          <NavLink to={"/"} className="navbar-brand">
-            Work Manager
-          </NavLink>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto justify-content-center flex-grow-1">
-              <NavLink className="nav-link" to="/task">
-                Create New
-              </NavLink>
-              <NavLink className="nav-link" to="/allTask">
-                All Task
-              </NavLink>
-            </Nav>
-            <Form className="d-flex align-items-center">
-              <InputGroup className="me-2">
-                <FormControl type="text" placeholder="Search" />
-                <Button variant="primary">Search</Button>
-              </InputGroup>
-              <Button onClick={clearSessions} variant="danger">
-                Logout
-              </Button>
-              <BiUserCircle
-                className="navBarUserIcon"
-                onClick={() => (window.location.href = "/profile")}
-              />
-            </Form>
-          </Navbar.Collapse>
+        <Container className="my-2 my-lg-0  d-flex justify-content-between">
+          <div className="NavBrand d-flex align-items-center">
+            <RiMenuUnfoldFill
+              className="text-warning mx-2 cursorPointer fs-5"
+              onClick={toggleOffcanvas}
+            />
+            <NavLink to={"/"} className="navbar-brand">
+              Work Manager
+            </NavLink>
+          </div>
+
+          <Dropdown
+            onMouseOver={handleMouseOver}
+            onMouseLeave={handleMouseLeave}
+            show={isDropdownOpen}
+          >
+            <Dropdown.Toggle
+              id="dropdown-basic"
+              className="custom-dropdown-toggle border-0"
+            >
+              <BiUserCircle className="navBarUserIcon" />
+            </Dropdown.Toggle>
+            <Dropdown.Menu className="custom-dropdown-menu">
+              <Dropdown.Item
+                className="d-flex align-items-center gap-1"
+                href="/profile"
+              >
+                <IoSettingsOutline /> Setting
+              </Dropdown.Item>
+              <Dropdown.Item
+                className="d-flex align-items-center gap-1"
+                onClick={clearSessions}
+              >
+                {" "}
+                <CiLogout /> Logout
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Container>
       </Navbar>
 
@@ -75,7 +92,11 @@ const AppNavbar = () => {
         <Offcanvas.Body>
           <ul className="list-group list-group-flush list-unstyled">
             <li>
-              <NavLink to="/" className="list-group-item border-0 rounded-1" onClick={closeOffcanvas}>
+              <NavLink
+                to="/"
+                className="list-group-item border-0 rounded-1"
+                onClick={closeOffcanvas}
+              >
                 Dashboard
               </NavLink>
             </li>
@@ -86,6 +107,15 @@ const AppNavbar = () => {
                 onClick={closeOffcanvas}
               >
                 New Task
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/allTask"
+                className="list-group-item border-0 rounded-1"
+                onClick={closeOffcanvas}
+              >
+                All Task
               </NavLink>
             </li>
             <li>
@@ -134,8 +164,8 @@ const AppNavbar = () => {
               </NavLink>
             </li>
             <Button onClick={clearSessions} className="d-flex" variant="danger">
-                Logout
-              </Button>
+              Logout
+            </Button>
           </ul>
         </Offcanvas.Body>
       </Offcanvas>

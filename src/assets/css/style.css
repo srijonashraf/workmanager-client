@@ -13,7 +13,7 @@
 }
 
 .navBarUserIcon {
-  font-size:3rem;
+  font-size: 3rem;
   color: rgb(255, 255, 255);
   margin-left: 0.75rem;
   cursor: pointer;
@@ -39,9 +39,19 @@
   display: inline-block;
 }
 
-.cursorPointer{
+.cursorPointer {
   cursor: pointer;
 }
+
+
+.custom-dropdown-toggle {
+  background-color: transparent !important;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
 
 @keyframes wave-animation {
   0% {
