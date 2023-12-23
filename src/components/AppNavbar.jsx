@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import {
   Container,
-  Nav,
   Navbar,
-  Form,
-  InputGroup,
-  FormControl,
   Offcanvas,
 } from "react-bootstrap";
 import { clearSessions } from "../helper/SessionHelper";
