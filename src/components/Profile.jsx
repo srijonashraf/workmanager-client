@@ -22,7 +22,7 @@ const Profile = () => {
     lastName: "",
     mobile: "",
     currentPassword: "",
-    newPassword: "",
+    newPassword: "", // New field for user to set a new password
     address: "",
   });
 
@@ -32,7 +32,6 @@ const Profile = () => {
     const fetchProfileDetails = async () => {
       try {
         const response = await GetProfileDetails();
-        // console.log("Profile Details Response:", response);
 
         if (
           response &&
@@ -48,7 +47,7 @@ const Profile = () => {
             lastName: userDetails.lastName,
             mobile: userDetails.mobile,
             currentPassword: "",
-            newPassword: "",
+            newPassword: "", // Initialize with an empty string
             address: userDetails.address,
           });
         } else {
@@ -60,51 +59,49 @@ const Profile = () => {
     };
 
     fetchProfileDetails();
-  }, []); // Empty dependency array to run once when component mounts
+  }, []);
 
   const UpdateProfileRequest = async () => {
     try {
       // Fetch the password from the database
       const passwordFromDB =
         (await profileDetailsResponse?.data.data[0]?.password) || "";
-      // console.log("Password from DB:", passwordFromDB);
 
       // Check if any field is empty
       if (
         !formValues.email ||
         !formValues.firstName ||
         !formValues.lastName ||
-        !formValues.currentPassword ||
-        !formValues.newPassword ||
         !formValues.mobile ||
         !formValues.address
       ) {
-        errorToast("Please fill in all the fields.");
+        errorToast("Please fill the basic information Field.");
         return;
       }
 
       setLoading(true);
 
+      // Check if the entered current password is empty, use the one from the database
+      if (!formValues.currentPassword) {
+        formValues.currentPassword = passwordFromDB;
+      }
+
       // Check if the entered current password matches the password from the database
       if (formValues.currentPassword === passwordFromDB) {
-        // If matched, update the profile with the new password
+        // Update the profile with the new password only if a new password is provided
         const updatedProfile = {
           employeeId: profileDetailsResponse?.data.data[0]?.employeeId,
           email: formValues.email,
           firstName: formValues.firstName,
           lastName: formValues.lastName,
           mobile: formValues.mobile,
-          password: formValues.newPassword, // Use newPassword instead of password
+          password: formValues.newPassword || passwordFromDB,
           address: formValues.address,
           position: profileDetailsResponse?.data.data[0]?.position,
           department: profileDetailsResponse?.data.data[0]?.department,
         };
 
-        // console.log("Updated Profile Data:", updatedProfile);
-
         const response = await ProfileUpdate(updatedProfile);
-
-        // console.log("Update Profile Response:", response);
 
         if (response) {
           successToast("Profile Updated Successfully!");
@@ -140,6 +137,7 @@ const Profile = () => {
     e.preventDefault();
     UpdateProfileRequest();
   };
+
   return (
     <div>
       <Container>
@@ -214,7 +212,6 @@ const Profile = () => {
                           name="newPassword"
                           value={formValues.newPassword}
                           onChange={handleChange}
-                          required
                         />
                       </InputGroup>
                     </Col>
