@@ -35,7 +35,7 @@ const AppNavbar = () => {
       >
         <Container className="my-2 my-lg-0">
           <RiMenuUnfoldFill
-            className="text-warning mx-2 cursorPointer"
+            className="text-warning mx-2 cursorPointer fs-5"
             onClick={toggleOffcanvas}
           />
           <NavLink to={"/"} className="navbar-brand">

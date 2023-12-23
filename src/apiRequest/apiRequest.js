@@ -134,7 +134,7 @@ function UpdateTaskStatus(id, status) {
     .get(URL, { headers: { token: getToken() } })
     .then((res) => {
       if (res.data.status === "success") {
-        console.log("Work status updated");
+        // console.log("Work status updated");
         return res;
       } else {
         console.log("Work status didn't updated");
@@ -172,10 +172,10 @@ function FetchTaskCount() {
     .get(URL, { headers: { token: getToken() } })
     .then((res) => {
       if (res.data.status === "success") {
-        console.log("Work status updated");
+        // console.log("Work status Count Updated");
         return res;
       } else {
-        console.log("Work status didn't updated");
+        console.log("Work status count didn't updated");
         return false;
       }
     })

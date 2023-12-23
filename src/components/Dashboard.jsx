@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Container, Card, Row, Col } from "react-bootstrap";
-import { FetchTaskCount } from "../apiRequest/apiRequest";
+import { FetchTaskCount, GetProfileDetails } from "../apiRequest/apiRequest";
 import { getUserEmail } from "../helper/SessionHelper";
 
 const userEmail = getUserEmail();
 const Dashboard = () => {
   const [taskCounts, setTaskCounts] = useState([]);
+  const [profileDetails, setProfileDetails] = useState([]);
+
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000); // Update every 1000 milliseconds (1 second)
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []); // Empty dependency array ensures the effect runs only once on mount
+
+
 
   useEffect(() => {
     fetchTaskCounts();
@@ -18,17 +32,30 @@ const Dashboard = () => {
     } else {
       console.log("Failed to fetch task counts");
     }
+
+    const ProfileResponse = await GetProfileDetails();
+    if (ProfileResponse) {
+      setProfileDetails(ProfileResponse.data.data[0]);
+      // console.log(ProfileResponse.data.data[0]);
+    }
   };
 
   return (
     <div>
       <Container>
-        <h2 className="mt-3 d-flex align-items-baseline gap-2">
+        <h2 className="mt-3 d-flex align-items-baseline gap-2 justify-content-between">
+          <div>
+
           Hi!{" "}
           <span className="h4">
-            {`(${userEmail}) `}
+            {`(${profileDetails?.firstName || ""} ${
+              profileDetails?.lastName || ""
+            }) `}
+
             <span className="blog-title-emoji">👋</span>
           </span>
+          </div>
+        <p className="h1">{currentTime.toLocaleTimeString()}</p>
         </h2>
         <Row xs={12}>
           {taskCounts.map((statusCount) => (
