@@ -45,7 +45,7 @@ const AppNavbar = () => {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto justify-content-center flex-grow-1">
               <NavLink className="nav-link" to="/task">
-                New Task
+                Create New
               </NavLink>
               <NavLink className="nav-link" to="/allTask">
                 All Task

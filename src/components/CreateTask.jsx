@@ -22,12 +22,15 @@ const CreateTask = () => {
         errorToast("Please provide either a title or a description.");
         return;
       }
-  
+
       setLoading(true); // Set loading to true when adding task
       const success = await AddNewTask(taskTitle, taskDescription);
 
       if (success) {
         successToast("New task added.");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1000);
       } else {
         errorToast("Failed to add a new task.");
       }
@@ -48,7 +51,7 @@ const CreateTask = () => {
       <Container className="mt-3">
         <Card>
           <Card.Body>
-            <Card.Title>New Task</Card.Title>
+            <Card.Title>Create New</Card.Title>
             <InputGroup className="mb-3">
               <FormControl
                 type="text"
