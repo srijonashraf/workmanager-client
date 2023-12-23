@@ -238,7 +238,7 @@ const Pending = () => {
                       Delete
                     </Button>
                     <p className="text-muted sm-text float-end mt-2">
-                      Edited: {task.updatedAt}
+                      Edited: {new Date(task.updatedAt).toLocaleString()}
                     </p>
                   </Card.Footer>
                 </Card.Body>
