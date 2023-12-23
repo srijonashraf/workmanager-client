@@ -1,10 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
-import {
-  Container,
-  Navbar,
-  Offcanvas,
-} from "react-bootstrap";
+import { Container, Navbar, Offcanvas } from "react-bootstrap";
 import { clearSessions } from "../helper/SessionHelper";
 import { NavLink } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
@@ -15,7 +11,7 @@ import { CiLogout } from "react-icons/ci";
 
 const AppNavbar = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   const toggleOffcanvas = () => {
     setShowOffcanvas(!showOffcanvas);
@@ -24,14 +20,14 @@ const AppNavbar = () => {
   const closeOffcanvas = () => {
     setShowOffcanvas(false);
   };
-  const handleMouseOver = () => {
-    setDropdownOpen(true);
+
+  const handleMouseEnter = () => {
+    setShowMenu(true);
   };
 
   const handleMouseLeave = () => {
-    setDropdownOpen(false);
+    setShowMenu(false);
   };
-
   return (
     <div className={`app-container ${showOffcanvas ? "offcanvas-open" : ""}`}>
       <Navbar
@@ -52,9 +48,9 @@ const AppNavbar = () => {
           </div>
 
           <Dropdown
-            onMouseOver={handleMouseOver}
+            // onMouseOver={handleMouseEnter}
+            onClick={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            show={isDropdownOpen}
           >
             <Dropdown.Toggle
               id="dropdown-basic"
@@ -62,7 +58,11 @@ const AppNavbar = () => {
             >
               <BiUserCircle className="navBarUserIcon" />
             </Dropdown.Toggle>
-            <Dropdown.Menu className="custom-dropdown-menu d-flex flex-column gap-2">
+            <Dropdown.Menu
+              className={`d-flex flex-column p-2 gap-2 ${
+                showMenu ? "d-block" : "d-none"
+              } position-md-absolute`}
+            >
               <Dropdown.Item
                 className="d-flex align-items-center gap-1"
                 href="/profile"
