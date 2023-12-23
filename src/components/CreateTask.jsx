@@ -9,12 +9,13 @@ import {
 import { AddNewTask } from "../apiRequest/apiRequest";
 import { successToast, errorToast } from "../helper/ToasterHelper";
 import { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const CreateTask = () => {
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [loading, setLoading] = useState(false); // Initialize loading as false
-
+  const navigate = useNavigate();
   const handleAddTask = async () => {
     try {
       if (!taskTitle && !taskDescription) {
@@ -27,16 +28,17 @@ const CreateTask = () => {
       const success = await AddNewTask(taskTitle, taskDescription);
 
       if (success) {
-        successToast("New task added.");
+        successToast("New task added");
+
         setTimeout(() => {
-          window.location.href = "/";
+          navigate("/allTask");
         }, 1000);
       } else {
-        errorToast("Failed to add a new task.");
+        errorToast("Failed to add a new task. Check if the same task already added!");
       }
     } catch (error) {
       console.error(error);
-      errorToast("An error occurred while adding the task.");
+      errorToast("An error occurred while adding the task");
     } finally {
       // Reset input fields after adding the task or handling the error
       setTaskTitle("");

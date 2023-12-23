@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Card, Row, Col } from "react-bootstrap";
 import { FetchTaskCount, GetProfileDetails } from "../apiRequest/apiRequest";
 import { getUserEmail } from "../helper/SessionHelper";
+import { useNavigate } from "react-router-dom";
 
 const userEmail = getUserEmail();
 const Dashboard = () => {
@@ -9,6 +10,7 @@ const Dashboard = () => {
   const [profileDetails, setProfileDetails] = useState([]);
 
   const [currentTime, setCurrentTime] = useState(new Date());
+  const navigate = useNavigate();
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -18,8 +20,6 @@ const Dashboard = () => {
     // Cleanup the interval on component unmount
     return () => clearInterval(intervalId);
   }, []); // Empty dependency array ensures the effect runs only once on mount
-
-
 
   useEffect(() => {
     fetchTaskCounts();
@@ -45,23 +45,22 @@ const Dashboard = () => {
       <Container>
         <h2 className="mt-3 d-flex align-items-baseline gap-2 justify-content-between">
           <div>
+            Hi!{" "}
+            <span className="h4">
+              {`(${profileDetails?.firstName || ""} ${
+                profileDetails?.lastName || ""
+              }) `}
 
-          Hi!{" "}
-          <span className="h4">
-            {`(${profileDetails?.firstName || ""} ${
-              profileDetails?.lastName || ""
-            }) `}
-
-            <span className="blog-title-emoji">👋</span>
-          </span>
+              <span className="blog-title-emoji">👋</span>
+            </span>
           </div>
-        <p className="h1">{currentTime.toLocaleTimeString()}</p>
+          <p className="h1">{currentTime.toLocaleTimeString()}</p>
         </h2>
         <Row xs={12}>
           {taskCounts.map((statusCount) => (
             <Col key={statusCount.status} md={4} className="mb-3">
               <Card className="border-0 shadow">
-                <Card.Body>
+                <Card.Body className="cursorPointer" onClick={() => navigate(`/${statusCount.status.replace(/\s+/g, '').toLowerCase()}`)}>
                   <Card.Title>{statusCount.status}</Card.Title>
                   <Card.Text className="fw-bold text-muted">
                     {statusCount.count}
