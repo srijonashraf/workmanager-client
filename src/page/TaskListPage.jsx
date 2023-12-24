@@ -1,10 +1,10 @@
 import React from "react";
-import TaskList from "../components/TaskList";
+import AllTaskList from "../components/AllTaskList.jsx";
 
 const TaskListPage = () => {
   return (
     <div>
-      <TaskList/>
+      <AllTaskList/>
     </div>
   );
 };

@@ -9,7 +9,7 @@ import {
 import { errorToast, successToast } from "../helper/ToasterHelper";
 import { Toaster } from "react-hot-toast";
 
-const TaskList = () => {
+const AllTaskList = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showStatusModal, setShowStatusModal] = useState(false);
@@ -283,4 +283,4 @@ const TaskList = () => {
   );
 };
 
-export default TaskList;
+export default AllTaskList;

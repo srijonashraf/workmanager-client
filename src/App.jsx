@@ -9,7 +9,7 @@ import LoginPage from "./page/LoginPage";
 import AppNavbar from "./components/AppNavbar";
 import { isLoggedIn,setLoggedIn } from "./helper/SessionHelper.js";
 import Error from "./components/404.jsx";
-import RegisterPage from './page/RegisterPage';
+import RegistrationPage from './page/RegistrationPage.jsx';
 import NewTaskPage from './page/NewTaskPage';
 import TaskListPage from "./page/TaskListPage.jsx";
 import DashboardPage from "./page/DashboardPage.jsx";
@@ -51,7 +51,7 @@ function App() {
           <Routes>
             <Route exact path="*" element={<LoginPage />} />
             <Route exact path="/login" element={<LoginPage />} />
-            <Route exact path="/register" element={<RegisterPage />} />
+            <Route exact path="/register" element={<RegistrationPage />} />
             <Route exact path="/sendOTP" element={<SendOTPPage/>} />
             <Route exact path="/verifyOTP" element={<VerifyOTPPage/>} />
             <Route exact path="/createPassword" element={<CreatePasswordPage/>} />
