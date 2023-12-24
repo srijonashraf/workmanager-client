@@ -12,6 +12,14 @@ const Dashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const navigate = useNavigate();
 
+  const formattedTime = currentTime.toLocaleTimeString(undefined, {
+    hour12: true,
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
+
+  //For Clock
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTime(new Date());
@@ -54,7 +62,7 @@ const Dashboard = () => {
               <span className="blog-title-emoji">👋</span>
             </span>
           </div>
-          <p className="h1">{currentTime.toLocaleTimeString()}</p>
+          <p className="h1">{formattedTime}</p>
         </h2>
         <Row xs={12}>
           {taskCounts.map((statusCount) => (
