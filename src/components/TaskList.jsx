@@ -17,14 +17,18 @@ const TaskList = () => {
   const [selectedTaskIdForUpdate, setSelectedTaskIdForUpdate] = useState(null);
   const [selectedTaskStatus, setSelectedTaskStatus] = useState("Done");
   const [showEditModal, setShowEditModal] = useState(false);
+  const [change, setChange] = useState(0);
   const [editableFields, setEditableFields] = useState({
     workTitle: "",
     workDescription: "",
   });
 
   useEffect(() => {
-    FetchAllTasks();
-  }, []);
+    (async () => {
+      FetchAllTasks();
+    })();
+  }, [change]);
+
 
   //Fetch all the tasks
   const FetchAllTasks = async () => {
@@ -52,7 +56,7 @@ const TaskList = () => {
       const response = await DeleteTask(id);
       if (response) {
         successToast("Task deleted successfully");
-        FetchAllTasks();
+        setChange(new Date().getTime());
       } else {
         errorToast("Failed to delete task");
       }
@@ -74,7 +78,7 @@ const TaskList = () => {
       const response = await UpdateTaskStatus(taskId, status);
       if (response) {
         successToast("Task status updated");
-        FetchAllTasks();
+        setChange(new Date().getTime());
       } else {
         errorToast("Failed to update");
       }
@@ -115,7 +119,7 @@ const TaskList = () => {
       );
       if (response) {
         successToast("Task updated successfully");
-        FetchAllTasks();
+        setChange(new Date().getTime());
       } else {
         errorToast("Failed to update task");
       }
@@ -140,10 +144,10 @@ const TaskList = () => {
           tasks.map((task) => (
             <Col key={task._id} className="mb-3">
               <Card className="h-100 shadow border-0 d-flex flex-column">
-                <Card.Body className="d-flex flex-column animated fadeInUp">
+                <Card.Body className="d-flex flex-column">
                   <h5>{task.workTitle}</h5>
                   <p>{task.workDescription}</p>
-                  <Card.Footer className="mt-auto border-top animated fadeInRight">
+                  <Card.Footer className="mt-auto border-top">
                     {(() => {
                       let variant = "";
                       if (task.workStatus === "Done") {

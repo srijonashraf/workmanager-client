@@ -142,10 +142,10 @@ const Done = () => {
           tasks.map((task) => (
             <Col key={task._id} className="mb-3">
               <Card className="h-100 shadow border-0 d-flex flex-column">
-                <Card.Body className="d-flex flex-column animated fadeInUp">
+                <Card.Body className="d-flex flex-column">
                   <h5>{task.workTitle}</h5>
                   <p>{task.workDescription}</p>
-                  <Card.Footer className="mt-auto border-top animated fadeInRight">
+                  <Card.Footer className="mt-auto border-top">
                     {(() => {
                       let variant = "";
                       if (task.workStatus === "Done") {
