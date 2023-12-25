@@ -8,10 +8,12 @@ import { RiMenuUnfoldFill } from "react-icons/ri";
 import { IoSettingsOutline } from "react-icons/io5";
 import Dropdown from "react-bootstrap/Dropdown";
 import { CiLogout } from "react-icons/ci";
+import { GetProfileDetails } from "../apiRequest/apiRequest";
+import {AiOutlineCheckCircle, AiOutlineEdit, AiOutlineLogout, AiOutlineMenuUnfold, AiOutlineUser} from "react-icons/ai";
 
 const AppNavbar = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
+  const [firstName, setFirstName] = useState("");
 
   const toggleOffcanvas = () => {
     setShowOffcanvas(!showOffcanvas);
@@ -21,13 +23,21 @@ const AppNavbar = () => {
     setShowOffcanvas(false);
   };
 
-  const handleMouseEnter = () => {
-    setShowMenu(true);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await GetProfileDetails();
+        setFirstName(res.data.data[0].firstName);
+      } catch (error) {
+        // Handle error if necessary
+        console.error(error);
+      }
+    };
 
-  const handleMouseLeave = () => {
-    setShowMenu(false);
-  };
+    // Call the async function to fetch data
+    fetchData();
+  }, []); // Empty dependency array means this effect runs once on mount
+
   return (
     <div className={`app-container ${showOffcanvas ? "offcanvas-open" : ""}`}>
       <Navbar
@@ -47,22 +57,22 @@ const AppNavbar = () => {
             </NavLink>
           </div>
 
-          <Dropdown
-            // onMouseOver={handleMouseEnter}
-            onClick={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
+          <Dropdown className="user-dropdown">
             <Dropdown.Toggle
+              as={BiUserCircle}
               id="dropdown-basic"
-              className="custom-dropdown-toggle border-0"
+              className="navBarUserIcon border-0 "
             >
-              <BiUserCircle className="navBarUserIcon" />
+              <BiUserCircle className="icon-nav-img" />
             </Dropdown.Toggle>
-            <Dropdown.Menu
-              className={`d-flex flex-column p-2 gap-2 ${
-                showMenu ? "d-block" : "d-none"
-              } position-md-absolute`}
-            >
+
+            <Dropdown.Menu className="user-dropdown-content">
+              <div className="mt-4 text-center">
+                <BiUserCircle className="icon-nav-img" />
+                <h6>{firstName}</h6>
+                <Dropdown.Divider />
+              </div>
+
               <Dropdown.Item
                 className="d-flex align-items-center gap-1"
                 href="/profile"
@@ -73,11 +83,11 @@ const AppNavbar = () => {
                 className="d-flex align-items-center gap-1"
                 onClick={clearSessions}
               >
-                {" "}
                 <CiLogout /> Logout
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
+
         </Container>
       </Navbar>
 
