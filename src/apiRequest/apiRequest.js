@@ -2,7 +2,6 @@ import axios from "axios";
 import {
   setToken,
   getToken,
-  clearSessions,
   setUserEmail,
 } from "../helper/SessionHelper";
 
@@ -23,7 +22,6 @@ function UserLogin(email, password) {
         console.log("Login Successful");
         return res;
       } else {
-        clearSessions();
         console.log("Login Failed");
         return false;
       }
