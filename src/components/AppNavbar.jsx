@@ -9,7 +9,13 @@ import { IoSettingsOutline } from "react-icons/io5";
 import Dropdown from "react-bootstrap/Dropdown";
 import { CiLogout } from "react-icons/ci";
 import { GetProfileDetails } from "../apiRequest/apiRequest";
-import {AiOutlineCheckCircle, AiOutlineEdit, AiOutlineLogout, AiOutlineMenuUnfold, AiOutlineUser} from "react-icons/ai";
+import {
+  AiOutlineCheckCircle,
+  AiOutlineEdit,
+  AiOutlineLogout,
+  AiOutlineMenuUnfold,
+  AiOutlineUser,
+} from "react-icons/ai";
 
 const AppNavbar = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
@@ -29,14 +35,13 @@ const AppNavbar = () => {
         const res = await GetProfileDetails();
         setFirstName(res.data.data[0].firstName);
       } catch (error) {
-        // Handle error if necessary
+        console.log("Frontend: Error fetching data.");
         console.error(error);
       }
     };
 
-    // Call the async function to fetch data
     fetchData();
-  }, []); // Empty dependency array means this effect runs once on mount
+  }, []);
 
   return (
     <div className={`app-container ${showOffcanvas ? "offcanvas-open" : ""}`}>
@@ -87,7 +92,6 @@ const AppNavbar = () => {
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-
         </Container>
       </Navbar>
 
