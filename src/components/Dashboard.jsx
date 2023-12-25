@@ -35,9 +35,6 @@ const Dashboard = () => {
     const response = await FetchTaskCount();
     if (response && response.status === 200) {
       setTaskCounts(response.data.data.statuses);
-    }
-
-    if (response.data.status === "unauthorized") {
     } else {
       console.log("Failed to fetch task counts");
     }
