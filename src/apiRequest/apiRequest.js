@@ -2,9 +2,11 @@ import axios from "axios";
 import {
   setToken,
   getToken,
-  setLoggedIn,
+  clearSessions,
   setUserEmail,
 } from "../helper/SessionHelper";
+
+import unauthorized from "./../utility/unauthorized";
 
 const BASE_URL = "https://workmanager-srijonashraf.vercel.app/api/v1";
 
@@ -18,12 +20,10 @@ function UserLogin(email, password) {
       if (res.data.status === "success") {
         setToken(res.data.token);
         setUserEmail(email);
-        setLoggedIn(true);
-        console.log(JSON.stringify(res.data.firstName));
         console.log("Login Successful");
         return res;
       } else {
-        setLoggedIn(false);
+        clearSessions();
         console.log("Login Failed");
         return false;
       }
@@ -79,6 +79,9 @@ function AddNewTask(taskTitle, taskDescription) {
       if (res.data.status === "success") {
         console.log("Data Added.");
         return res;
+      }
+      if (res.status === 401) {
+        unauthorized(401);
       } else {
         console.log("Data Not Added.");
         return false;
@@ -98,6 +101,9 @@ function AllTask() {
       if (res.data.status === "success") {
         console.log("Data fetched");
         return res;
+      }
+      if (res.status === 401) {
+        unauthorized(401);
       } else {
         console.log("Data didn't fetched");
         return false;
@@ -172,7 +178,7 @@ function FetchTaskCount() {
     .get(URL, { headers: { token: getToken() } })
     .then((res) => {
       if (res.data.status === "success") {
-        // console.log("Work status Count Updated");
+        console.log("Work status Count Updated");
         return res;
       } else {
         console.log("Work status count didn't updated");
@@ -323,5 +329,5 @@ export {
   RecoverPassword,
   GetProfileDetails,
   ProfileUpdate,
-  ShowTaskByStatus
+  ShowTaskByStatus,
 };

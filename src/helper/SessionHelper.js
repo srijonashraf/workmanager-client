@@ -58,21 +58,12 @@ class SessionHelper {
     window.location.href = "/";
   }
 
-  setLoggedIn(value) {
-    localStorage.setItem("isLoggedIn", JSON.stringify(value));
-  }
-
-  isLoggedIn() {
-    return JSON.parse(localStorage.getItem("isLoggedIn")) || false;
-  }
 }
 
 export const {
   setToken,
   getToken,
   clearSessions,
-  setLoggedIn,
-  isLoggedIn,
   setUserEmail,
   getUserEmail,
   setFName,

@@ -7,8 +7,7 @@ import VerificationInput from "react-verification-input";
 import {
   getOTPRequested,
   getOTPEmail,
-  setOTP as setOTPFunction,
-  getNewUser,
+  setOTP as setOTPFunction
 } from "../../helper/SessionHelper";
 
 const VerifyOTP = () => {

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Container, Card, Row, Col } from "react-bootstrap";
 import { FetchTaskCount, GetProfileDetails } from "../apiRequest/apiRequest";
-import { getUserEmail } from "../helper/SessionHelper";
 import { useNavigate } from "react-router-dom";
 
-const userEmail = getUserEmail();
 const Dashboard = () => {
   const [taskCounts, setTaskCounts] = useState([]);
   const [profileDetails, setProfileDetails] = useState([]);
@@ -37,6 +35,9 @@ const Dashboard = () => {
     const response = await FetchTaskCount();
     if (response && response.status === 200) {
       setTaskCounts(response.data.data.statuses);
+    }
+
+    if (response.data.status === "unauthorized") {
     } else {
       console.log("Failed to fetch task counts");
     }
@@ -68,7 +69,14 @@ const Dashboard = () => {
           {taskCounts.map((statusCount) => (
             <Col key={statusCount.status} md={4} className="mb-3">
               <Card className="border-0 shadow">
-                <Card.Body className="cursorPointer" onClick={() => navigate(`/${statusCount.status.replace(/\s+/g, '').toLowerCase()}`)}>
+                <Card.Body
+                  className="cursorPointer"
+                  onClick={() =>
+                    navigate(
+                      `/${statusCount.status.replace(/\s+/g, "").toLowerCase()}`
+                    )
+                  }
+                >
                   <Card.Title>{statusCount.status}</Card.Title>
                   <Card.Text className="fw-bold text-muted">
                     {statusCount.count}
