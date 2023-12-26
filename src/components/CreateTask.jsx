@@ -18,9 +18,8 @@ const CreateTask = () => {
   const navigate = useNavigate();
   const handleAddTask = async () => {
     try {
-      if (!taskTitle && !taskDescription) {
-        // If both title and description are empty, show an error message
-        errorToast("Please provide either a title or a description.");
+      if (!taskTitle || !taskDescription) {
+        errorToast("Please fill all the field.");
         return;
       }
 
@@ -34,7 +33,9 @@ const CreateTask = () => {
           navigate("/allTask");
         }, 1000);
       } else {
-        errorToast("Failed to add a new task. Check if the same task already added!");
+        errorToast(
+          "Failed to add a new task. Check if the same task already added!"
+        );
       }
     } catch (error) {
       console.error(error);
