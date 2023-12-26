@@ -8,6 +8,7 @@ import {
 } from "../../apiRequest/apiRequest";
 import { errorToast, successToast } from "../../helper/ToasterHelper";
 import { Toaster } from "react-hot-toast";
+import ReactQuill from "react-quill";
 
 const Pending = () => {
   const workStatus = "Pending";
@@ -86,21 +87,6 @@ const Pending = () => {
   };
 
   //Edit Task
-  const HandleTitleChange = (e) => {
-    const { value } = e.target;
-    setEditableFields((prevFields) => ({
-      ...prevFields,
-      workTitle: value,
-    }));
-  };
-
-  const HandleDescriptionChange = (e) => {
-    const { value } = e.target;
-    setEditableFields((prevFields) => ({
-      ...prevFields,
-      workDescription: value,
-    }));
-  };
 
   const HandleUpdateTask = () => {
     if (selectedTaskIdForUpdate) {
@@ -144,7 +130,7 @@ const Pending = () => {
               <Card className="h-100 shadow border-0 d-flex flex-column">
                 <Card.Body className="d-flex flex-column">
                   <h5>{task.workTitle}</h5>
-                  <p>{task.workDescription}</p>
+                  <div dangerouslySetInnerHTML={{__html: task.workDescription}}/>
                   <Card.Footer className="mt-auto border-top">
                     {(() => {
                       let variant = "";
@@ -159,81 +145,81 @@ const Pending = () => {
                       }
 
                       return (
-                        <>
-                          <Button
-                            variant={variant}
-                            className="text-white rounded-1 btn-sm me-2"
-                            onClick={() => {
-                              setShowStatusModal(true);
-                              setSelectedTaskId(task._id);
-                            }}
-                          >
-                            {task.workStatus}
-                          </Button>
+                          <>
+                            <Button
+                                variant={variant}
+                                className="text-white rounded-1 btn-sm me-2"
+                                onClick={() => {
+                                  setShowStatusModal(true);
+                                  setSelectedTaskId(task._id);
+                                }}
+                            >
+                              {task.workStatus}
+                            </Button>
 
-                          {/* Update Task Status Modal */}
-                          <Modal
-                            show={showStatusModal}
-                            onHide={() => setShowStatusModal(false)}
-                          >
-                            <Modal.Header closeButton>
-                              <Modal.Title>Update Task Status</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                              <p>Select the new status for the task:</p>
-                              <select
-                                className="form-select"
-                                onChange={(e) =>
-                                  setSelectedTaskStatus(e.target.value)
-                                }
-                                value={selectedTaskStatus}
-                              >
-                                <option value="Done">Done</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Cancelled">Cancelled</option>
-                              </select>
-                            </Modal.Body>
-                            <Modal.Footer>
-                              <Button
-                                variant="secondary"
-                                onClick={() => setShowStatusModal(false)}
-                              >
-                                Close
-                              </Button>
-                              <Button
-                                variant="primary"
-                                onClick={HandleUpdateStatus}
-                              >
-                                Save Changes
-                              </Button>
-                            </Modal.Footer>
-                          </Modal>
-                        </>
+                            {/* Update Task Status Modal */}
+                            <Modal
+                                show={showStatusModal}
+                                onHide={() => setShowStatusModal(false)}
+                            >
+                              <Modal.Header closeButton>
+                                <Modal.Title>Update Task Status</Modal.Title>
+                              </Modal.Header>
+                              <Modal.Body>
+                                <p>Select the new status for the task:</p>
+                                <select
+                                    className="form-select"
+                                    onChange={(e) =>
+                                        setSelectedTaskStatus(e.target.value)
+                                    }
+                                    value={selectedTaskStatus}
+                                >
+                                  <option value="Done">Done</option>
+                                  <option value="In Progress">In Progress</option>
+                                  <option value="Cancelled">Cancelled</option>
+                                </select>
+                              </Modal.Body>
+                              <Modal.Footer>
+                                <Button
+                                    variant="secondary"
+                                    onClick={() => setShowStatusModal(false)}
+                                >
+                                  Close
+                                </Button>
+                                <Button
+                                    variant="primary"
+                                    onClick={HandleUpdateStatus}
+                                >
+                                  Save Changes
+                                </Button>
+                              </Modal.Footer>
+                            </Modal>
+                          </>
                       );
                     })()}
 
                     <Button
-                      className="btn-sm rounded-1 btn-dark me-2"
-                      onClick={() => {
-                        const taskDetails = tasks.find(
-                          (t) => t._id === task._id
-                        );
+                        className="btn-sm rounded-1 btn-dark me-2"
+                        onClick={() => {
+                          const taskDetails = tasks.find(
+                              (t) => t._id === task._id
+                          );
 
-                        if (taskDetails) {
-                          setEditableFields({
-                            workTitle: taskDetails.workTitle,
-                            workDescription: taskDetails.workDescription,
-                          });
-                          setShowEditModal(true);
-                          setSelectedTaskIdForUpdate(task._id);
-                        }
-                      }}
+                          if (taskDetails) {
+                            setEditableFields({
+                              workTitle: taskDetails.workTitle,
+                              workDescription: taskDetails.workDescription,
+                            });
+                            setShowEditModal(true);
+                            setSelectedTaskIdForUpdate(task._id);
+                          }
+                        }}
                     >
                       Edit
                     </Button>
                     <Button
-                      onClick={() => DeleteTaskRequest(task._id)}
-                      className="btn-sm rounded-1 btn-danger"
+                        onClick={() => DeleteTaskRequest(task._id)}
+                        className="btn-sm rounded-1 btn-danger"
                     >
                       Delete
                     </Button>
@@ -256,17 +242,24 @@ const Pending = () => {
         <Modal.Body>
           <label>Title:</label>
           <input
-            type="text"
-            className="form-control"
-            value={editableFields.workTitle}
-            onChange={HandleTitleChange}
+              type="text"
+              className="form-control"
+              value={editableFields.workTitle}
+              onChange={(e) => setEditableFields((prevFields) => ({
+                ...prevFields,
+                workTitle: e.target.value,
+              }))}
           />
+
           <label className="mt-3">Description:</label>
-          <textarea
-            className="form-control"
-            value={editableFields.workDescription}
-            onChange={HandleDescriptionChange}
-          ></textarea>
+          <ReactQuill
+              theme="snow"
+              value={editableFields.workDescription}
+              onChange={(value) => setEditableFields((prevFields) => ({
+                ...prevFields,
+                workDescription: value,
+              }))}
+          />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowEditModal(false)}>
