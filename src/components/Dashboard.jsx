@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Container, Card, Row, Col } from "react-bootstrap";
 import { FetchTaskCount, GetProfileDetails } from "../apiRequest/apiRequest";
 import { useNavigate } from "react-router-dom";
-
+import unauthorized from "../utility/unauthorized";
+import { getToken } from "../helper/SessionHelper";
 const Dashboard = () => {
   const [taskCounts, setTaskCounts] = useState([]);
   const [profileDetails, setProfileDetails] = useState([]);
@@ -15,6 +16,12 @@ const Dashboard = () => {
     hour: "numeric",
     minute: "numeric",
     second: "numeric",
+  });
+
+  useEffect(() => {
+    if (!getToken()) {
+      unauthorized(401);
+    }
   });
 
   //For Clock

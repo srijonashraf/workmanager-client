@@ -9,6 +9,7 @@ import {
 import { errorToast, successToast } from "../../helper/ToasterHelper";
 import { Toaster } from "react-hot-toast";
 import ReactQuill from "react-quill";
+import QuillToolbar from "../../utility/ReactQuillModules.js";
 
 const Done = () => {
   const workStatus = "Done";
@@ -255,6 +256,9 @@ const Done = () => {
           <ReactQuill
               theme="snow"
               value={editableFields.workDescription}
+              modules={{
+                toolbar: QuillToolbar,
+              }}
               onChange={(value) => setEditableFields((prevFields) => ({
                 ...prevFields,
                 workDescription: value,
