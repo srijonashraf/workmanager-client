@@ -67,8 +67,23 @@ const AppNavbar = () => {
 
             <Dropdown.Menu className="user-dropdown-content">
               <div className="mt-4 text-center">
-                <Avatar src={img} size="40" className="mb-2" round={true} />
-                <h6>{firstName}</h6>
+                <Avatar
+                  onClick={() => {
+                    window.location.href = "/profile";
+                  }}
+                  src={img}
+                  size="40"
+                  className="mb-2 cursorPointer"
+                  round={true}
+                />
+                <h6
+                  onClick={() => {
+                    window.location.href = "/profile";
+                  }}
+                  className="cursorPointer"
+                >
+                  {firstName}
+                </h6>
                 <Dropdown.Divider />
               </div>
 

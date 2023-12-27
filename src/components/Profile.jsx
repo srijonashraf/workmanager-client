@@ -13,8 +13,8 @@ import { ProfileUpdate, GetProfileDetails } from "../apiRequest/apiRequest";
 import { successToast, errorToast } from "../helper/ToasterHelper";
 import { Toaster } from "react-hot-toast";
 import { BiUserCircle } from "react-icons/bi";
-import { getBase64 } from "../helper/FormHelper";
-import Avatar from 'react-avatar';
+import { getBase64, validateFile } from "../helper/FormHelper";
+import Avatar from "react-avatar";
 
 const Profile = () => {
   const [loading, setLoading] = useState(false);
@@ -71,13 +71,27 @@ const Profile = () => {
     const file = e.target.files[0];
 
     if (file) {
-      getBase64(file).then((base64) => {
-        setFormValues((prevValues) => ({
-          ...prevValues,
-          img: base64,
-        }));
-        PreviewImage();
-      });
+      try {
+        // Validate the file before processing
+        if (validateFile(file)) {
+          getBase64(file).then((base64) => {
+            setFormValues((prevValues) => ({
+              ...prevValues,
+              img: base64,
+            }));
+            PreviewImage();
+          });
+        }
+        else
+        {
+          errorToast("Please select a valid image file [jpg,jpeg,png *Max 4MB*]");
+          userImgRef.current.value = null;
+        }
+      } catch (error) {
+        // Handle validation errors
+        console.error(error.message);
+        // Optionally, you can reset the input or show an error message to the user
+      }
     }
   };
 
@@ -169,7 +183,12 @@ const Profile = () => {
             <Card className="border-0 rounded-4 mx-auto shadow">
               <Card.Body>
                 {/* <BiUserCircle className="display-1 text-primary" /> */}
-                <Avatar ref={(input) => (userImgView = input)}  src={formValues.img} size="80" round={true} />
+                <Avatar
+                  ref={(input) => (userImgView = input)}
+                  src={formValues.img}
+                  size="80"
+                  round={true}
+                />
                 {/* <img
                   ref={(input) => (userImgView = input)}
                   class="rounded-circle"
