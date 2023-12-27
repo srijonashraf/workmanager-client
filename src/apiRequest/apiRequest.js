@@ -30,7 +30,7 @@ function UserLogin(email, password) {
 
 function GoogleSignIn(googleAuthValue) {
   const URL = `${BASE_URL}/loginwithgoogle`;
-  console.log(`Api: Google Auth Obj: ${googleAuthValue}`)
+  // console.log(`Api: Google Auth Obj: ${googleAuthValue.lastName}`)
   const postBody = {
     email: googleAuthValue.email,
     firstName: googleAuthValue.firstName,
@@ -307,9 +307,9 @@ async function GetProfileDetails() {
 
 async function ProfileUpdate(formValues) {
   const URL = `${BASE_URL}/profileUpdate`;
-  const PostBody = {
-    employeeId: formValues.employeeId,
+  const PostBody = { 
     email: formValues.email,
+    img: formValues.img,
     firstName: formValues.firstName,
     lastName: formValues.lastName,
     mobile: formValues.mobile,

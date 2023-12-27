@@ -11,10 +11,10 @@ import { Row, Col } from "react-bootstrap";
 import { successToast, errorToast } from "../helper/ToasterHelper.js";
 import { Toaster } from "react-hot-toast";
 import { NavLink } from "react-router-dom";
+import DeptJson from "../../Department.json";
 
 const Register = () => {
   const [formValues, setFormValues] = useState({
-    employeeId: "",
     email: "",
     firstName: "",
     lastName: "",
@@ -87,23 +87,6 @@ const Register = () => {
               className="animated fadeInUp card-body"
             >
               <h4 className="mb-3">SIGN UP</h4>
-              <InputGroup className="mb-3">
-                <FormControl
-                  type="text"
-                  placeholder="Employee ID"
-                  name="employeeId"
-                  value={formValues.employeeId}
-                  onChange={HandleInputChange}
-                  onFocus={HandleInputFocus}
-                  style={{
-                    borderColor:
-                      validationError &&
-                      formValues.employeeId.trim().length === 0
-                        ? "red"
-                        : "",
-                  }}
-                />
-              </InputGroup>
 
               <InputGroup className="mb-3">
                 <FormControl
@@ -210,7 +193,7 @@ const Register = () => {
 
               <InputGroup className="mb-3">
                 <FormControl
-                  type="text"
+                  as="select"
                   placeholder="Position"
                   name="position"
                   value={formValues.position}
@@ -222,12 +205,21 @@ const Register = () => {
                         ? "red"
                         : "",
                   }}
-                />
+                >
+                  <option value="" disabled>Select Position</option>
+                  {DeptJson.departments.map((department) => (
+                    department.positions.map((position) => (
+                      <option key={`${department.name}_${position.title}_${position.level}`}>
+                        {position.title} - {position.level}
+                      </option>
+                    ))
+                  ))}
+                </FormControl>
               </InputGroup>
 
               <InputGroup className="mb-3">
                 <FormControl
-                  type="text"
+                  as="select"
                   placeholder="Department"
                   name="department"
                   value={formValues.department}
@@ -240,7 +232,12 @@ const Register = () => {
                         ? "red"
                         : "",
                   }}
-                />
+                >
+                  <option value="" disabled>Select Department</option>
+                  {DeptJson.departments.map((department) => (
+                    <option key={department.name}>{department.name}</option>
+                  ))}
+                </FormControl>
               </InputGroup>
 
               <Button

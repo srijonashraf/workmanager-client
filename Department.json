@@ -1,0 +1,93 @@
+{
+    "departments": [
+      {
+        "name": "Engineering",
+        "positions": [
+          {
+            "title": "Software Engineer",
+            "level": "Junior"
+          },
+          {
+            "title": "Software Engineer",
+            "level": "Intermediate"
+          },
+          {
+            "title": "Software Engineer",
+            "level": "Senior"
+          },
+          {
+            "title": "DevOps Engineer",
+            "level": "Intermediate"
+          },
+          {
+            "title": "DevOps Engineer",
+            "level": "Senior"
+          },
+          {
+            "title": "QA Engineer",
+            "level": "Junior"
+          },
+          {
+            "title": "QA Engineer",
+            "level": "Intermediate"
+          },
+          {
+            "title": "QA Engineer",
+            "level": "Senior"
+          }
+        ]
+      },
+      {
+        "name": "Product Management",
+        "positions": [
+          {
+            "title": "Product Manager",
+            "level": "Associate"
+          },
+          {
+            "title": "Product Manager",
+            "level": "Manager"
+          },
+          {
+            "title": "Product Owner",
+            "level": "Senior"
+          }
+        ]
+      },
+      {
+        "name": "Design",
+        "positions": [
+          {
+            "title": "UI/UX Designer",
+            "level": "Junior"
+          },
+          {
+            "title": "UI/UX Designer",
+            "level": "Intermediate"
+          },
+          {
+            "title": "UI/UX Designer",
+            "level": "Senior"
+          }
+        ]
+      },
+      {
+        "name": "IT Support",
+        "positions": [
+          {
+            "title": "IT Support Specialist",
+            "level": "Associate"
+          },
+          {
+            "title": "IT Support Specialist",
+            "level": "Intermediate"
+          },
+          {
+            "title": "IT Support Specialist",
+            "level": "Senior"
+          }
+        ]
+      }
+    ]
+  }
+  
