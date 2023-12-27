@@ -3,6 +3,7 @@ import { setToken, getToken, setUserEmail } from "../helper/SessionHelper";
 import unauthorized from "./../utility/unauthorized";
 
 const BASE_URL = "https://workmanager-srijonashraf.vercel.app/api/v1";
+// const BASE_URL = "http://localhost:3000/api/v1";
 
 function UserLogin(email, password) {
   const URL = BASE_URL + "/login";
@@ -27,12 +28,17 @@ function UserLogin(email, password) {
     });
 }
 
-
-function GoogleSignIn(email) {
+function GoogleSignIn(googleAuthValue) {
   const URL = `${BASE_URL}/loginwithgoogle`;
-  const postBody = { email };
+  console.log(`Api: Google Auth Obj: ${googleAuthValue}`)
+  const postBody = {
+    email: googleAuthValue.email,
+    firstName: googleAuthValue.firstName,
+    lastName: googleAuthValue.lastName
+  };
 
-  return axios.post(URL, postBody)
+  return axios
+    .post(URL, postBody)
     .then((res) => {
       if (res.data.status === "success") {
         setToken(res.data.token);
@@ -48,8 +54,6 @@ function GoogleSignIn(email) {
       return false;
     });
 }
-
-
 
 function UserRegistration(formValues) {
   const URL = BASE_URL + "/registration";
@@ -347,5 +351,5 @@ export {
   GetProfileDetails,
   ProfileUpdate,
   ShowTaskByStatus,
-  GoogleSignIn
+  GoogleSignIn,
 };

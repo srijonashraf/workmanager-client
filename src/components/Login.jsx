@@ -21,7 +21,11 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState(false);
-  // const [googleAuthValue, setgoogleAuthValue] = useState("");
+  const [googleAuthValue, setGoogleAuthValue] = useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+  });
   // const navigate = useNavigate();
 
   const UserLoginRequest = async (e) => {
@@ -60,12 +64,28 @@ const Login = () => {
   const HandleGoogleSignIn = async () => {
     try {
       setLoading(true);
-
+  
       const result = await signInWithPopup(Auth, Provider);
-      console.log(result);
-
-      const success = await GoogleSignIn(result.user.email);
-
+      const displayName = result.user.displayName;
+  
+      // Extract first and last names
+      const nameParts = displayName.split(" ");
+      const firstName = nameParts[0];
+      const lastName = nameParts.slice(1).join(" ");
+  
+      // Set state values
+      setGoogleAuthValue({
+        email: result.user.email,
+        firstName: firstName,
+        lastName: lastName,
+      });
+  
+      const success = await GoogleSignIn({
+        email: result.user.email,
+        firstName: firstName,
+        lastName: lastName,
+      });
+  
       if (success) {
         successToast("Login successful");
         window.location.href = "/";
@@ -77,6 +97,7 @@ const Login = () => {
       setLoading(false);
     }
   };
+  
 
   return (
     <div>
@@ -132,7 +153,7 @@ const Login = () => {
                 className="w-100 mb-3 rounded-1"
                 disabled={loading}
               >
-                <FaGoogle className="mx-2"/>
+                <FaGoogle className="mx-2" />
                 {loading ? "Logging in..." : "Sign in with Google"}
               </Button>
 
