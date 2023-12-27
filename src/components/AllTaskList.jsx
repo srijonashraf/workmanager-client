@@ -256,6 +256,9 @@ const AllTaskList = () => {
                     <label className="mt-3">Description:</label>
                     <ReactQuill
                         theme="snow"
+                        modules={{
+                            toolbar: QuillToolbar,
+                          }}
                         value={editableFields.workDescription}
                         onChange={(value) => setEditableFields((prevFields) => ({
                             ...prevFields,
