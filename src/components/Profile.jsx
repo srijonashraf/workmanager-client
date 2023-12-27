@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Container,
   Row,
@@ -13,20 +13,25 @@ import { ProfileUpdate, GetProfileDetails } from "../apiRequest/apiRequest";
 import { successToast, errorToast } from "../helper/ToasterHelper";
 import { Toaster } from "react-hot-toast";
 import { BiUserCircle } from "react-icons/bi";
+import { getBase64 } from "../helper/FormHelper";
+import Avatar from 'react-avatar';
 
 const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [formValues, setFormValues] = useState({
     email: "",
+    img: "",
     firstName: "",
     lastName: "",
     mobile: "",
     currentPassword: "",
-    newPassword: "", // New field for user to set a new password
+    newPassword: "",
     address: "",
   });
 
   const [profileDetailsResponse, setProfileDetailsResponse] = useState(null);
+  let userImgRef = useRef();
+  let userImgView = useRef();
 
   useEffect(() => {
     const fetchProfileDetails = async () => {
@@ -43,11 +48,12 @@ const Profile = () => {
           const userDetails = response.data.data[0];
           setFormValues({
             email: userDetails.email,
+            img: userDetails.img,
             firstName: userDetails.firstName,
             lastName: userDetails.lastName,
             mobile: userDetails.mobile,
             currentPassword: "",
-            newPassword: "", // Initialize with an empty string
+            newPassword: "",
             address: userDetails.address,
           });
         } else {
@@ -61,67 +67,26 @@ const Profile = () => {
     fetchProfileDetails();
   }, []);
 
-  const UpdateProfileRequest = async () => {
-    try {
-      // Fetch the password from the database
-      const passwordFromDB =
-        (await profileDetailsResponse?.data.data[0]?.password) || "";
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
 
-      // Check if any field is empty
-      if (
-        !formValues.email ||
-        !formValues.firstName ||
-        !formValues.lastName ||
-        !formValues.mobile ||
-        !formValues.address
-      ) {
-        errorToast("Please fill the basic information Field.");
-        return;
-      }
+    if (file) {
+      getBase64(file).then((base64) => {
+        setFormValues((prevValues) => ({
+          ...prevValues,
+          img: base64,
+        }));
+        PreviewImage();
+      });
+    }
+  };
 
-      setLoading(true);
-
-      // Check if the entered current password is empty, use the one from the database
-      if (!formValues.currentPassword) {
-        formValues.currentPassword = passwordFromDB;
-      }
-
-      // Check if the entered current password matches the password from the database
-      if (formValues.currentPassword === passwordFromDB) {
-        // Update the profile with the new password only if a new password is provided
-        const updatedProfile = {
-          employeeId: profileDetailsResponse?.data.data[0]?.employeeId,
-          email: formValues.email,
-          firstName: formValues.firstName,
-          lastName: formValues.lastName,
-          mobile: formValues.mobile,
-          password: formValues.newPassword || passwordFromDB,
-          address: formValues.address,
-          position: profileDetailsResponse?.data.data[0]?.position,
-          department: profileDetailsResponse?.data.data[0]?.department,
-        };
-
-        const response = await ProfileUpdate(updatedProfile);
-
-        if (response) {
-          successToast("Profile Updated Successfully!");
-
-          // Set a timer for 1 second before redirecting
-          setTimeout(() => {
-            window.location.href = "/";
-          }, 1000);
-        } else {
-          errorToast("Failed to update Profile Data!");
-        }
-      } else {
-        // If passwords do not match, show an error message
-        errorToast("Current Password does not match. Please try again.");
-      }
-    } catch (err) {
-      console.error(err);
-      errorToast("Failed to update Profile Data!");
-    } finally {
-      setLoading(false);
+  const PreviewImage = () => {
+    const ImgFile = userImgRef.current.files[0];
+    if (ImgFile) {
+      getBase64(ImgFile).then((base64Img) => {
+        userImgView.src = base64Img;
+      });
     }
   };
 
@@ -138,6 +103,63 @@ const Profile = () => {
     UpdateProfileRequest();
   };
 
+  const UpdateProfileRequest = async () => {
+    try {
+      const passwordFromDB =
+        (await profileDetailsResponse?.data.data[0]?.password) || "";
+
+      if (
+        !formValues.email ||
+        !formValues.firstName ||
+        !formValues.lastName ||
+        !formValues.mobile ||
+        !formValues.address
+      ) {
+        errorToast("Please fill the basic information Field.");
+        return;
+      }
+
+      setLoading(true);
+
+      if (!formValues.currentPassword) {
+        formValues.currentPassword = passwordFromDB;
+      }
+
+      if (formValues.currentPassword === passwordFromDB) {
+        const updatedProfile = {
+          email: formValues.email,
+          img: formValues.img,
+          firstName: formValues.firstName,
+          lastName: formValues.lastName,
+          mobile: formValues.mobile,
+          password: formValues.newPassword || passwordFromDB,
+          address: formValues.address,
+          position: profileDetailsResponse?.data.data[0]?.position,
+          department: profileDetailsResponse?.data.data[0]?.department,
+        };
+
+        const response = await ProfileUpdate(updatedProfile);
+
+        if (response) {
+          successToast("Profile Updated Successfully!");
+
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 1000);
+        } else {
+          errorToast("Failed to update Profile Data!");
+        }
+      } else {
+        errorToast("Current Password does not match. Please try again.");
+      }
+    } catch (err) {
+      console.error(err);
+      errorToast("Failed to update Profile Data!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <Container>
@@ -146,7 +168,17 @@ const Profile = () => {
           <Col xs={12} md={8} lg={8}>
             <Card className="border-0 rounded-4 mx-auto shadow">
               <Card.Body>
-                <BiUserCircle className="display-1 text-primary" /> <hr />
+                {/* <BiUserCircle className="display-1 text-primary" /> */}
+                <Avatar ref={(input) => (userImgView = input)}  src={formValues.img} size="80" round={true} />
+                {/* <img
+                  ref={(input) => (userImgView = input)}
+                  class="rounded-circle"
+                  style={{ width: "150px" }}
+                  src={formValues.img}
+                  alt=""
+                /> */}
+
+                <hr />
                 <Form
                   className="animated fadeInUp mt-2"
                   onSubmit={handleSubmit}
@@ -159,6 +191,16 @@ const Profile = () => {
                           placeholder="Email Address"
                           value={formValues.email}
                           disabled
+                        />
+                      </InputGroup>
+                    </Col>
+                    <Col>
+                      <InputGroup>
+                        <Form.Control
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          ref={userImgRef}
                         />
                       </InputGroup>
                     </Col>

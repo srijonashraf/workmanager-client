@@ -9,17 +9,12 @@ import { IoSettingsOutline } from "react-icons/io5";
 import Dropdown from "react-bootstrap/Dropdown";
 import { CiLogout } from "react-icons/ci";
 import { GetProfileDetails } from "../apiRequest/apiRequest";
-import {
-  AiOutlineCheckCircle,
-  AiOutlineEdit,
-  AiOutlineLogout,
-  AiOutlineMenuUnfold,
-  AiOutlineUser,
-} from "react-icons/ai";
+import Avatar from "react-avatar";
 
 const AppNavbar = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [firstName, setFirstName] = useState("");
+  const [img, setImg] = useState("");
 
   const toggleOffcanvas = () => {
     setShowOffcanvas(!showOffcanvas);
@@ -34,6 +29,7 @@ const AppNavbar = () => {
       try {
         const res = await GetProfileDetails();
         setFirstName(res.data.data[0].firstName);
+        setImg(res.data.data[0].img);
       } catch (error) {
         console.log("Frontend: Error fetching data.");
         console.error(error);
@@ -66,14 +62,12 @@ const AppNavbar = () => {
             <Dropdown.Toggle
               as={BiUserCircle}
               id="dropdown-basic"
-              className="navBarUserIcon border-0 "
-            >
-              <BiUserCircle className="icon-nav-img" />
-            </Dropdown.Toggle>
+              className="navBarUserIcon border-0"
+            ></Dropdown.Toggle>
 
             <Dropdown.Menu className="user-dropdown-content">
               <div className="mt-4 text-center">
-                <BiUserCircle className="icon-nav-img" />
+                <Avatar src={img} size="40" className="mb-2" round={true} />
                 <h6>{firstName}</h6>
                 <Dropdown.Divider />
               </div>
