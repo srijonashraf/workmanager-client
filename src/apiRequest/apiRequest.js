@@ -30,17 +30,26 @@ function UserLogin(email, password) {
 
 function GoogleSignIn(googleAuthValue) {
   const URL = `${BASE_URL}/loginwithgoogle`;
-  // console.log(`Api: Google Auth Obj: ${googleAuthValue.lastName}`)
+
   const postBody = {
     email: googleAuthValue.email,
     firstName: googleAuthValue.firstName,
-    lastName: googleAuthValue.lastName
+    lastName: googleAuthValue.lastName,
   };
 
   return axios
     .post(URL, postBody)
     .then((res) => {
       if (res.data.status === "success") {
+        const email = googleAuthValue.email; // assuming email is accessible here
+        axios.get(`${BASE_URL}/verified/${email}`)
+          .then((verificationRes) => {
+            console.log(verificationRes);
+          })
+          .catch((verificationErr) => {
+            console.error(verificationErr);
+          });
+
         setToken(res.data.token);
         console.log("Google Sign-In Successful");
         return res;
@@ -54,6 +63,7 @@ function GoogleSignIn(googleAuthValue) {
       return false;
     });
 }
+
 
 function UserRegistration(formValues) {
   const URL = BASE_URL + "/registration";
@@ -262,7 +272,7 @@ async function VerifyOTP(value, email) {
       return response;
     } else {
       console.log("OTP not matched");
-      return false;
+      return response;
     }
   } catch (err) {
     console.error(err);
@@ -336,6 +346,23 @@ async function ProfileUpdate(formValues) {
   }
 }
 
+async function ProfileVerification(email) {
+  const URL = `${BASE_URL}/verified/${email}`;
+  try {
+    const response = await axios.get(URL);
+    if (response.data.status === "success") {
+      return response;
+    } else {
+      console.log("Profile verification failed");
+      return false;
+    }
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
+
+
 export {
   UserLogin,
   UserRegistration,
@@ -352,4 +379,5 @@ export {
   ProfileUpdate,
   ShowTaskByStatus,
   GoogleSignIn,
+  ProfileVerification
 };

@@ -14,6 +14,7 @@ import Avatar from "react-avatar";
 const AppNavbar = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [firstName, setFirstName] = useState("");
+  const [profileDetails, setProfileDetails] = useState([]);
   const [img, setImg] = useState("");
 
   const toggleOffcanvas = () => {
@@ -29,6 +30,7 @@ const AppNavbar = () => {
       try {
         const res = await GetProfileDetails();
         setFirstName(res.data.data[0].firstName);
+        setProfileDetails(res.data.data[0]);
         setImg(res.data.data[0].img);
       } catch (error) {
         console.log("Frontend: Error fetching data.");

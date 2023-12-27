@@ -2,18 +2,20 @@ import React, { useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { successToast, errorToast } from "../../helper/ToasterHelper";
-import { VerifyOTP as VerifyOTPApi } from "../../apiRequest/apiRequest";
+import { VerifyOTP as VerifyOTPApi,ProfileVerification } from "../../apiRequest/apiRequest";
 import VerificationInput from "react-verification-input";
 import {
   getOTPRequested,
   getOTPEmail,
-  setOTP as setOTPFunction
+  setOTP as setOTPFunction,
+  getNewUser,
+  clearSessions,
 } from "../../helper/SessionHelper";
 
 const VerifyOTP = () => {
   const otpRequested = getOTPRequested();
   const otpEmail = getOTPEmail();
-  if (!otpRequested) {
+  if (!otpRequested && !getNewUser()) {
     window.location.href = "/";
   }
 
@@ -27,23 +29,36 @@ const VerifyOTP = () => {
       if (OTP.length !== 6) {
         errorToast("Please enter a valid 6-digit OTP");
         return;
-      }
-
-      setLoading(true);
-      const response = await VerifyOTPApi(OTP, otpEmail);
-
-      if (response) {
-        if (response.data.status === "success") {
-          successToast("Verification Complete");
-          setOTPFunction(OTP);
-          setTimeout(() => {
-            window.location.href = "/createPassword";
-          }, 2000);
-        } else if (response.data.status === "fail") {
-          errorToast("OTP not matched");
-        }
       } else {
-        errorToast("Failed to connect to the server");
+        setLoading(true);
+        const response = await VerifyOTPApi(OTP, otpEmail);
+
+        if (response && response.data) {
+          if (response.data.status === "success") {
+            if (getNewUser()) {
+              const res = await ProfileVerification(otpEmail);
+              console.log(res);
+              if(res){
+                alert("Verification complete! Please login again...");
+                clearSessions();
+                window.location.href = "/";
+              }
+              else{
+                errorToast("An unexpected error occurred");
+              }
+            } else if (otpRequested()) {
+              successToast("Verification Complete");
+              setOTPFunction(OTP);
+              setTimeout(() => {
+                window.location.href = "/createPassword";
+              }, 2000);
+            }
+          } else if (response.data.status === "fail") {
+            errorToast("OTP not matched");
+          } else {
+            errorToast("Unexpected response from the server");
+          }
+        }
       }
     } catch (error) {
       errorToast("An unexpected error occurred");

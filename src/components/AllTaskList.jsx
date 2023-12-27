@@ -9,6 +9,7 @@ import {
 import {errorToast, successToast} from "../helper/ToasterHelper";
 import {Toaster} from "react-hot-toast";
 import ReactQuill from "react-quill";
+import QuillToolbar from "../utility/ReactQuillModules";
 
 const AllTaskList = () => {
     const [tasks, setTasks] = useState([]);

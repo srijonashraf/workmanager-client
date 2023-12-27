@@ -46,6 +46,13 @@ class SessionHelper {
     return JSON.parse(localStorage.getItem("newUser")) || null;
   }
 
+  setLoggedIn(value) {
+    localStorage.setItem("loggedIn", value);
+  }
+  getLoggedIn() {
+    return JSON.parse(localStorage.getItem("loggedIn")) || null;
+  }
+
   setFName(fname) {
     localStorage.setItem("FirstName", fname);
   }
@@ -75,5 +82,7 @@ export const {
   setOTP,
   getOTP,
   setNewUser,
-  getNewUser
+  getNewUser,
+  setLoggedIn,
+  getLoggedIn
 } = new SessionHelper();
