@@ -27,6 +27,30 @@ function UserLogin(email, password) {
     });
 }
 
+
+function GoogleSignIn(email) {
+  const URL = `${BASE_URL}/loginwithgoogle`;
+  const postBody = { email };
+
+  return axios.post(URL, postBody)
+    .then((res) => {
+      if (res.data.status === "success") {
+        setToken(res.data.token);
+        console.log("Google Sign-In Successful");
+        return res;
+      } else {
+        console.log("Google Sign-In Failed");
+        return false;
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      return false;
+    });
+}
+
+
+
 function UserRegistration(formValues) {
   const URL = BASE_URL + "/registration";
   const postBody = {
@@ -323,4 +347,5 @@ export {
   GetProfileDetails,
   ProfileUpdate,
   ShowTaskByStatus,
+  GoogleSignIn
 };

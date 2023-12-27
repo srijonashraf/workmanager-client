@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { UserLogin } from "../apiRequest/apiRequest.js";
+import { UserLogin, GoogleSignIn } from "../apiRequest/apiRequest.js";
 import {
   Container,
   Form,
@@ -10,13 +10,19 @@ import {
 import { Row, Col } from "react-bootstrap";
 import { successToast, errorToast } from "../helper/ToasterHelper.js";
 import { Toaster } from "react-hot-toast";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Auth, Provider } from "../../firebase.js";
+import { signInWithPopup } from "firebase/auth";
+import { FcGoogle } from "react-icons/fc";
+import { FaGoogle } from "react-icons/fa";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState(false);
+  // const [googleAuthValue, setgoogleAuthValue] = useState("");
+  // const navigate = useNavigate();
 
   const UserLoginRequest = async (e) => {
     e.preventDefault();
@@ -49,6 +55,27 @@ const Login = () => {
 
   const HandleInputFocus = () => {
     setValidationError(false);
+  };
+
+  const HandleGoogleSignIn = async () => {
+    try {
+      setLoading(true);
+
+      const result = await signInWithPopup(Auth, Provider);
+      console.log(result);
+
+      const success = await GoogleSignIn(result.user.email);
+
+      if (success) {
+        successToast("Login successful");
+        window.location.href = "/";
+      }
+    } catch (error) {
+      errorToast("Failed to connect to the server");
+      console.error("Google sign-in failed:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -92,11 +119,23 @@ const Login = () => {
                 onClick={UserLoginRequest}
                 variant="primary"
                 type="submit"
-                className="w-100 mb-3"
+                className="w-100 mb-3 rounded-1"
                 disabled={loading}
               >
                 {loading ? "Logging in..." : "Login"}
               </Button>
+
+              <Button
+                onClick={HandleGoogleSignIn}
+                variant="dark"
+                type="button"
+                className="w-100 mb-3 rounded-1"
+                disabled={loading}
+              >
+                <FaGoogle className="mx-2"/>
+                {loading ? "Logging in..." : "Sign in with Google"}
+              </Button>
+
               <Row className="float-end mt-3">
                 <span>
                   <NavLink
