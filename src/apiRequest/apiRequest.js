@@ -1,10 +1,5 @@
 import axios from "axios";
-import {
-  setToken,
-  getToken,
-  setUserEmail,
-} from "../helper/SessionHelper";
-
+import { setToken, getToken, setUserEmail } from "../helper/SessionHelper";
 import unauthorized from "./../utility/unauthorized";
 
 const BASE_URL = "https://workmanager-srijonashraf.vercel.app/api/v1";
