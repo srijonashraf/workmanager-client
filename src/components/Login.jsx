@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UserLogin, GoogleSignIn } from "../apiRequest/apiRequest.js";
 import {
   Container,
@@ -15,6 +15,7 @@ import { Auth, Provider } from "../../firebase.js";
 import { signInWithPopup } from "firebase/auth";
 import { FcGoogle } from "react-icons/fc";
 import { FaGoogle } from "react-icons/fa";
+import { getExpireMessage,setExpireMessage } from "../helper/SessionHelper.js";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,6 +28,14 @@ const Login = () => {
     lastName: "",
   });
   // const navigate = useNavigate();
+
+  useEffect(() => {
+    if (getExpireMessage()) {
+      errorToast('Session Expired. Please login again');
+      setExpireMessage(false);
+    }
+  }, [getExpireMessage()]);
+
 
   const UserLoginRequest = async (e) => {
     e.preventDefault();
@@ -64,28 +73,28 @@ const Login = () => {
   const HandleGoogleSignIn = async () => {
     try {
       setLoading(true);
-  
+
       const result = await signInWithPopup(Auth, Provider);
       const displayName = result.user.displayName;
-  
+
       // Extract first and last names
       const nameParts = displayName.split(" ");
       const firstName = nameParts[0];
       const lastName = nameParts.slice(1).join(" ");
-  
+
       // Set state values
       setGoogleAuthValue({
         email: result.user.email,
         firstName: firstName,
         lastName: lastName,
       });
-  
+
       const success = await GoogleSignIn({
         email: result.user.email,
         firstName: firstName,
         lastName: lastName,
       });
-  
+
       if (success) {
         successToast("Login successful");
         window.location.href = "/";
@@ -97,7 +106,7 @@ const Login = () => {
       setLoading(false);
     }
   };
-  
+
 
   return (
     <div>

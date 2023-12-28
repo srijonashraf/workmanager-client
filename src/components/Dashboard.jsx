@@ -10,6 +10,7 @@ import unauthorized from "../utility/unauthorized";
 import {
   clearSessions,
   getToken,
+  setExpireMessage,
   setNewUser,
   setOTPEmail,
   setToken,
@@ -55,8 +56,14 @@ const Dashboard = () => {
     const response = await FetchTaskCount();
     if (response && response.status === 200) {
       setTaskCounts(response.data.data.statuses);
-    } else {
-      console.log("Failed to fetch task counts");
+    }
+    else if(response.status !== 200) {
+      unauthorized(401);
+      setExpireMessage(true);
+    }
+    else {
+      unauthorized(401);
+      setExpireMessage(true);
     }
 
     const ProfileResponse = await GetProfileDetails();
@@ -91,7 +98,10 @@ const Dashboard = () => {
     <div>
       <Toaster position="bottom-center" />
       {profileDetails?.verified === false ? (
-        <Container id="top" className="container-fluid d-flex flex-row gap-2 align-items-center bg-danger text-white">
+        <Container
+          id="top"
+          className="container-fluid d-flex flex-row gap-2 align-items-center bg-danger text-white"
+        >
           <h4 className="mt-3">Please verify your email address!</h4>
           <Button
             disabled={loading}
@@ -111,9 +121,8 @@ const Dashboard = () => {
           <div>
             Hi!{" "}
             <span className="h4">
-              {`(${profileDetails?.firstName || ""} ${
-                profileDetails?.lastName || ""
-              }) `}
+              {`(${profileDetails?.firstName || ""} ${profileDetails?.lastName || ""
+                }) `}
               <span className="blog-title-emoji">👋</span>
             </span>
           </div>

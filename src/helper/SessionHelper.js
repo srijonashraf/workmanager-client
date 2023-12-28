@@ -60,6 +60,13 @@ class SessionHelper {
   getFName() {
     return JSON.parse(localStorage.getItem("FirstName")) || null;
   }
+
+  setExpireMessage(value) {
+    localStorage.setItem("expireMessage", value);
+  }
+  getExpireMessage() {
+    return JSON.parse(localStorage.getItem("expireMessage")) || null;
+  }
   clearSessions() {
     localStorage.clear();
     window.location.href = "/";
@@ -84,5 +91,7 @@ export const {
   setNewUser,
   getNewUser,
   setLoggedIn,
-  getLoggedIn
+  getLoggedIn,
+  setExpireMessage,
+  getExpireMessage
 } = new SessionHelper();
