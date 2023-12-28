@@ -1,12 +1,17 @@
 import axios from "axios";
-import { setToken, getToken, setUserEmail } from "../helper/SessionHelper";
+import {
+  setToken,
+  getToken,
+  setUserEmail,
+  clearSessions,
+} from "../helper/SessionHelper";
 import unauthorized from "./../utility/unauthorized";
 
 const BASE_URL = "https://workmanager-srijonashraf.vercel.app/api/v1";
 // const BASE_URL = "http://localhost:3000/api/v1";
 
 function UserLogin(email, password) {
-  const URL = BASE_URL + "/login";
+  const URL = `${BASE_URL}/UserLogin`;
   const postBody = { email, password };
 
   return axios
@@ -29,7 +34,7 @@ function UserLogin(email, password) {
 }
 
 function GoogleSignIn(googleAuthValue) {
-  const URL = `${BASE_URL}/loginwithgoogle`;
+  const URL = `${BASE_URL}/UserGoogleSignIn`;
 
   const postBody = {
     email: googleAuthValue.email,
@@ -66,7 +71,7 @@ function GoogleSignIn(googleAuthValue) {
 }
 
 function UserRegistration(formValues) {
-  const URL = BASE_URL + "/registration";
+  const URL = `${BASE_URL}/UserRegistration`;
   const postBody = {
     employeeId: formValues.employeeId,
     email: formValues.email,
@@ -101,7 +106,7 @@ function UserRegistration(formValues) {
 }
 
 function AddNewTask(taskTitle, taskDescription) {
-  const URL = BASE_URL + "/createWork";
+  const URL = `${BASE_URL}/WorkCreate`;
   const postBody = {
     workTitle: taskTitle,
     workDescription: taskDescription,
@@ -129,7 +134,7 @@ function AddNewTask(taskTitle, taskDescription) {
 }
 
 function AllTask() {
-  const URL = BASE_URL + "/allWork";
+  const URL = `${BASE_URL}/WorkAllList`;
   return axios
     .get(URL, { headers: { token: getToken() } })
     .then((res) => {
@@ -151,13 +156,16 @@ function AllTask() {
 }
 
 function DeleteTask(id) {
-  const URL = BASE_URL + "/deleteWork/" + id;
+  const URL = `${BASE_URL}/WorkDelete/${id}`;
   return axios
     .get(URL, { headers: { token: getToken() } })
     .then((res) => {
       if (res.data.status === "success") {
         console.log("Data deleted");
         return res;
+      }
+      if (res.status === 401) {
+        unauthorized(401);
       } else {
         console.log("Data didn't deleted");
         return false;
@@ -170,13 +178,17 @@ function DeleteTask(id) {
 }
 
 function UpdateTaskStatus(id, status) {
-  const URL = BASE_URL + "/updateWorkStatus/" + id + "/" + status;
+  const URL = `${BASE_URL}/WorkStatusUpdate/${id}/${status}`;
   return axios
     .get(URL, { headers: { token: getToken() } })
     .then((res) => {
       if (res.data.status === "success") {
         // console.log("Work status updated");
         return res;
+      }
+
+      if (res.status === 401) {
+        unauthorized(401);
       } else {
         console.log("Work status didn't updated");
         return false;
@@ -189,13 +201,16 @@ function UpdateTaskStatus(id, status) {
 }
 
 function UpdateTaskData(id, updatedFields) {
-  const URL = BASE_URL + "/updateWork/" + id;
+  const URL = `${BASE_URL}/WorkUpdate/${id}`;
   return axios
     .post(URL, updatedFields, { headers: { token: getToken() } })
     .then((res) => {
       if (res.data.status === "success") {
         console.log("Work updated");
         return res;
+      }
+      if (res.status === 401) {
+        unauthorized(401);
       } else {
         console.log("Work didn't updated");
         return false;
@@ -208,7 +223,8 @@ function UpdateTaskData(id, updatedFields) {
 }
 
 function FetchTaskCount() {
-  const URL = BASE_URL + "/workStatusCount";
+  const URL = `${BASE_URL}/WorkStatusCountIndividual`;
+
   return axios
     .get(URL, { headers: { token: getToken() } })
     .then((res) => {
@@ -217,7 +233,7 @@ function FetchTaskCount() {
         return res;
       } else {
         console.log("Work status count didn't updated");
-        return false;
+        return res;
       }
     })
     .catch((err) => {
@@ -249,13 +265,16 @@ async function RecoverVerifyEmail(email) {
 }
 
 async function ShowTaskByStatus(workStatus) {
-  const URL = `${BASE_URL}/listWorkByStatus/${workStatus}`;
+  const URL = `${BASE_URL}/WorkListByStatus/${workStatus}`;
   try {
     const response = await axios.get(URL, { headers: { token: getToken() } });
 
     if (response.data.status === "success") {
       console.log("API: Fetched data by status.");
       return response;
+    }
+    if (response.status === 401) {
+      unauthorized(401);
     } else {
       console.log("API: Failed to fetched data by status.");
       return false;
@@ -285,7 +304,7 @@ async function VerifyOTP(value, email) {
 }
 
 async function RecoverPassword(email, otp, password) {
-  const URL = BASE_URL + "/RecoverResetPass";
+  const URL = `${BASE_URL}/RecoverResetPass`;
   const postBody = { email: email, OTP: otp, password: password };
   console.log(URL);
   try {
@@ -304,11 +323,14 @@ async function RecoverPassword(email, otp, password) {
 }
 
 async function GetProfileDetails() {
-  const URL = `${BASE_URL}/profileDetails`;
+  const URL = `${BASE_URL}/ProfileDetails`;
   try {
     const response = await axios.get(URL, { headers: { token: getToken() } });
     if (response.data.status === "success") {
       return response;
+    }
+    if (response.status === 401) {
+      unauthorized(401);
     } else {
       console.log("API: Profile Details failed to fetch");
       return false;
@@ -320,7 +342,7 @@ async function GetProfileDetails() {
 }
 
 async function ProfileUpdate(formValues) {
-  const URL = `${BASE_URL}/profileUpdate`;
+  const URL = `${BASE_URL}/ProfileUpdate`;
   const PostBody = {
     email: formValues.email,
     img: formValues.img,
@@ -340,6 +362,9 @@ async function ProfileUpdate(formValues) {
     if (response.data.status === "success") {
       // console.log(response);
       return response;
+    }
+    if (response.status === 401) {
+      unauthorized(401);
     } else {
       console.log("Profile Details failed to update");
       return false;
@@ -351,7 +376,7 @@ async function ProfileUpdate(formValues) {
 }
 
 async function ProfileVerification(email) {
-  const URL = `${BASE_URL}/verified/${email}`;
+  const URL = `${BASE_URL}/ProfileVerification/${email}`;
   try {
     const response = await axios.get(URL);
     if (response.data.status === "success") {
