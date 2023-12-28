@@ -20,7 +20,6 @@ const Dashboard = () => {
   const [taskCounts, setTaskCounts] = useState([]);
   const [profileDetails, setProfileDetails] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const [currentTime, setCurrentTime] = useState(new Date());
   const navigate = useNavigate();
 
@@ -30,7 +29,6 @@ const Dashboard = () => {
     minute: "numeric",
     second: "numeric",
   });
-
 
   //Leading to fast logging out from dashboard without verifying email and redirecting to verify page.
   // useEffect(() => {
@@ -93,50 +91,56 @@ const Dashboard = () => {
     <div>
       <Toaster position="bottom-center" />
       {profileDetails?.verified === false ? (
-        <Container id="top">
-          <h1 className="mt-3">Please verify your email address!</h1>
-          <Button disabled={loading} className="rounded-1" onClick={HandleVerifyButton}> {loading ? "Loading..." : "Verify"}</Button>
-          <Button onClick={clearSessions} className="btn-danger rounded-1 mx-2"> Logout </Button>
+        <Container id="top" className="container-fluid d-flex flex-row gap-2 align-items-center bg-danger text-white">
+          <h4 className="mt-3">Please verify your email address!</h4>
+          <Button
+            disabled={loading}
+            className="rounded-1"
+            variant="outline-light"
+            onClick={HandleVerifyButton}
+          >
+            {" "}
+            {loading ? "Loading..." : "Verify"}
+          </Button>
         </Container>
       ) : (
-        <Container>
-          <h2 className="mt-3 d-flex align-items-baseline gap-2 justify-content-between">
-            <div>
-              Hi!{" "}
-              <span className="h4">
-                {`(${profileDetails?.firstName || ""} ${
-                  profileDetails?.lastName || ""
-                }) `}
-                <span className="blog-title-emoji">👋</span>
-              </span>
-            </div>
-            <p className="h1">{formattedTime}</p>
-          </h2>
-          <Row xs={12}>
-            {taskCounts.map((statusCount) => (
-              <Col key={statusCount.status} md={4} className="mb-3">
-                <Card className="border-0 shadow">
-                  <Card.Body
-                    className="cursorPointer"
-                    onClick={() =>
-                      navigate(
-                        `/${statusCount.status
-                          .replace(/\s+/g, "")
-                          .toLowerCase()}`
-                      )
-                    }
-                  >
-                    <Card.Title>{statusCount.status}</Card.Title>
-                    <Card.Text className="fw-bold text-muted">
-                      {statusCount.count}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Container>
+        <></>
       )}
+      <Container>
+        <h2 className="mt-3 d-flex align-items-baseline gap-2 justify-content-between">
+          <div>
+            Hi!{" "}
+            <span className="h4">
+              {`(${profileDetails?.firstName || ""} ${
+                profileDetails?.lastName || ""
+              }) `}
+              <span className="blog-title-emoji">👋</span>
+            </span>
+          </div>
+          <p className="h1">{formattedTime}</p>
+        </h2>
+        <Row xs={12}>
+          {taskCounts.map((statusCount) => (
+            <Col key={statusCount.status} md={4} className="mb-3">
+              <Card className="border-0 shadow">
+                <Card.Body
+                  className="cursorPointer"
+                  onClick={() =>
+                    navigate(
+                      `/${statusCount.status.replace(/\s+/g, "").toLowerCase()}`
+                    )
+                  }
+                >
+                  <Card.Title>{statusCount.status}</Card.Title>
+                  <Card.Text className="fw-bold text-muted">
+                    {statusCount.count}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
     </div>
   );
 };
