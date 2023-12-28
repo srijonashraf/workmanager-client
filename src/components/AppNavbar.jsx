@@ -69,31 +69,27 @@ const AppNavbar = () => {
 
             <Dropdown.Menu className="user-dropdown-content">
               <div className="mt-4 text-center">
-                <Avatar
-                  onClick={() => {
-                    window.location.href = "/profile";
-                  }}
-                  src={img}
-                  size="40"
-                  className="mb-2 cursorPointer"
-                  round={true}
-                />
-                <h6
-                  onClick={() => {
-                    window.location.href = "/profile";
-                  }}
-                  className="cursorPointer"
-                >
-                  {firstName}
+                <NavLink className="nav-link" to="/profile">
+                  <Avatar
+                    src={img}
+                    size="40"
+                    className="mb-2 cursorPointer"
+                    round={true}
+                  />
+                </NavLink>
+
+                <h6 className="cursorPointer">
+                  <NavLink className="nav-link" to="/profile">
+                    {firstName}
+                  </NavLink>
                 </h6>
                 <Dropdown.Divider />
               </div>
 
-              <Dropdown.Item
-                className="d-flex align-items-center gap-1"
-                href="/profile"
-              >
-                <IoSettingsOutline /> Setting
+              <Dropdown.Item className="d-flex align-items-center gap-1">
+                <NavLink className="nav-link" to="/profile">
+                  <IoSettingsOutline /> Setting
+                </NavLink>
               </Dropdown.Item>
               <Dropdown.Item
                 className="d-flex align-items-center gap-1"
