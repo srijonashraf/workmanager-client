@@ -42,7 +42,8 @@ function GoogleSignIn(googleAuthValue) {
     .then((res) => {
       if (res.data.status === "success") {
         const email = googleAuthValue.email; // assuming email is accessible here
-        axios.get(`${BASE_URL}/verified/${email}`)
+        axios
+          .get(`${BASE_URL}/verified/${email}`)
           .then((verificationRes) => {
             console.log(verificationRes);
           })
@@ -64,7 +65,6 @@ function GoogleSignIn(googleAuthValue) {
     });
 }
 
-
 function UserRegistration(formValues) {
   const URL = BASE_URL + "/registration";
   const postBody = {
@@ -84,6 +84,10 @@ function UserRegistration(formValues) {
     .then((res) => {
       if (res.data.status === "success") {
         console.log("Registration Successful");
+        return res;
+      }
+      if (res.data.status === "fail") {
+        console.log("Registration Failed");
         return res;
       } else {
         console.log("Registration Failed");
@@ -317,7 +321,7 @@ async function GetProfileDetails() {
 
 async function ProfileUpdate(formValues) {
   const URL = `${BASE_URL}/profileUpdate`;
-  const PostBody = { 
+  const PostBody = {
     email: formValues.email,
     img: formValues.img,
     firstName: formValues.firstName,
@@ -362,7 +366,6 @@ async function ProfileVerification(email) {
   }
 }
 
-
 export {
   UserLogin,
   UserRegistration,
@@ -379,5 +382,5 @@ export {
   ProfileUpdate,
   ShowTaskByStatus,
   GoogleSignIn,
-  ProfileVerification
+  ProfileVerification,
 };
