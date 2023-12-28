@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from "react";
-import {Container, Card, Row, Col, Button, Modal} from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container, Card, Row, Col, Button, Modal } from "react-bootstrap";
 import {
     AllTask,
     DeleteTask,
     UpdateTaskStatus,
     UpdateTaskData,
 } from "../apiRequest/apiRequest";
-import {errorToast, successToast} from "../helper/ToasterHelper";
-import {Toaster} from "react-hot-toast";
+import { errorToast, successToast } from "../helper/ToasterHelper";
+import { Toaster } from "react-hot-toast";
 import ReactQuill from "react-quill";
 import QuillToolbar from "../utility/ReactQuillModules";
 
@@ -89,7 +89,7 @@ const AllTaskList = () => {
         }
     };
 
-//Edit Task
+    //Edit Task
 
     const HandleUpdateTask = () => {
         if (selectedTaskIdForUpdate) {
@@ -133,7 +133,7 @@ const AllTaskList = () => {
                             <Card className="h-100 shadow border-0 d-flex flex-column">
                                 <Card.Body className="d-flex flex-column">
                                     <h5>{task.workTitle}</h5>
-                                    <div dangerouslySetInnerHTML={{__html: task.workDescription}}/>
+                                    <div dangerouslySetInnerHTML={{ __html: task.workDescription }} />
                                     <Card.Footer className="mt-auto border-top">
                                         {(() => {
                                             let variant = "";
@@ -259,7 +259,7 @@ const AllTaskList = () => {
                         theme="snow"
                         modules={{
                             toolbar: QuillToolbar,
-                          }}
+                        }}
                         value={editableFields.workDescription}
                         onChange={(value) => setEditableFields((prevFields) => ({
                             ...prevFields,
