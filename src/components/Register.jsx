@@ -41,15 +41,17 @@ const Register = () => {
       }
 
       setLoading(true);
-      const success = await UserRegistration(formValues);
-      if (success) {
+      const result = await UserRegistration(formValues);
+      if (result.data.status === "success") {
         successToast("Registration successful");
         setTimeout(() => {
           window.location.href = "/";
         }, 2000);
-      } else {
-        errorToast("Failed to register user");
+      } else if (result.data.status === "fail") {
+        errorToast("User already exist");
         setValidationError(true);
+      } else {
+        errorToast("Registration Failed");
       }
     } catch (error) {
       errorToast("Failed to connect to the server");
@@ -206,14 +208,18 @@ const Register = () => {
                         : "",
                   }}
                 >
-                  <option value="" disabled>Select Position</option>
-                  {DeptJson.departments.map((department) => (
+                  <option value="" disabled>
+                    Select Position
+                  </option>
+                  {DeptJson.departments.map((department) =>
                     department.positions.map((position) => (
-                      <option key={`${department.name}_${position.title}_${position.level}`}>
+                      <option
+                        key={`${department.name}_${position.title}_${position.level}`}
+                      >
                         {position.title} - {position.level}
                       </option>
                     ))
-                  ))}
+                  )}
                 </FormControl>
               </InputGroup>
 
@@ -233,7 +239,9 @@ const Register = () => {
                         : "",
                   }}
                 >
-                  <option value="" disabled>Select Department</option>
+                  <option value="" disabled>
+                    Select Department
+                  </option>
                   {DeptJson.departments.map((department) => (
                     <option key={department.name}>{department.name}</option>
                   ))}
