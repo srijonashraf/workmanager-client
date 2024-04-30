@@ -11,7 +11,7 @@ import { Row, Col } from "react-bootstrap";
 import { successToast, errorToast } from "../helper/ToasterHelper.js";
 import { Toaster } from "react-hot-toast";
 import { NavLink } from "react-router-dom";
-import DeptJson from "../../Department.json";
+import DeptJson from "../../department.json";
 
 const Register = () => {
   const [formValues, setFormValues] = useState({
