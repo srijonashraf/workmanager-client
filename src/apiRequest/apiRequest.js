@@ -45,7 +45,7 @@ function GoogleSignIn(googleAuthValue) {
   };
 
   return axios
-    .post(URL, postBody)
+    .post(URL, postBody, { withCredentials: true })
     .then((res) => {
       if (res.data.status === "success") {
         const email = googleAuthValue.email;
