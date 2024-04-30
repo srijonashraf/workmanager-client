@@ -12,7 +12,6 @@ import {
 import { ProfileUpdate, GetProfileDetails } from "../apiRequest/apiRequest";
 import { successToast, errorToast } from "../helper/ToasterHelper";
 import { Toaster } from "react-hot-toast";
-import { BiUserCircle } from "react-icons/bi";
 import { getBase64, validateFile } from "../helper/FormHelper";
 import Avatar from "react-avatar";
 
@@ -81,10 +80,10 @@ const Profile = () => {
             }));
             PreviewImage();
           });
-        }
-        else
-        {
-          errorToast("Please select a valid image file [jpg,jpeg,png *Max 4MB*]");
+        } else {
+          errorToast(
+            "Please select a valid image file [jpg,jpeg,png *Max 4MB*]"
+          );
           userImgRef.current.value = null;
         }
       } catch (error) {

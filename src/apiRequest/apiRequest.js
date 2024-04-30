@@ -15,7 +15,7 @@ function UserLogin(email, password) {
   const postBody = { email, password };
 
   return axios
-    .post(URL, postBody)
+    .post(URL, postBody, { withCredentials: true })
     .then((res) => {
       if (res.data.status === "success") {
         setToken(res.data.token);
