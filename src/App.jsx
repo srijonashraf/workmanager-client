@@ -26,10 +26,10 @@ function App() {
         <Router>
           <AppNavbar />
           <Routes>
+            <Route exact path="/" element={<DashboardPage />} />
             <Route exact path="/task" element={<NewTaskPage />} />
             <Route exact path="/allTask" element={<TaskListPage />} />
             <Route exact path="/dashboard" element={<DashboardPage />} />
-            <Route exact path="/" element={<DashboardPage />} />
             <Route exact path="/profile" element={<ProfilePage />} />
             <Route exact path="/pending" element={<PendingPage />} />
             <Route exact path="/inProgress" element={<InProgressPage />} />

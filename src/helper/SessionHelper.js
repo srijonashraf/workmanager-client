@@ -1,10 +1,11 @@
+import Cookies from "js-cookie";
 class SessionHelper {
   setToken(token) {
     localStorage.setItem("token", token);
   }
 
   getToken() {
-    return localStorage.getItem("token");
+    return Cookies.get("token");
   }
 
   setOTPRequested(value) {
@@ -71,7 +72,6 @@ class SessionHelper {
     localStorage.clear();
     window.location.href = "/";
   }
-
 }
 
 export const {
@@ -93,5 +93,5 @@ export const {
   setLoggedIn,
   getLoggedIn,
   setExpireMessage,
-  getExpireMessage
+  getExpireMessage,
 } = new SessionHelper();

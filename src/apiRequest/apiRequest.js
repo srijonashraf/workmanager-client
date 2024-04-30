@@ -4,8 +4,10 @@ import {
   getToken,
   setUserEmail,
   clearSessions,
+  getUserEmail,
 } from "../helper/SessionHelper";
 import unauthorized from "./../utility/unauthorized";
+import Cookies from "js-cookie";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 // const BASE_URL = "http://localhost:3000/api/v1";
@@ -18,9 +20,9 @@ function UserLogin(email, password) {
     .post(URL, postBody, { withCredentials: true })
     .then((res) => {
       if (res.data.status === "success") {
-        setToken(res.data.token);
+        // setToken(res.data.token);
         setUserEmail(email);
-        console.log("Login Successful");
+        console.log("Token from cookies:", Cookies.get());
         return res;
       } else {
         console.log("Login Failed");
@@ -46,7 +48,7 @@ function GoogleSignIn(googleAuthValue) {
     .post(URL, postBody)
     .then((res) => {
       if (res.data.status === "success") {
-        const email = googleAuthValue.email; // assuming email is accessible here
+        const email = googleAuthValue.email;
         axios
           .get(`${BASE_URL}/verified/${email}`)
           .then((verificationRes) => {
@@ -56,7 +58,7 @@ function GoogleSignIn(googleAuthValue) {
             console.error(verificationErr);
           });
 
-        setToken(res.data.token);
+        // setToken(res.data.token);
         console.log("Google Sign-In Successful");
         return res;
       } else {

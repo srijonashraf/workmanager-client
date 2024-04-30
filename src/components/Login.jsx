@@ -10,12 +10,11 @@ import {
 import { Row, Col } from "react-bootstrap";
 import { successToast, errorToast } from "../helper/ToasterHelper.js";
 import { Toaster } from "react-hot-toast";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Auth, Provider } from "../../firebase.js";
 import { signInWithPopup } from "firebase/auth";
-import { FcGoogle } from "react-icons/fc";
 import { FaGoogle } from "react-icons/fa";
-import { getExpireMessage,setExpireMessage } from "../helper/SessionHelper.js";
+import { getExpireMessage, setExpireMessage } from "../helper/SessionHelper.js";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,15 +26,13 @@ const Login = () => {
     firstName: "",
     lastName: "",
   });
-  // const navigate = useNavigate();
 
   useEffect(() => {
     if (getExpireMessage()) {
-      errorToast('Session Expired. Please login again');
+      errorToast("Session Expired. Please login again");
       setExpireMessage(false);
     }
   }, [getExpireMessage()]);
-
 
   const UserLoginRequest = async (e) => {
     e.preventDefault();
@@ -106,7 +103,6 @@ const Login = () => {
       setLoading(false);
     }
   };
-
 
   return (
     <div>
