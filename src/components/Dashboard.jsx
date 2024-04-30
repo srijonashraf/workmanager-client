@@ -56,12 +56,10 @@ const Dashboard = () => {
     const response = await FetchTaskCount();
     if (response && response.status === 200) {
       setTaskCounts(response.data.data.statuses);
-    }
-    else if(response.status !== 200) {
+    } else if (response.status !== 200) {
       unauthorized(401);
       setExpireMessage(true);
-    }
-    else {
+    } else {
       unauthorized(401);
       setExpireMessage(true);
     }
@@ -121,33 +119,44 @@ const Dashboard = () => {
           <div>
             Hi!{" "}
             <span className="h4">
-              {`(${profileDetails?.firstName || ""} ${profileDetails?.lastName || ""
-                }) `}
+              {`(${profileDetails?.firstName || ""} ${
+                profileDetails?.lastName || ""
+              }) `}
               <span className="blog-title-emoji">👋</span>
             </span>
           </div>
           <p className="h1">{formattedTime}</p>
         </h2>
         <Row xs={12}>
-          {taskCounts.map((statusCount) => (
-            <Col key={statusCount.status} md={4} className="mb-3">
-              <Card className="border-0 shadow">
-                <Card.Body
-                  className="cursorPointer"
-                  onClick={() =>
-                    navigate(
-                      `/${statusCount.status.replace(/\s+/g, "").toLowerCase()}`
-                    )
-                  }
-                >
-                  <Card.Title>{statusCount.status}</Card.Title>
-                  <Card.Text className="fw-bold text-muted">
-                    {statusCount.count}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
+          {taskCounts
+            .sort((a, b) =>
+              a.status.toLowerCase() < b.status.toLowerCase()
+                ? -1
+                : a.status.toLowerCase() > b.status.toLowerCase()
+                ? 1
+                : 0
+            )
+            .map((statusCount) => (
+              <Col key={statusCount.status} md={4} className="mb-3">
+                <Card className="border-0 shadow">
+                  <Card.Body
+                    className="cursorPointer"
+                    onClick={() =>
+                      navigate(
+                        `/${statusCount.status
+                          .replace(/\s+/g, "")
+                          .toLowerCase()}`
+                      )
+                    }
+                  >
+                    <Card.Title>{statusCount.status}</Card.Title>
+                    <Card.Text className="fw-bold text-muted">
+                      {statusCount.count}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
         </Row>
       </Container>
     </div>

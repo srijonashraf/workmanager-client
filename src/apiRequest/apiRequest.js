@@ -7,7 +7,7 @@ import {
 } from "../helper/SessionHelper";
 import unauthorized from "./../utility/unauthorized";
 
-const BASE_URL = "https://workmanager-srijonashraf.vercel.app/api/v1";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 // const BASE_URL = "http://localhost:3000/api/v1";
 
 function UserLogin(email, password) {
