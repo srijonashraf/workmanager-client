@@ -19,48 +19,66 @@ import DonePage from "./page/DonePage";
 import CancelledPage from "./page/CancelledPage";
 
 function App() {
-  const loggedIn = true;
-  console.log("Replying from App.jsx", getToken());
-  if (loggedIn) {
-    return (
-      <Fragment>
-        <Router>
-          <AppNavbar />
-          <Routes>
-            <Route path="/" element={<DashboardPage />} />
-            <Route path="/task" element={<NewTaskPage />} />
-            <Route path="/allTask" element={<TaskListPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/pending" element={<PendingPage />} />
-            <Route path="/inProgress" element={<InProgressPage />} />
-            <Route path="/done" element={<DonePage />} />
-            <Route path="/cancelled" element={<CancelledPage />} />
-            <Route path="*" element={<Error />} />
-          </Routes>
-        </Router>
-      </Fragment>
-    );
-  } else if(loggedIn) {
-    return (
-      <Fragment>
-        <Router>
-          <Routes>
-            <Route exact path="*" element={<LoginPage />} />
-            <Route exact path="/login" element={<LoginPage />} />
-            <Route exact path="/register" element={<RegistrationPage />} />
-            <Route exact path="/sendOTP" element={<SendOTPPage />} />
-            <Route exact path="/verifyOTP" element={<VerifyOTPPage />} />
-            <Route
-              exact
-              path="/createPassword"
-              element={<CreatePasswordPage />}
-            />
-          </Routes>
-        </Router>
-      </Fragment>
-    );
-  }
+  const loggedIn = getToken();
+  console.log("Replying from App.jsx", loggedIn);
+  // if (loggedIn) {
+  //   return (
+  //     <Fragment>
+  //       <Router>
+  //         <AppNavbar />
+  //         <Routes>
+  //           <Route path="/" element={<DashboardPage />} />
+  //           <Route path="/task" element={<NewTaskPage />} />
+  //           <Route path="/allTask" element={<TaskListPage />} />
+  //           <Route path="/dashboard" element={<DashboardPage />} />
+  //           <Route path="/profile" element={<ProfilePage />} />
+  //           <Route path="/pending" element={<PendingPage />} />
+  //           <Route path="/inProgress" element={<InProgressPage />} />
+  //           <Route path="/done" element={<DonePage />} />
+  //           <Route path="/cancelled" element={<CancelledPage />} />
+  //           <Route path="*" element={<Error />} />
+  //         </Routes>
+  //       </Router>
+  //     </Fragment>
+  //   );
+  // } else {
+  //   return (
+  //     <Fragment>
+  //       <Router>
+  //         <Routes>
+  //           <Route path="*" element={<LoginPage />} />
+  //           <Route path="/login" element={<LoginPage />} />
+  //           <Route path="/register" element={<RegistrationPage />} />
+  //           <Route path="/sendOTP" element={<SendOTPPage />} />
+  //           <Route path="/verifyOTP" element={<VerifyOTPPage />} />
+  //           <Route path="/createPassword" element={<CreatePasswordPage />} />
+  //         </Routes>
+  //       </Router>
+  //     </Fragment>
+  //   );
+  // }
+  <Fragment>
+    <Router>
+      <AppNavbar />
+      <Routes>
+        <Route path="/" element={<DashboardPage />} />
+        <Route path="/task" element={<NewTaskPage />} />
+        <Route path="/allTask" element={<TaskListPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/pending" element={<PendingPage />} />
+        <Route path="/inProgress" element={<InProgressPage />} />
+        <Route path="/done" element={<DonePage />} />
+        <Route path="/cancelled" element={<CancelledPage />} />
+        <Route path="*" element={<Error />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegistrationPage />} />
+        <Route path="/sendOTP" element={<SendOTPPage />} />
+        <Route path="/verifyOTP" element={<VerifyOTPPage />} />
+        <Route path="/createPassword" element={<CreatePasswordPage />} />
+      </Routes>
+    </Router>
+  </Fragment>;
 }
 
 export default App;
