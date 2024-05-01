@@ -16,11 +16,10 @@ function UserLogin(email, password) {
     .post(URL, postBody, { withCredentials: true })
     .then((res) => {
       if (res.data.status === "success") {
-        // setToken(res.data.token);
         setUserEmail(email);
         console.log("All Cookies", Cookies.get());
         console.log("Token from cookies:", Cookies.get('token'));
-        return res;
+        return true;
       } else {
         console.log("Login Failed");
         return false;
@@ -31,6 +30,7 @@ function UserLogin(email, password) {
       return false;
     });
 }
+
 
 function GoogleSignIn(googleAuthValue) {
   const URL = `${BASE_URL}/UserGoogleSignIn`;
