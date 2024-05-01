@@ -20,21 +20,22 @@ import CancelledPage from "./page/CancelledPage";
 
 function App() {
   const loggedIn = getToken();
+  console.log("Replying from App.jsx", loggedIn);
   if (loggedIn) {
     return (
       <Fragment>
         <Router>
           <AppNavbar />
           <Routes>
-            <Route exact path="/" element={<DashboardPage />} />
-            <Route exact path="/task" element={<NewTaskPage />} />
-            <Route exact path="/allTask" element={<TaskListPage />} />
-            <Route exact path="/dashboard" element={<DashboardPage />} />
-            <Route exact path="/profile" element={<ProfilePage />} />
-            <Route exact path="/pending" element={<PendingPage />} />
-            <Route exact path="/inProgress" element={<InProgressPage />} />
-            <Route exact path="/done" element={<DonePage />} />
-            <Route exact path="/cancelled" element={<CancelledPage />} />
+            <Route path="/" element={<DashboardPage />} />
+            <Route path="/task" element={<NewTaskPage />} />
+            <Route path="/allTask" element={<TaskListPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/pending" element={<PendingPage />} />
+            <Route path="/inProgress" element={<InProgressPage />} />
+            <Route path="/done" element={<DonePage />} />
+            <Route path="/cancelled" element={<CancelledPage />} />
             <Route path="*" element={<Error />} />
           </Routes>
         </Router>

@@ -8,7 +8,7 @@ import { RiMenuUnfoldFill } from "react-icons/ri";
 import { IoSettingsOutline } from "react-icons/io5";
 import Dropdown from "react-bootstrap/Dropdown";
 import { CiLogout } from "react-icons/ci";
-import { GetProfileDetails } from "../apiRequest/apiRequest";
+import { GetProfileDetails, UserLogout } from "../apiRequest/apiRequest";
 import Avatar from "react-avatar";
 
 const AppNavbar = () => {
@@ -40,6 +40,13 @@ const AppNavbar = () => {
 
     fetchData();
   }, []);
+
+  const handleLogout = async () => {
+    const logoutResult = await UserLogout();
+    if (logoutResult) {
+      window.location.href = "/";
+    }
+  };
 
   return (
     <div className={`app-container ${showOffcanvas ? "offcanvas-open" : ""}`}>
@@ -181,7 +188,7 @@ const AppNavbar = () => {
               </NavLink>
             </li>
             <Button
-              onClick={clearSessions}
+              onClick={handleLogout}
               className="d-flex rounded-1"
               variant="danger"
             >

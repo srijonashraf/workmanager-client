@@ -6,15 +6,7 @@ import {
   RecoverVerifyEmail,
 } from "../apiRequest/apiRequest";
 import { useNavigate } from "react-router-dom";
-import unauthorized from "../utility/unauthorized";
-import {
-  clearSessions,
-  getToken,
-  setExpireMessage,
-  setNewUser,
-  setOTPEmail,
-  setToken,
-} from "../helper/SessionHelper";
+import { setNewUser, setOTPEmail, setToken } from "../helper/SessionHelper";
 import { errorToast, successToast } from "../helper/ToasterHelper";
 import { Toaster } from "react-hot-toast";
 const Dashboard = () => {
@@ -30,13 +22,6 @@ const Dashboard = () => {
     minute: "numeric",
     second: "numeric",
   });
-
-  //Leading to fast logging out from dashboard without verifying email and redirecting to verify page.
-  // useEffect(() => {
-  //   if (!getToken()) {
-  //     unauthorized(401);
-  //   }
-  // });
 
   //For Clock
   useEffect(() => {
@@ -54,21 +39,16 @@ const Dashboard = () => {
 
   const fetchTaskCounts = async () => {
     const response = await FetchTaskCount();
-    if (response && response.status === 200) {
-      setTaskCounts(response.data.data.statuses);
-    } else if (response.status !== 200) {
-      unauthorized(401);
-      setExpireMessage(true);
-    } else {
-      unauthorized(401);
-      setExpireMessage(true);
+    if (!response) {
+      console.log("Failed to fetch task count");
     }
+    setTaskCounts(response.data.data.statuses);
 
     const ProfileResponse = await GetProfileDetails();
-    if (ProfileResponse) {
-      setProfileDetails(ProfileResponse.data.data[0]);
-      // console.log(ProfileResponse.data.data[0]);
+    if (!ProfileResponse) {
+      console.log("Failed to fetch profile");
     }
+    setProfileDetails(ProfileResponse.data.data[0]);
   };
 
   const HandleVerifyButton = async () => {
@@ -79,7 +59,7 @@ const Dashboard = () => {
         successToast("Verification code sent to your email");
         setNewUser(true);
         setOTPEmail(profileDetails.email);
-        window.location.href = "/verifyOTP";
+        navigate(`/verifyOTP`);
         setToken("");
       } else {
         console.log("Failed to send verification code");

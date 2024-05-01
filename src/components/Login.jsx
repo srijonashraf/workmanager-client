@@ -10,7 +10,7 @@ import {
 import { Row, Col } from "react-bootstrap";
 import { successToast, errorToast } from "../helper/ToasterHelper.js";
 import { Toaster } from "react-hot-toast";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Auth, Provider } from "../../firebase.js";
 import { signInWithPopup } from "firebase/auth";
 import { FaGoogle } from "react-icons/fa";
@@ -26,6 +26,7 @@ const Login = () => {
     firstName: "",
     lastName: "",
   });
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
     if (getExpireMessage()) {
@@ -46,15 +47,12 @@ const Login = () => {
 
       setLoading(true);
       const success = await UserLogin(email, password);
-      if (success) {
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 1000);
-        successToast("Login successful");
-      } else {
+      if (!success) {
         errorToast("User not found");
         setValidationError(true);
       }
+      window.location.href = "/";
+      successToast("Login successful");
     } catch (error) {
       errorToast("Failed to connect to the server");
       console.error(error);
@@ -94,7 +92,7 @@ const Login = () => {
 
       if (success) {
         successToast("Login successful");
-        window.location.href = "/";
+        navigate("/"); // Navigate to "/" path after successful login
       }
     } catch (error) {
       errorToast("Failed to connect to the server");
