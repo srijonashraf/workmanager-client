@@ -19,8 +19,8 @@ import DonePage from "./page/DonePage";
 import CancelledPage from "./page/CancelledPage";
 
 function App() {
-  const loggedIn = getToken();
-  console.log("Replying from App.jsx", loggedIn);
+  const loggedIn = true;
+  console.log("Replying from App.jsx", getToken());
   if (loggedIn) {
     return (
       <Fragment>
@@ -41,7 +41,7 @@ function App() {
         </Router>
       </Fragment>
     );
-  } else {
+  } else if(loggedIn) {
     return (
       <Fragment>
         <Router>
