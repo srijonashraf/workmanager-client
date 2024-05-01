@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getToken, setUserEmail } from "../helper/SessionHelper";
-import unauthorized from "./../utility/unauthorized";
 import Cookies from "js-cookie";
 
 let BASE_URL = "http://localhost:3000/api/v1";
@@ -12,7 +11,6 @@ if (process.env.NODE_ENV === "production") {
 function UserLogin(email, password) {
   const URL = `${BASE_URL}/UserLogin`;
   const postBody = { email, password };
-  console.log(URL);
 
   return axios
     .post(URL, postBody, { withCredentials: true })
@@ -20,7 +18,8 @@ function UserLogin(email, password) {
       if (res.data.status === "success") {
         // setToken(res.data.token);
         setUserEmail(email);
-        console.log("Token from cookies:", Cookies.get("token"));
+        console.log("All Cookies", Cookies.get());
+        console.log("Token from cookies:", Cookies.get('token'));
         return res;
       } else {
         console.log("Login Failed");

@@ -52,10 +52,9 @@ const Login = () => {
         errorToast("User not found");
         setValidationError(true);
       }
-      if (getToken()) {
-        window.location.href = "/";
-        successToast("Login successful");
-      }
+
+      successToast("Login successful");
+      // window.location.href = "/";
     } catch (error) {
       errorToast("Failed to connect to the server");
       console.error(error);
