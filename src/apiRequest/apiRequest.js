@@ -76,7 +76,7 @@ function UserLogout() {
     .get(URL, { withCredentials: true })
     .then((res) => {
       if (res.data.status === "success") {
-        return true; // Logout successful
+        return true;
       } else {
         console.log("Logout Failed");
         return false;

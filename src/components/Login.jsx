@@ -53,7 +53,7 @@ const Login = () => {
         setValidationError(true);
       }
       if (getToken()) {
-        // window.location.href = "/";
+        window.location.href = "/";
         successToast("Login successful");
       }
     } catch (error) {
