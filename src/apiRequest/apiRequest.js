@@ -14,7 +14,7 @@ function UserLogin(email, password) {
   const postBody = { email, password };
 
   return axios
-    .post(URL, postBody, { credentials: 'include' })
+    .post(URL, postBody, { withCredentials: true })
     .then((res) => {
       if (res.data.status === "success") {
         // Cookies.set(res.data.token)
