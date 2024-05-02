@@ -14,7 +14,6 @@ LogoutWhenSessionExpired();
 function UserLogin(email, password) {
   const URL = `${BASE_URL}/UserLogin`;
   const postBody = { email, password };
-  console.log(URL);
 
   return axios
     .post(URL, postBody, axiosHeader())
