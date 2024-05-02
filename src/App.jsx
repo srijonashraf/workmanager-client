@@ -36,6 +36,7 @@ function App() {
             <Route path="/inProgress" element={<InProgressPage />} />
             <Route path="/done" element={<DonePage />} />
             <Route path="/cancelled" element={<CancelledPage />} />
+            <Route path="/verifyOTP" element={<VerifyOTPPage />} />
             <Route path="*" element={<Error />} />
           </Routes>
         </Router>

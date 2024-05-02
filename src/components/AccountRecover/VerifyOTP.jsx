@@ -40,7 +40,6 @@ const VerifyOTP = () => {
               console.log(res);
               if(res){
                 alert("Verification complete! Please login again...");
-                clearSessions();
                 window.location.href = "/";
               }
               else{

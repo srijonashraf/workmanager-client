@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { setNewUser, setOTPEmail, setToken } from "../helper/SessionHelper";
 import { errorToast, successToast } from "../helper/ToasterHelper";
 import { Toaster } from "react-hot-toast";
+import Cookies from "js-cookie";
 const Dashboard = () => {
   const [taskCounts, setTaskCounts] = useState([]);
   const [profileDetails, setProfileDetails] = useState([]);
@@ -56,11 +57,12 @@ const Dashboard = () => {
     const response = await RecoverVerifyEmail(profileDetails.email);
     try {
       if (response && response.status === 200) {
-        successToast("Verification code sent to your email");
+        setTimeout(() => {
+          successToast("Verification code sent to your email");
+        }, 1000);
         setNewUser(true);
         setOTPEmail(profileDetails.email);
         navigate(`/verifyOTP`);
-        setToken("");
       } else {
         console.log("Failed to send verification code");
         errorToast("Failed to send verification code");
