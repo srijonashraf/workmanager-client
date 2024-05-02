@@ -8,17 +8,19 @@ if (process.env.NODE_ENV === "production") {
   BASE_URL = import.meta.env.VITE_BASE_URL;
 }
 
+// Set token manually and clear them when logout api is called to work perfectly in netlify deployment, { withCredentials: true } will be substitute with header also there will be change in auth middleware token retrive variable in backend
 function UserLogin(email, password) {
   const URL = `${BASE_URL}/UserLogin`;
   const postBody = { email, password };
 
   return axios
-    .post(URL, postBody, { withCredentials: true })
+    .post(URL, postBody, { credentials: 'include' })
     .then((res) => {
       if (res.data.status === "success") {
+        // Cookies.set(res.data.token)
         setUserEmail(email);
         console.log("All Cookies", Cookies.get());
-        console.log("Token from cookies:", Cookies.get('token'));
+        console.log("Token from cookies:", Cookies.get("token"));
         return true;
       } else {
         console.log("Login Failed");
@@ -30,7 +32,6 @@ function UserLogin(email, password) {
       return false;
     });
 }
-
 
 function GoogleSignIn(googleAuthValue) {
   const URL = `${BASE_URL}/UserGoogleSignIn`;
@@ -75,6 +76,7 @@ function UserLogout() {
     .get(URL, { withCredentials: true })
     .then((res) => {
       if (res.data.status === "success") {
+        // Cookies.set(res.data.token)
         return true;
       } else {
         console.log("Logout Failed");
