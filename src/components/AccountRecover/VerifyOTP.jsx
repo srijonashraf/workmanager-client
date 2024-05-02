@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { successToast, errorToast } from "../../helper/ToasterHelper";
-import { VerifyOTP as VerifyOTPApi,ProfileVerification } from "../../apiRequest/apiRequest";
+import {
+  VerifyOTP as VerifyOTPApi,
+  ProfileVerification,
+} from "../../apiRequest/apiRequest";
 import VerificationInput from "react-verification-input";
 import {
   getOTPRequested,
   getOTPEmail,
   setOTP as setOTPFunction,
   getNewUser,
-  clearSessions,
 } from "../../helper/SessionHelper";
 
 const VerifyOTP = () => {
@@ -38,14 +40,13 @@ const VerifyOTP = () => {
             if (getNewUser()) {
               const res = await ProfileVerification(otpEmail);
               console.log(res);
-              if(res){
+              if (res) {
                 alert("Verification complete! Please login again...");
                 window.location.href = "/";
-              }
-              else{
+              } else {
                 errorToast("An unexpected error occurred");
               }
-            } else if (otpRequested()) {
+            } else if (otpRequested) {
               successToast("Verification Complete");
               setOTPFunction(OTP);
               setTimeout(() => {
