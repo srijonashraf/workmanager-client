@@ -15,7 +15,6 @@ import { Auth, Provider } from "../../firebase.js";
 import { signInWithPopup } from "firebase/auth";
 import { FaGoogle } from "react-icons/fa";
 import { getExpireMessage, setExpireMessage } from "../helper/SessionHelper.js";
-import { getToken } from "firebase/app-check";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -53,7 +52,7 @@ const Login = () => {
         setValidationError(true);
       }
       if (success) {
-        // window.location.href = "/";
+        window.location.href = "/";
         successToast("Login successful");
       }
     } catch (error) {

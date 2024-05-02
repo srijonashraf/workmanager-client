@@ -1,23 +1,26 @@
 import axios from "axios";
 import { getToken, setUserEmail } from "../helper/SessionHelper";
 import Cookies from "js-cookie";
+import {
+  LogoutWhenSessionExpired,
+  axiosHeader,
+  getBaseURL,
+} from "../helper/FunctionHelper";
 
-let BASE_URL = "http://localhost:3000/api/v1";
+let BASE_URL = getBaseURL();
 
-if (process.env.NODE_ENV === "production") {
-  BASE_URL = import.meta.env.VITE_BASE_URL;
-}
+LogoutWhenSessionExpired();
 
-// Set token manually and clear them when logout api is called to work perfectly in netlify deployment, { withCredentials: true } will be substitute with header also there will be change in auth middleware token retrive variable in backend
 function UserLogin(email, password) {
   const URL = `${BASE_URL}/UserLogin`;
   const postBody = { email, password };
+  console.log(URL);
 
   return axios
-    .post(URL, postBody, { withCredentials: true })
+    .post(URL, postBody, axiosHeader())
     .then((res) => {
       if (res.data.status === "success") {
-        // Cookies.set(res.data.token)
+        Cookies.set("token", res.data.token);
         setUserEmail(email);
         console.log("All Cookies", Cookies.get());
         console.log("Token from cookies:", Cookies.get("token"));
@@ -43,7 +46,7 @@ function GoogleSignIn(googleAuthValue) {
   };
 
   return axios
-    .post(URL, postBody, { withCredentials: true })
+    .post(URL, postBody, axiosHeader())
     .then((res) => {
       if (res.data.status === "success") {
         const email = googleAuthValue.email;
@@ -56,7 +59,7 @@ function GoogleSignIn(googleAuthValue) {
             console.error(verificationErr);
           });
 
-        // setToken(res.data.token);
+        Cookies.set("token", res.data.token);
         return res;
       } else {
         console.log("Google Sign-In Failed");
@@ -65,26 +68,6 @@ function GoogleSignIn(googleAuthValue) {
     })
     .catch((err) => {
       console.error(err);
-      return false;
-    });
-}
-
-function UserLogout() {
-  const URL = `${BASE_URL}/UserLogout`;
-
-  return axios
-    .get(URL, { withCredentials: true })
-    .then((res) => {
-      if (res.data.status === "success") {
-        // Cookies.set(res.data.token)
-        return true;
-      } else {
-        console.log("Logout Failed");
-        return false;
-      }
-    })
-    .catch((err) => {
-      console.error("Error during logout:", err);
       return false;
     });
 }
@@ -132,7 +115,7 @@ function AddNewTask(taskTitle, taskDescription) {
   };
 
   return axios
-    .post(URL, postBody, { withCredentials: true })
+    .post(URL, postBody, axiosHeader())
     .then((res) => {
       if (res.data.status === "success") {
         return res;
@@ -150,7 +133,7 @@ function AddNewTask(taskTitle, taskDescription) {
 function AllTask() {
   const URL = `${BASE_URL}/WorkAllList`;
   return axios
-    .get(URL, { withCredentials: true })
+    .get(URL, axiosHeader())
     .then((res) => {
       if (res.data.status === "success") {
         return res;
@@ -168,7 +151,7 @@ function AllTask() {
 function DeleteTask(id) {
   const URL = `${BASE_URL}/WorkDelete/${id}`;
   return axios
-    .get(URL, { withCredentials: true })
+    .get(URL, axiosHeader())
     .then((res) => {
       if (res.data.status === "success") {
         return res;
@@ -186,7 +169,7 @@ function DeleteTask(id) {
 function UpdateTaskStatus(id, status) {
   const URL = `${BASE_URL}/WorkStatusUpdate/${id}/${status}`;
   return axios
-    .get(URL, { withCredentials: true })
+    .get(URL, axiosHeader())
     .then((res) => {
       if (res.data.status === "success") {
         return res;
@@ -204,7 +187,7 @@ function UpdateTaskStatus(id, status) {
 function UpdateTaskData(id, updatedFields) {
   const URL = `${BASE_URL}/WorkUpdate/${id}`;
   return axios
-    .post(URL, updatedFields, { withCredentials: true })
+    .post(URL, updatedFields, axiosHeader())
     .then((res) => {
       if (res.data.status === "success") {
         return res;
@@ -223,7 +206,7 @@ function FetchTaskCount() {
   const URL = `${BASE_URL}/WorkStatusCountIndividual`;
 
   return axios
-    .get(URL, { withCredentials: true })
+    .get(URL, axiosHeader())
     .then((res) => {
       if (res.data.status === "success") {
         return res;
@@ -261,7 +244,7 @@ async function RecoverVerifyEmail(email) {
 async function ShowTaskByStatus(workStatus) {
   const URL = `${BASE_URL}/WorkListByStatus/${workStatus}`;
   try {
-    const response = await axios.get(URL, { withCredentials: true });
+    const response = await axios.get(URL, axiosHeader());
 
     if (response.data.status === "success") {
       return response;
@@ -313,7 +296,7 @@ async function RecoverPassword(email, otp, password) {
 async function GetProfileDetails() {
   const URL = `${BASE_URL}/ProfileDetails`;
   try {
-    const response = await axios.get(URL, { withCredentials: true });
+    const response = await axios.get(URL, axiosHeader());
     if (response.data.status === "success") {
       return response;
     } else {
@@ -341,7 +324,7 @@ async function ProfileUpdate(formValues) {
   };
 
   try {
-    const response = await axios.post(URL, PostBody, { withCredentials: true });
+    const response = await axios.post(URL, PostBody, axiosHeader());
     if (response.data.status === "success") {
       return response;
     } else {
@@ -387,5 +370,4 @@ export {
   ShowTaskByStatus,
   GoogleSignIn,
   ProfileVerification,
-  UserLogout,
 };

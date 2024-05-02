@@ -70,6 +70,8 @@ class SessionHelper {
   }
   clearSessions() {
     localStorage.clear();
+    sessionStorage.clear();
+    Cookies.remove("token");
     window.location.href = "/";
   }
 }

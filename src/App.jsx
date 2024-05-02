@@ -20,7 +20,8 @@ import CancelledPage from "./page/CancelledPage";
 
 function App() {
   const loggedIn = getToken();
-  console.log("Replying from App.jsx", loggedIn);
+  console.log(loggedIn);
+
   if (loggedIn) {
     return (
       <Fragment>
