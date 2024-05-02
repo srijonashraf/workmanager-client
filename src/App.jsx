@@ -20,7 +20,6 @@ import CancelledPage from "./page/CancelledPage";
 
 function App() {
   const loggedIn = getToken();
-  console.log(loggedIn);
 
   if (loggedIn) {
     return (
