@@ -10,7 +10,7 @@ import {
 import { Row, Col } from "react-bootstrap";
 import { successToast, errorToast } from "../helper/ToasterHelper.js";
 import { Toaster } from "react-hot-toast";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Auth, Provider } from "../../firebase.js";
 import { signInWithPopup } from "firebase/auth";
 import { FaGoogle } from "react-icons/fa";
@@ -26,7 +26,6 @@ const Login = () => {
     firstName: "",
     lastName: "",
   });
-  const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
     if (getExpireMessage()) {
@@ -94,7 +93,7 @@ const Login = () => {
 
       if (success) {
         successToast("Login successful");
-        navigate("/"); // Navigate to "/" path after successful login
+        window.location.href = "/";
       }
     } catch (error) {
       errorToast("Failed to connect to the server");

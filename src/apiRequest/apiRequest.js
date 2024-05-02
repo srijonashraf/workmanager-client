@@ -46,16 +46,6 @@ function GoogleSignIn(googleAuthValue) {
     .post(URL, postBody, axiosHeader())
     .then((res) => {
       if (res.data.status === "success") {
-        const email = googleAuthValue.email;
-        axios
-          .get(`${BASE_URL}/verified/${email}`)
-          .then((verificationRes) => {
-            console.log(verificationRes);
-          })
-          .catch((verificationErr) => {
-            console.error(verificationErr);
-          });
-
         Cookies.set("token", res.data.token);
         return res;
       } else {
