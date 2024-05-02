@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getToken, setUserEmail } from "../helper/SessionHelper";
+import { setUserEmail } from "../helper/SessionHelper";
 import Cookies from "js-cookie";
 import {
   LogoutWhenSessionExpired,
@@ -22,8 +22,6 @@ function UserLogin(email, password) {
       if (res.data.status === "success") {
         Cookies.set("token", res.data.token);
         setUserEmail(email);
-        console.log("All Cookies", Cookies.get());
-        console.log("Token from cookies:", Cookies.get("token"));
         return true;
       } else {
         console.log("Login Failed");
