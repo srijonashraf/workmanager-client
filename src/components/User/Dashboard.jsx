@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, Card, Row, Col, Button } from "react-bootstrap";
-import {
-  FetchTaskCount,
-  GetProfileDetails,
-  RecoverVerifyEmail,
-} from "../apiRequest/apiRequest";
+import { FetchTaskCount, GetProfileDetails } from "../apiRequest/apiRequest";
 import { useNavigate } from "react-router-dom";
-import { setNewUser, setOTPEmail, setToken } from "../helper/SessionHelper";
-import { errorToast, successToast } from "../helper/ToasterHelper";
 import { Toaster } from "react-hot-toast";
-import Cookies from "js-cookie";
+
 const Dashboard = () => {
   const [taskCounts, setTaskCounts] = useState([]);
-  const [profileDetails, setProfileDetails] = useState([]);
+  const [profileDetails, setProfileDetails] = useState({});
   const [loading, setLoading] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const navigate = useNavigate();
@@ -24,60 +18,52 @@ const Dashboard = () => {
     second: "numeric",
   });
 
-  //For Clock
+  // For Clock
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTime(new Date());
-    }, 1000); // Update every 1000 milliseconds (1 second)
-
-    // Cleanup the interval on component unmount
+    }, 1000);
     return () => clearInterval(intervalId);
-  }, []); // Empty dependency array ensures the effect runs only once on mount
-
-  useEffect(() => {
-    fetchTaskCounts();
   }, []);
 
-  const fetchTaskCounts = async () => {
-    const response = await FetchTaskCount();
-    if (!response) {
-      console.log("Failed to fetch task count");
-    }
-    setTaskCounts(response.data.data.statuses);
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await FetchTaskCount();
+        console.log("FetchTaskCount From Dashboard");
+        if (!response) {
+          console.log("Failed to fetch task count");
+        } else {
+          setTaskCounts(response.data.data.statuses);
+        }
 
-    const ProfileResponse = await GetProfileDetails();
-    if (!ProfileResponse) {
-      console.log("Failed to fetch profile");
-    }
-    setProfileDetails(ProfileResponse.data.data[0]);
-  };
+        const profileResponse = await GetProfileDetails();
+        console.log("GetProfileDetails From Dashboard");
 
-  const HandleVerifyButton = async () => {
-    setLoading(true);
-    const response = await RecoverVerifyEmail(profileDetails.email);
-    try {
-      if (response && response.status === 200) {
-        setTimeout(() => {
-          successToast("Verification code sent to your email");
-        }, 1000);
-        setNewUser(true);
-        setOTPEmail(profileDetails.email);
-        navigate(`/verifyOTP`);
-      } else {
-        console.log("Failed to send verification code");
-        errorToast("Failed to send verification code");
+        if (!profileResponse) {
+          console.log("Failed to fetch profile");
+        } else {
+          setProfileDetails(profileResponse.data.data[0]);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleVerifyButton = () => {
+    navigate(`/sendOTP/${profileDetails.email}`);
   };
 
   return (
     <div>
       <Toaster position="bottom-center" />
-      {profileDetails?.verified === false ? (
+      {profileDetails?.verified === false && (
         <Container
           id="top"
           className="container-fluid d-flex flex-row gap-2 align-items-center bg-danger text-white"
@@ -87,14 +73,11 @@ const Dashboard = () => {
             disabled={loading}
             className="rounded-1"
             variant="outline-light"
-            onClick={HandleVerifyButton}
+            onClick={handleVerifyButton}
           >
-            {" "}
             {loading ? "Loading..." : "Verify"}
           </Button>
         </Container>
-      ) : (
-        <></>
       )}
       <Container>
         <h2 className="mt-3 d-flex align-items-baseline gap-2 justify-content-between">
@@ -124,11 +107,7 @@ const Dashboard = () => {
                   <Card.Body
                     className="cursorPointer"
                     onClick={() =>
-                      navigate(
-                        `/${statusCount.status
-                          .replace(/\s+/g, "")
-                          .toLowerCase()}`
-                      )
+                      navigate(`/taskByStatus/${statusCount.status}`)
                     }
                   >
                     <Card.Title>{statusCount.status}</Card.Title>
