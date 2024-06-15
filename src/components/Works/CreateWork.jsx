@@ -5,18 +5,22 @@ import {
   InputGroup,
   FormControl,
   Button,
+  Row,
+  Col,
+  Spinner,
 } from "react-bootstrap";
-import { AddNewWork } from "../apiRequest/apiRequest";
-import { successToast, errorToast } from "../helper/ToasterHelper";
-import { Toaster } from "react-hot-toast";
+import { AddNewWork } from "../../apiRequest/apiRequest.js";
+import { successToast, errorToast } from "../../helper/ToasterHelper.js";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
-import QuillToolbar from "../utility/ReactQuillModules";
+import QuillToolbar from "../../utility/ReactQuillModules.js";
+import "react-quill/dist/quill.snow.css";
+import "../../assets/css/quillEditor.css";
 
 const CreateWork = () => {
   const [workTitle, setWorkTitle] = useState("");
   const [workDescription, setWorkDescription] = useState("");
-  const [loading, setLoading] = useState(false); // Initialize loading as false
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleAddWork = async () => {
@@ -26,7 +30,7 @@ const CreateWork = () => {
         return;
       }
 
-      setLoading(true); // Set loading to true when adding work
+      setLoading(true);
       const success = await AddNewWork(workTitle, workDescription);
 
       if (success) {
@@ -37,56 +41,60 @@ const CreateWork = () => {
         }, 1000);
       } else {
         errorToast(
-            "Failed to add new work. Check if the same work is already added!"
+          "Failed to add new work. Check if the same work is already added!"
         );
       }
     } catch (error) {
       console.error(error);
       errorToast("An error occurred while adding the work");
     } finally {
-      // Reset input fields after adding the work or handling the error
       setWorkTitle("");
       setWorkDescription("");
-      setLoading(false); // Set loading back to false after completing the work addition
+      setLoading(false);
     }
   };
 
   return (
-      <>
-        <Toaster position="top-right" />
-        <Container className="mt-3">
-          <Card>
-            <Card.Body className="d-flex flex-column gap-4">
-              <Card.Title>Create New</Card.Title>
-              <InputGroup className="mb-3">
+    <Container className="mt-3">
+      <Row className="justify-content-center">
+        <Col xs={12} md={10} lg={8} xl={8}>
+          <Card className="w-100">
+            <Card.Body className="d-flex flex-column gap-3">
+              <Card.Title className="text-center">Create New</Card.Title>
+              <InputGroup className="mb-2">
                 <FormControl
-                    type="text"
-                    placeholder="Work Title"
-                    value={workTitle}
-                    onChange={(e) => setWorkTitle(e.target.value)}
+                  type="text"
+                  placeholder="Work Title"
+                  value={workTitle}
+                  onChange={(e) => setWorkTitle(e.target.value)}
+                  className="py-2"
                 />
               </InputGroup>
 
               <ReactQuill
-                  theme="snow"
-                  placeholder="Work Description"
-                  value={workDescription}
-                  modules={{
-                    toolbar: QuillToolbar,
-                  }}
-                  onChange={setWorkDescription}
+                theme="snow"
+                value={workDescription}
+                modules={{ toolbar: QuillToolbar }}
+                onChange={setWorkDescription}
               />
-              {loading ? (
-                  <Button disabled className="btn-disabled">
-                    Work Adding...
-                  </Button>
-              ) : (
-                  <Button onClick={handleAddWork}>Add Work</Button>
-              )}
+
+              <Button
+                variant="primary"
+                className="w-100"
+                onClick={handleAddWork}
+                disabled={loading}
+              >
+                {loading ? (
+                  <Spinner as="span" animation="border" size="sm" />
+                ) : (
+                  "Add Work"
+                )}
+              </Button>
             </Card.Body>
           </Card>
-        </Container>
-      </>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

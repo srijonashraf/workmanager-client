@@ -1,12 +1,14 @@
-import React from 'react';
-import Dashboard from './../components/Dashboard';
+import React from "react";
+import Dashboard from "../components/User/Dashboard.jsx";
+import AllWorkList from "../components/Works/AllWorkList.jsx";
 
 const DashboardPage = () => {
-    return (
-        <div>
-            <Dashboard />
-        </div>
-    );
+  return (
+    <div>
+      <Dashboard />
+      <AllWorkList />
+    </div>
+  );
 };
 
 export default DashboardPage;

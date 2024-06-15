@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Toaster } from "react-hot-toast";
+import React, { useContext, useState } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { successToast, errorToast } from "../../helper/ToasterHelper";
 import {
@@ -7,22 +6,19 @@ import {
   ProfileVerification,
 } from "../../apiRequest/apiRequest";
 import VerificationInput from "react-verification-input";
-import {
-  getOTPRequested,
-  getOTPEmail,
-  setOTP as setOTPFunction,
-  getNewUser,
-} from "../../helper/SessionHelper";
+import OtpContext from "../../context/OtpContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const VerifyOTP = () => {
-  const otpRequested = getOTPRequested();
-  const otpEmail = getOTPEmail();
-  if (!otpRequested && !getNewUser()) {
-    window.location.href = "/";
-  }
-
   const [OTP, setOTP] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const { otpEmail } = useContext(OtpContext);
+  const navigate = useNavigate();
+
+  let locationPathName = useLocation().pathname;
+
+  const { setOtpVerified, setOtp } = useContext(OtpContext);
 
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
@@ -37,21 +33,20 @@ const VerifyOTP = () => {
 
         if (response && response.data) {
           if (response.data.status === "success") {
-            if (getNewUser()) {
+            setOtpVerified(true);
+            setOtp(OTP);
+
+            if (locationPathName === "/verifyOTP/from_profile") {
               const res = await ProfileVerification(otpEmail);
-              console.log(res);
               if (res) {
-                alert("Verification complete! Please login again...");
-                window.location.href = "/";
+                successToast("Verification complete!");
+                navigate("/");
               } else {
                 errorToast("An unexpected error occurred");
               }
-            } else if (otpRequested) {
-              successToast("Verification Complete");
-              setOTPFunction(OTP);
-              setTimeout(() => {
-                window.location.href = "/createPassword";
-              }, 2000);
+            } else if (locationPathName === "/verifyOTP/from_forget_password") {
+              successToast("Verification Complete!");
+              navigate("/createPassword");
             }
           } else if (response.data.status === "fail") {
             errorToast("OTP not matched");
@@ -70,7 +65,6 @@ const VerifyOTP = () => {
 
   return (
     <div>
-      <Toaster position="bottom-center" />
       <Container>
         <Row className="justify-content-center center-screen">
           <Col xs={12} md={6} lg={5}>
@@ -83,7 +77,6 @@ const VerifyOTP = () => {
                 >
                   <VerificationInput
                     onChange={(value) => setOTP(value)}
-                    // inputStyle={defaultInputStyle}
                     fields={6}
                     classNames="text-center"
                   />

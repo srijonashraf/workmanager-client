@@ -1,21 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Container, FormControl, InputGroup, Button } from "react-bootstrap";
 import { Row, Col, Card, Form } from "react-bootstrap";
 import { RecoverPassword } from "../../apiRequest/apiRequest";
-import { getOTPEmail, getOTP, clearSessions } from "../../helper/SessionHelper";
-import { Toaster } from "react-hot-toast";
 import { successToast, errorToast } from "../../helper/ToasterHelper";
+import OtpContext from "../../context/OtpContext";
+import { useNavigate } from "react-router-dom";
+import { clearSessions } from "../../helper/SessionHelper";
 
 const CreatePassword = () => {
   const [initialPass, setInitialPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
   const [loading, setLoading] = useState(false);
-  const email = getOTPEmail();
-  const otp = getOTP();
 
-  if (!otp) {
-    window.location.href = "/login";
-  }
+  const { otpEmail, otp } = useContext(OtpContext);
+  const navigate = useNavigate();
 
   const handlePasswordChange = (e) => {
     setInitialPass(e.target.value);
@@ -30,19 +28,17 @@ const CreatePassword = () => {
 
     if (initialPass !== confirmPass) {
       console.error("Passwords do not match");
-      errorToast("Password do not match");
+      errorToast("Passwords do not match");
       return confirmPass;
     }
 
     try {
       setLoading(true);
-      const response = await RecoverPassword(email, otp, confirmPass);
-
+      const response = await RecoverPassword(otpEmail, otp, confirmPass);
       if (response && response.data.status === "success") {
-        console.log(response);
-        successToast("Password Changed");
+        successToast("Password Changed Successfully!");
         setTimeout(() => {
-          window.location.href = "/login";
+          navigate("/login");
         }, 2000);
       } else {
         errorToast("Failed to change password. Please try again.");
@@ -59,7 +55,6 @@ const CreatePassword = () => {
   return (
     <div>
       <Container>
-        <Toaster position="bottom-center" />
         <Row className="justify-content-center center-screen">
           <Col xs={12} md={6} lg={5}>
             <Card className="border-0 rounded-4 mx-auto shadow p-3">

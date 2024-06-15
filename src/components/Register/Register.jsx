@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { UserRegistration } from "../apiRequest/apiRequest.js";
+import { UserRegistration } from "../../apiRequest/apiRequest.js";
 import {
   Container,
   Form,
@@ -8,10 +8,10 @@ import {
   Button,
 } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
-import { successToast, errorToast } from "../helper/ToasterHelper.js";
+import { successToast, errorToast } from "../../helper/ToasterHelper.js";
 import { Toaster } from "react-hot-toast";
 import { NavLink } from "react-router-dom";
-import DeptJson from "../../department.json";
+import DeptJson from "../../../department.json";
 
 const Register = () => {
   const [formValues, setFormValues] = useState({

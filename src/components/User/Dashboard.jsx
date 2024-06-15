@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Container, Card, Row, Col, Button } from "react-bootstrap";
-import { FetchTaskCount, GetProfileDetails } from "../apiRequest/apiRequest";
+import {
+  FetchWorkCount,
+  GetProfileDetails,
+} from "../../apiRequest/apiRequest.js";
 import { useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 const Dashboard = () => {
-  const [taskCounts, setTaskCounts] = useState([]);
+  const [workCounts, setWorkCounts] = useState([]);
   const [profileDetails, setProfileDetails] = useState({});
   const [loading, setLoading] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -30,16 +33,14 @@ const Dashboard = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await FetchTaskCount();
-        console.log("FetchTaskCount From Dashboard");
+        const response = await FetchWorkCount();
         if (!response) {
-          console.log("Failed to fetch task count");
+          console.log("Failed to fetch work count");
         } else {
-          setTaskCounts(response.data.data.statuses);
+          setWorkCounts(response.data.data.statuses);
         }
 
         const profileResponse = await GetProfileDetails();
-        console.log("GetProfileDetails From Dashboard");
 
         if (!profileResponse) {
           console.log("Failed to fetch profile");
@@ -62,7 +63,6 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Toaster position="bottom-center" />
       {profileDetails?.verified === false && (
         <Container
           id="top"
@@ -93,7 +93,7 @@ const Dashboard = () => {
           <p className="h1">{formattedTime}</p>
         </h2>
         <Row xs={12}>
-          {taskCounts
+          {workCounts
             .sort((a, b) =>
               a.status.toLowerCase() < b.status.toLowerCase()
                 ? -1
@@ -107,7 +107,7 @@ const Dashboard = () => {
                   <Card.Body
                     className="cursorPointer"
                     onClick={() =>
-                      navigate(`/taskByStatus/${statusCount.status}`)
+                      navigate(`/workByStatus/${statusCount.status}`)
                     }
                   >
                     <Card.Title>{statusCount.status}</Card.Title>
