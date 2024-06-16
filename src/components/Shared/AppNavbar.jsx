@@ -33,7 +33,6 @@ const AppNavbar = () => {
         setProfileDetails(res.data.data[0]);
         setImg(res.data.data[0].img);
       } catch (error) {
-        console.log("Frontend: Error fetching data.");
         console.error(error);
       }
     };
@@ -46,7 +45,7 @@ const AppNavbar = () => {
       <Navbar
         collapseOnSelect
         expand="lg"
-        className="bg-dark-subtle"
+        className="bg-primary-subtle"
         data-bs-theme="dark"
       >
         <Container className="my-2 my-lg-0 d-flex justify-content-between">

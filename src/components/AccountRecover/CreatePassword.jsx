@@ -55,8 +55,8 @@ const CreatePassword = () => {
   return (
     <div>
       <Container>
-        <Row className="justify-content-center center-screen">
-          <Col xs={12} md={6} lg={5}>
+        <Row className="center-screen">
+          <Col lg={6} md={8} xs={12}>
             <Card className="border-0 rounded-4 mx-auto shadow p-3">
               <Card.Body>
                 <h4>Create New Password</h4>

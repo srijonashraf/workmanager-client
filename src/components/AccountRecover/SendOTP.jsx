@@ -68,9 +68,9 @@ const SendOTP = () => {
   return (
     <div>
       <Container>
-        <Row className="justify-content-center center-screen">
-          <Col xs={12} md={6} lg={5}>
-            <Card className="border-0 rounded-4 mx-auto shadow">
+        <Row className="center-screen">
+          <Col lg={6} md={8} xs={12}>
+            <Card className="p-4 border-0 shadow rounded-4">
               <Card.Body>
                 <h4 className="mb-3">
                   {emailParam ? "Verify Email" : "Forget Password"}

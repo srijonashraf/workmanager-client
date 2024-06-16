@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import ModalComponent from "./Modal";
 import ModalContext from "../../context/ModalContext.js";
 import parse from "html-react-parser";
-
+import "../../assets/css/workList.css";
 const WorkByStatus = () => {
   const [works, setWorks] = useState([]);
   const [detailsView, setDetailsView] = useState({
@@ -92,19 +92,18 @@ const WorkByStatus = () => {
                     workDescription: work.workDescription,
                   });
                 }}
-                className="shadow border-0 w-100 d-flex flex-column cursorPointer"
+                className="shadow border-0 w-100 card-hover"
               >
-                <Card.Body className="d-flex flex-column">
-                  <h5 className="fw-bold">{work.workTitle}</h5>
-                  <div className="md-text">
+                <Card.Body className="d-flex flex-column p-3">
+                  <h5 className="fw-bold mb-3">{work.workTitle}</h5>
+                  <div className="md-text mb-3">
                     {parse(
                       work.workDescription.length > 200
-                        ? work.workDescription.slice(0, 200) +
-                            "<span>...</span>"
+                        ? work.workDescription.slice(0, 200) + "..."
                         : work.workDescription
                     )}
                   </div>
-                  <Card.Footer className="mt-auto border-top">
+                  <Card.Footer className="mt-auto d-flex justify-content-center bg-white border-0">
                     <Button
                       variant={
                         work.workStatus === "Done"
@@ -115,7 +114,7 @@ const WorkByStatus = () => {
                           ? "danger"
                           : "primary"
                       }
-                      className="text-white rounded-1 btn-sm me-2"
+                      className="text-white rounded-pill btn-sm me-2"
                       onClick={(e) => {
                         e.stopPropagation();
                         setShowStatusModal(true);
@@ -126,7 +125,7 @@ const WorkByStatus = () => {
                     </Button>
 
                     <Button
-                      className="btn-sm rounded-1 btn-dark me-2"
+                      className="btn-sm rounded-pill btn-dark me-2"
                       onClick={(e) => {
                         e.stopPropagation();
                         const workDetails = works.find(
@@ -144,18 +143,16 @@ const WorkByStatus = () => {
                     >
                       Edit
                     </Button>
+
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();
                         DeleteWorkRequest(work._id);
                       }}
-                      className="btn-sm rounded-1 btn-danger"
+                      className="btn-sm rounded-pill btn-danger"
                     >
                       Delete
                     </Button>
-                    <p className="text-muted sm-text float-end mt-2">
-                      Edited: {new Date(work.updatedAt).toLocaleString()}
-                    </p>
                   </Card.Footer>
                 </Card.Body>
               </Card>

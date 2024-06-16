@@ -6,15 +6,18 @@ import {
   FormControl,
   InputGroup,
   Button,
+  Card,
 } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { successToast, errorToast } from "../../helper/ToasterHelper.js";
-import { Toaster } from "react-hot-toast";
 import { NavLink } from "react-router-dom";
 import { Auth, Provider } from "../../../firebase.js";
 import { signInWithPopup } from "firebase/auth";
 import { FaGoogle } from "react-icons/fa";
-import { getExpireMessage, setExpireMessage } from "../../helper/SessionHelper.js";
+import {
+  getExpireMessage,
+  setExpireMessage,
+} from "../../helper/SessionHelper.js";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -104,16 +107,10 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <Toaster position="bottom-center" />
-      <Container>
-        <Row className="justify-content-md-center">
-          <Col
-            xs={12}
-            md={6}
-            lg={5}
-            className="card p-4 border-0 shadow rounded-4 mx-auto" // Add mx-auto for centering
-          >
+    <Container>
+      <Row className="center-screen">
+        <Col lg={6} md={8} xs={12}>
+          <Card className="p-4 border-0 shadow rounded-4">
             <Form
               onSubmit={UserLoginRequest}
               className="animated fadeInUp card-body"
@@ -167,7 +164,7 @@ const Login = () => {
                     className="text-center h6 animated fadeInUp"
                     to="/register"
                   >
-                    Sign Up{" "}
+                    Sign Up
                   </NavLink>
                   <span className="mx-1">|</span>
                   <NavLink
@@ -179,10 +176,10 @@ const Login = () => {
                 </span>
               </Row>
             </Form>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

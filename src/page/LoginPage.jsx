@@ -3,7 +3,7 @@ import Login from "../components/Login/Login.jsx";
 
 const LoginPage = () => {
   return (
-    <div className="my-5">
+    <div>
       <Login />
     </div>
   );

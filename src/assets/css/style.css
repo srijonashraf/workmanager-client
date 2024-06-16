@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
+body {
+  background-color: #FEFAF6 !important;
+}
+
 * {
   font-family: Poppins, sans-serif;
 }
@@ -28,7 +32,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .blog-title-emoji {
@@ -37,7 +41,7 @@
   animation-iteration-count: 2;
   transform-origin: 70% 70%;
   display: inline-block;
-  cursor:context-menu;
+  cursor: context-menu;
 }
 
 .blog-title-emoji:hover {
@@ -63,8 +67,6 @@
   word-wrap: break-word;
   word-break: break-all;
 }
-
-
 
 @keyframes wave-animation {
   0% {

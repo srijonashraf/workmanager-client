@@ -6,6 +6,7 @@ import {
   FormControl,
   InputGroup,
   Button,
+  Card,
 } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { successToast, errorToast } from "../../helper/ToasterHelper.js";
@@ -75,200 +76,199 @@ const Register = () => {
 
   return (
     <div>
-      <Toaster position="bottom-center" />
       <Container>
-        <Row className="justify-content-md-center my-5">
-          <Col
-            xs={12}
-            md={6}
-            lg={5}
-            className="card p-4 border-0 shadow rounded-4 mx-auto"
-          >
-            <Form
-              onSubmit={UserRegisterRequest}
-              className="animated fadeInUp card-body"
-            >
-              <h4 className="mb-3">SIGN UP</h4>
-
-              <InputGroup className="mb-3">
-                <FormControl
-                  type="email"
-                  placeholder="Email"
-                  name="email"
-                  value={formValues.email}
-                  onChange={HandleInputChange}
-                  onFocus={HandleInputFocus}
-                  style={{
-                    borderColor:
-                      validationError && formValues.email.trim().length === 0
-                        ? "red"
-                        : "",
-                  }}
-                />
-              </InputGroup>
-
-              <InputGroup className="mb-3">
-                <FormControl
-                  type="text"
-                  placeholder="First Name"
-                  name="firstName"
-                  value={formValues.firstName}
-                  onChange={HandleInputChange}
-                  onFocus={HandleInputFocus}
-                  style={{
-                    borderColor:
-                      validationError &&
-                      formValues.firstName.trim().length === 0
-                        ? "red"
-                        : "",
-                  }}
-                />
-              </InputGroup>
-
-              <InputGroup className="mb-3">
-                <FormControl
-                  type="text"
-                  placeholder="Last Name"
-                  name="lastName"
-                  value={formValues.lastName}
-                  onChange={HandleInputChange}
-                  onFocus={HandleInputFocus}
-                  style={{
-                    borderColor:
-                      validationError && formValues.lastName.trim().length === 0
-                        ? "red"
-                        : "",
-                  }}
-                />
-              </InputGroup>
-
-              <InputGroup className="mb-3">
-                <FormControl
-                  type="tel"
-                  placeholder="Mobile"
-                  name="mobile"
-                  value={formValues.mobile}
-                  onChange={HandleInputChange}
-                  onFocus={HandleInputFocus}
-                  style={{
-                    borderColor:
-                      validationError && formValues.mobile.trim().length === 0
-                        ? "red"
-                        : "",
-                  }}
-                />
-              </InputGroup>
-
-              <InputGroup className="mb-3">
-                <FormControl
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  value={formValues.password}
-                  onChange={HandleInputChange}
-                  onFocus={HandleInputFocus}
-                  style={{
-                    borderColor:
-                      validationError && formValues.password.trim().length === 0
-                        ? "red"
-                        : "",
-                  }}
-                />
-              </InputGroup>
-
-              <InputGroup className="mb-3">
-                <FormControl
-                  type="text"
-                  placeholder="Address"
-                  name="address"
-                  value={formValues.address}
-                  onChange={HandleInputChange}
-                  onFocus={HandleInputFocus}
-                  style={{
-                    borderColor:
-                      validationError && formValues.address.trim().length === 0
-                        ? "red"
-                        : "",
-                  }}
-                />
-              </InputGroup>
-
-              <InputGroup className="mb-3">
-                <FormControl
-                  as="select"
-                  placeholder="Position"
-                  name="position"
-                  value={formValues.position}
-                  onChange={HandleInputChange}
-                  onFocus={HandleInputFocus}
-                  style={{
-                    borderColor:
-                      validationError && formValues.position.trim().length === 0
-                        ? "red"
-                        : "",
-                  }}
-                >
-                  <option value="" disabled>
-                    Select Position
-                  </option>
-                  {DeptJson.departments.map((department) =>
-                    department.positions.map((position) => (
-                      <option
-                        key={`${department.name}_${position.title}_${position.level}`}
-                      >
-                        {position.title} - {position.level}
-                      </option>
-                    ))
-                  )}
-                </FormControl>
-              </InputGroup>
-
-              <InputGroup className="mb-3">
-                <FormControl
-                  as="select"
-                  placeholder="Department"
-                  name="department"
-                  value={formValues.department}
-                  onChange={HandleInputChange}
-                  onFocus={HandleInputFocus}
-                  style={{
-                    borderColor:
-                      validationError &&
-                      formValues.department.trim().length === 0
-                        ? "red"
-                        : "",
-                  }}
-                >
-                  <option value="" disabled>
-                    Select Department
-                  </option>
-                  {DeptJson.departments.map((department) => (
-                    <option key={department.name}>{department.name}</option>
-                  ))}
-                </FormControl>
-              </InputGroup>
-
-              <Button
-                onClick={UserRegisterRequest}
-                variant="primary"
-                type="submit"
-                className="w-100 mb-3"
-                disabled={loading}
+        <Row className="center-screen">
+          <Col lg={6} md={8} xs={12}>
+            <Card className="p-4 border-0 shadow rounded-4">
+              <Form
+                onSubmit={UserRegisterRequest}
+                className="animated fadeInUp card-body"
               >
-                {loading ? "Registering..." : "Register"}
-              </Button>
+                <h4 className="mb-3">SIGN UP</h4>
+                <InputGroup className="mb-3">
+                  <FormControl
+                    type="email"
+                    placeholder="Email"
+                    name="email"
+                    value={formValues.email}
+                    onChange={HandleInputChange}
+                    onFocus={HandleInputFocus}
+                    style={{
+                      borderColor:
+                        validationError && formValues.email.trim().length === 0
+                          ? "red"
+                          : "",
+                    }}
+                  />
+                </InputGroup>
 
-              <Row className="float-end mt-3">
-                <span>
-                  <NavLink
-                    className="text-center h6 animated fadeInUp"
-                    to="/login"
+                <InputGroup className="mb-3">
+                  <FormControl
+                    type="text"
+                    placeholder="First Name"
+                    name="firstName"
+                    value={formValues.firstName}
+                    onChange={HandleInputChange}
+                    onFocus={HandleInputFocus}
+                    style={{
+                      borderColor:
+                        validationError &&
+                        formValues.firstName.trim().length === 0
+                          ? "red"
+                          : "",
+                    }}
+                  />
+                </InputGroup>
+
+                <InputGroup className="mb-3">
+                  <FormControl
+                    type="text"
+                    placeholder="Last Name"
+                    name="lastName"
+                    value={formValues.lastName}
+                    onChange={HandleInputChange}
+                    onFocus={HandleInputFocus}
+                    style={{
+                      borderColor:
+                        validationError &&
+                        formValues.lastName.trim().length === 0
+                          ? "red"
+                          : "",
+                    }}
+                  />
+                </InputGroup>
+
+                <InputGroup className="mb-3">
+                  <FormControl
+                    type="tel"
+                    placeholder="Mobile"
+                    name="mobile"
+                    value={formValues.mobile}
+                    onChange={HandleInputChange}
+                    onFocus={HandleInputFocus}
+                    style={{
+                      borderColor:
+                        validationError && formValues.mobile.trim().length === 0
+                          ? "red"
+                          : "",
+                    }}
+                  />
+                </InputGroup>
+
+                <InputGroup className="mb-3">
+                  <FormControl
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                    value={formValues.password}
+                    onChange={HandleInputChange}
+                    onFocus={HandleInputFocus}
+                    style={{
+                      borderColor:
+                        validationError &&
+                        formValues.password.trim().length === 0
+                          ? "red"
+                          : "",
+                    }}
+                  />
+                </InputGroup>
+
+                <InputGroup className="mb-3">
+                  <FormControl
+                    type="text"
+                    placeholder="Address"
+                    name="address"
+                    value={formValues.address}
+                    onChange={HandleInputChange}
+                    onFocus={HandleInputFocus}
+                    style={{
+                      borderColor:
+                        validationError &&
+                        formValues.address.trim().length === 0
+                          ? "red"
+                          : "",
+                    }}
+                  />
+                </InputGroup>
+
+                <InputGroup className="mb-3">
+                  <FormControl
+                    as="select"
+                    placeholder="Position"
+                    name="position"
+                    value={formValues.position}
+                    onChange={HandleInputChange}
+                    onFocus={HandleInputFocus}
+                    style={{
+                      borderColor:
+                        validationError &&
+                        formValues.position.trim().length === 0
+                          ? "red"
+                          : "",
+                    }}
                   >
-                    Already have an account? Login
-                  </NavLink>
-                </span>
-              </Row>
-            </Form>
+                    <option value="" disabled>
+                      Select Position
+                    </option>
+                    {DeptJson.departments.map((department) =>
+                      department.positions.map((position) => (
+                        <option
+                          key={`${department.name}_${position.title}_${position.level}`}
+                        >
+                          {position.title} - {position.level}
+                        </option>
+                      ))
+                    )}
+                  </FormControl>
+                </InputGroup>
+
+                <InputGroup className="mb-3">
+                  <FormControl
+                    as="select"
+                    placeholder="Department"
+                    name="department"
+                    value={formValues.department}
+                    onChange={HandleInputChange}
+                    onFocus={HandleInputFocus}
+                    style={{
+                      borderColor:
+                        validationError &&
+                        formValues.department.trim().length === 0
+                          ? "red"
+                          : "",
+                    }}
+                  >
+                    <option value="" disabled>
+                      Select Department
+                    </option>
+                    {DeptJson.departments.map((department) => (
+                      <option key={department.name}>{department.name}</option>
+                    ))}
+                  </FormControl>
+                </InputGroup>
+
+                <Button
+                  onClick={UserRegisterRequest}
+                  variant="primary"
+                  type="submit"
+                  className="w-100 mb-3"
+                  disabled={loading}
+                >
+                  {loading ? "Registering..." : "Register"}
+                </Button>
+
+                <Row className="float-end mt-3">
+                  <span>
+                    <NavLink
+                      className="text-center h6 animated fadeInUp"
+                      to="/login"
+                    >
+                      Already have an account? Login
+                    </NavLink>
+                  </span>
+                </Row>
+              </Form>
+            </Card>
           </Col>
         </Row>
       </Container>
