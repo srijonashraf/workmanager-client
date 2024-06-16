@@ -19,6 +19,7 @@ const WorkList = () => {
   const [detailsView, setDetailsView] = useState({
     workTitle: "",
     workDescription: "",
+    lastEdited: "",
   });
   const statusParam = useParams().status;
 
@@ -95,16 +96,17 @@ const WorkList = () => {
                   setDetailsView({
                     workTitle: work.workTitle,
                     workDescription: work.workDescription,
+                    lastEdited: work.updatedAt || null,
                   });
                 }}
                 className="shadow border-0 w-100 card-hover"
               >
-                <Card.Header>
+                <Card.Header className="bg-white text-dark">
                   <Card.Title>{work.workTitle}</Card.Title>
                 </Card.Header>
                 <Card.Body>
                   <Card.Text>
-                    <div className="md-text mb-1">
+                    <div className="md-text mb-1 text-dark">
                       {parse(
                         work.workDescription.length > 200
                           ? work.workDescription.slice(0, 200) + "..."
@@ -168,8 +170,8 @@ const WorkList = () => {
           ))
         ) : null}
         {!loading && works.length === 0 && (
-          <Col className="mb-3">
-            <h4 className="animated flash">No work here!</h4>
+          <Col>
+            <h6>No work here!</h6>
           </Col>
         )}
       </Row>
@@ -177,6 +179,7 @@ const WorkList = () => {
         type="details"
         workTitle={detailsView.workTitle}
         workDescription={detailsView.workDescription}
+        lastEdited={detailsView.lastEdited}
       />
       <ModalComponent type="edit" />
       <ModalComponent type="status" />

@@ -80,7 +80,7 @@ const Dashboard = () => {
         </Container>
       )}
       <Container>
-        <h2 className="mt-3 d-flex align-items-baseline gap-2 justify-content-between">
+        <h2 className="my-3 d-flex align-items-baseline gap-2 justify-content-between">
           <div>
             Hi!{" "}
             <span className="h4">
@@ -90,7 +90,7 @@ const Dashboard = () => {
               <span className="blog-title-emoji">👋</span>
             </span>
           </div>
-          <p className="h1">{formattedTime}</p>
+          <p className="h4">{formattedTime}</p>
         </h2>
         <Row xs={12}>
           {workCounts

@@ -5,7 +5,7 @@ import ReactQuill from "react-quill";
 import parse from "html-react-parser";
 import QuillToolbar from "../../utility/ReactQuillModules.js";
 
-const ModalComponent = ({ type, workTitle, workDescription }) => {
+const ModalComponent = ({ type, workTitle, workDescription, lastEdited }) => {
   const {
     showStatusModal,
     setShowStatusModal,
@@ -100,7 +100,20 @@ const ModalComponent = ({ type, workTitle, workDescription }) => {
         <Modal.Body className="modal-body-content">
           {parse(workDescription)}
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className="d-flex justify-content-between">
+          <div className="text-muted sm-text">
+            {lastEdited ? (
+              <>
+                <span>Edited: </span>
+                <span>
+                  {new Date(lastEdited).toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "long",
+                  })}
+                </span>
+              </>
+            ) : null}
+          </div>
           <Button variant="secondary" onClick={() => setShowOpenModal(false)}>
             Close
           </Button>
