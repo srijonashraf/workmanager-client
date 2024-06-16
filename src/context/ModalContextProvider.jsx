@@ -19,6 +19,7 @@ const ModalContextProvider = ({ children }) => {
     workDescription: "",
   });
   const [change, setChange] = useState(0);
+  const [showOpenModal, setShowOpenModal] = useState(false);
 
   const HandleUpdateStatus = useCallback(() => {
     if (selectedWorkId) {
@@ -97,6 +98,8 @@ const ModalContextProvider = ({ children }) => {
         HandleUpdateStatus,
         HandleUpdateWork,
         DeleteWorkRequest,
+        showOpenModal,
+        setShowOpenModal,
       }}
     >
       {children}

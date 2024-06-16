@@ -59,6 +59,13 @@
   cursor: pointer;
 }
 
+.modal-body-content {
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+
+
 @keyframes wave-animation {
   0% {
     transform: rotate(0deg);

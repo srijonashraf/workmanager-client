@@ -2,9 +2,10 @@ import React, { useContext } from "react";
 import { Button, Modal } from "react-bootstrap";
 import ModelContext from "../../context/ModalContext.js";
 import ReactQuill from "react-quill";
+import parse from "html-react-parser";
 import QuillToolbar from "../../utility/ReactQuillModules.js";
 
-const ModalComponent = ({ type }) => {
+const ModalComponent = ({ type, workTitle, workDescription }) => {
   const {
     showStatusModal,
     setShowStatusModal,
@@ -16,6 +17,8 @@ const ModalComponent = ({ type }) => {
     HandleUpdateWork,
     editableFields,
     setEditableFields,
+    showOpenModal,
+    setShowOpenModal,
   } = useContext(ModelContext);
 
   if (type === "status") {
@@ -84,6 +87,22 @@ const ModalComponent = ({ type }) => {
           </Button>
           <Button variant="primary" onClick={HandleUpdateWork}>
             Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  } else if (type === "details") {
+    return (
+      <Modal show={showOpenModal} onHide={() => setShowOpenModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>{workTitle}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="modal-body-content">
+          {parse(workDescription)}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowOpenModal(false)}>
+            Close
           </Button>
         </Modal.Footer>
       </Modal>

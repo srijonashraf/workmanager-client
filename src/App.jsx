@@ -5,7 +5,6 @@ import AppNavbar from "./components/Shared/AppNavbar.jsx";
 import { getToken } from "./helper/SessionHelper.js";
 import Error from "./components/Shared/404.jsx";
 import RegistrationPage from "./page/RegistrationPage.jsx";
-import WorkListPage from "./page/WorkListPage.jsx";
 import DashboardPage from "./page/DashboardPage.jsx";
 import SendOTPPage from "./page/SendOTPPage";
 import VerifyOTPPage from "./page/VerifyOTPPage";
@@ -32,7 +31,7 @@ function App() {
             <Routes>
               <Route path="/" element={<DashboardPage />} />
               <Route path="/createWork" element={<CreateWorkPage />} />
-              <Route path="/allWork" element={<WorkListPage />} />
+              <Route path="/allWork" element={<WorkByStatusPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route
