@@ -1,12 +1,15 @@
 import React from "react";
 import Dashboard from "../components/User/Dashboard.jsx";
 import WorkList from "../components/Works/WorkList.jsx";
+import SearchQueryProvider from "../context/SearchQueryProvider.jsx";
 
 const DashboardPage = () => {
   return (
     <div>
-      <Dashboard />
-      <WorkList />
+      <SearchQueryProvider>
+        <Dashboard />
+        <WorkList />
+      </SearchQueryProvider>
     </div>
   );
 };

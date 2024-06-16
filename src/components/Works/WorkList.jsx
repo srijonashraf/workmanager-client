@@ -13,6 +13,7 @@ import ModalComponent from "./Modal.jsx";
 import ModalContext from "../../context/ModalContext.js";
 import parse from "html-react-parser";
 import "../../assets/css/workList.css";
+import SearchQueryContext from "../../context/SearchQuearyContext.js";
 
 const WorkList = () => {
   const [works, setWorks] = useState([]);
@@ -35,6 +36,9 @@ const WorkList = () => {
     change,
     setShowOpenModal,
   } = useContext(ModalContext);
+
+  const { setQuery, handleQuerySearch, queryResult } =
+    useContext(SearchQueryContext);
 
   const fetchAllWorks = async (setWorks, setLoading) => {
     try {
@@ -73,15 +77,34 @@ const WorkList = () => {
   };
 
   useEffect(() => {
-    if (!statusParam || statusParam === "allWork") {
+    if (queryResult) {
+      setWorks(queryResult || []);
+    } else if (!statusParam || statusParam === "allWork") {
       fetchAllWorks(setWorks, setLoading);
     } else {
       fetchWorksByStatus(statusParam, setWorks, setLoading);
     }
-  }, [statusParam, change]);
+  }, [statusParam, change, queryResult]);
 
   return (
     <Container className="mt-3">
+      <div className="input-group w-auto form-control-sm mb-3">
+        <input
+          type="text"
+          className="form-control"
+          onChange={(e) => {
+            setQuery(e.target.value);
+          }}
+        />
+        <button
+          className="btn bg-primary-subtle btn-sm text-white"
+          data-bs-theme="dark"
+          type="submit"
+          onClick={handleQuerySearch}
+        >
+          Search
+        </button>
+      </div>
       <Row className="row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
         {loading ? (
           <Col className="mb-3">
@@ -90,21 +113,21 @@ const WorkList = () => {
         ) : works.length > 0 ? (
           works.map((work) => (
             <Col key={work._id}>
-              <Card
-                onClick={() => {
-                  setShowOpenModal(true);
-                  setDetailsView({
-                    workTitle: work.workTitle,
-                    workDescription: work.workDescription,
-                    lastEdited: work.updatedAt || null,
-                  });
-                }}
-                className="shadow border-0 w-100 card-hover"
-              >
+              <Card className="shadow border-0 w-100 card-hover">
                 <Card.Header className="bg-white text-dark">
                   <Card.Title>{work.workTitle}</Card.Title>
                 </Card.Header>
-                <Card.Body>
+                <Card.Body
+                  className="cursorPointer"
+                  onClick={() => {
+                    setShowOpenModal(true);
+                    setDetailsView({
+                      workTitle: work.workTitle,
+                      workDescription: work.workDescription,
+                      lastEdited: work.updatedAt || null,
+                    });
+                  }}
+                >
                   <Card.Text>
                     <div className="md-text mb-1 text-dark">
                       {parse(

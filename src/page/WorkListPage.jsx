@@ -1,13 +1,16 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import WorkList from "../components/Works/WorkList";
+import SearchQueryProvider from "../context/SearchQueryProvider";
 
 const WorkListPage = () => {
   return (
     <div>
-      <Container>
-        <WorkList />
-      </Container>
+      <SearchQueryProvider>
+        <Container>
+          <WorkList />
+        </Container>
+      </SearchQueryProvider>
     </div>
   );
 };

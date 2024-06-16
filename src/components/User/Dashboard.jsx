@@ -1,33 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Container, Card, Row, Col, Button } from "react-bootstrap";
 import {
   FetchWorkCount,
   GetProfileDetails,
 } from "../../apiRequest/apiRequest.js";
 import { useNavigate } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import SearchQueryContext from "../../context/SearchQuearyContext.js";
 
 const Dashboard = () => {
   const [workCounts, setWorkCounts] = useState([]);
   const [profileDetails, setProfileDetails] = useState({});
   const [loading, setLoading] = useState(false);
-  const [currentTime, setCurrentTime] = useState(new Date());
   const navigate = useNavigate();
 
-  const formattedTime = currentTime.toLocaleTimeString(undefined, {
-    hour12: true,
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  });
-
-  // For Clock
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, []);
+  const { setQuery, handleQuerySearch } = useContext(SearchQueryContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,8 +65,9 @@ const Dashboard = () => {
           </Button>
         </Container>
       )}
+
       <Container>
-        <h2 className="my-3 d-flex align-items-baseline gap-2 justify-content-between">
+        <h2 className="my-3 d-flex flex-column flex-sm-row align-items-baseline gap-2 justify-content-between">
           <div>
             Hi!{" "}
             <span className="h4">
@@ -90,7 +77,23 @@ const Dashboard = () => {
               <span className="blog-title-emoji">👋</span>
             </span>
           </div>
-          <p className="h4">{formattedTime}</p>
+          <div className="input-group w-auto form-control-sm">
+            <input
+              type="text"
+              className="form-control"
+              onChange={(e) => {
+                setQuery(e.target.value);
+              }}
+            />
+            <button
+              className="btn bg-primary-subtle btn-sm text-white"
+              data-bs-theme="dark"
+              type="submit"
+              onClick={handleQuerySearch}
+            >
+              Search
+            </button>
+          </div>
         </h2>
         <Row xs={12}>
           {workCounts

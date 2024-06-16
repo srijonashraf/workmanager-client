@@ -1,34 +1,32 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import {
-  LogoutWhenSessionExpired,
   axiosHeader,
   getBaseURL,
 } from "../helper/FunctionHelper";
 
 let BASE_URL = getBaseURL();
 
-LogoutWhenSessionExpired();
 
 function UserLogin(email, password) {
   const URL = `${BASE_URL}/UserLogin`;
   const postBody = { email, password };
 
   return axios
-      .post(URL, postBody, axiosHeader())
-      .then((res) => {
-        if (res.data.status === "success") {
-          Cookies.set("token", res.data.token);
-          return true;
-        } else {
-          console.log("Login Failed");
-          return false;
-        }
-      })
-      .catch((err) => {
-        console.error(err);
+    .post(URL, postBody, axiosHeader())
+    .then((res) => {
+      if (res.data.status === "success") {
+        Cookies.set("token", res.data.token);
+        return true;
+      } else {
+        console.log("Login Failed");
         return false;
-      });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      return false;
+    });
 }
 
 function GoogleSignIn(googleAuthValue) {
@@ -41,20 +39,20 @@ function GoogleSignIn(googleAuthValue) {
   };
 
   return axios
-      .post(URL, postBody, axiosHeader())
-      .then((res) => {
-        if (res.data.status === "success") {
-          Cookies.set("token", res.data.token);
-          return res;
-        } else {
-          console.log("Google Sign-In Failed");
-          return false;
-        }
-      })
-      .catch((err) => {
-        console.error(err);
+    .post(URL, postBody, axiosHeader())
+    .then((res) => {
+      if (res.data.status === "success") {
+        Cookies.set("token", res.data.token);
+        return res;
+      } else {
+        console.log("Google Sign-In Failed");
         return false;
-      });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      return false;
+    });
 }
 
 function UserRegistration(formValues) {
@@ -72,23 +70,23 @@ function UserRegistration(formValues) {
   };
 
   return axios
-      .post(URL, postBody)
-      .then((res) => {
-        if (res.data.status === "success") {
-          return res;
-        }
-        if (res.data.status === "fail") {
-          console.log("Registration Failed");
-          return res;
-        } else {
-          console.log("Registration Failed");
-          return false;
-        }
-      })
-      .catch((err) => {
-        console.error(err);
+    .post(URL, postBody)
+    .then((res) => {
+      if (res.data.status === "success") {
+        return res;
+      }
+      if (res.data.status === "fail") {
+        console.log("Registration Failed");
+        return res;
+      } else {
+        console.log("Registration Failed");
         return false;
-      });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      return false;
+    });
 }
 
 function AddNewWork(workTitle, workDescription) {
@@ -100,110 +98,110 @@ function AddNewWork(workTitle, workDescription) {
   };
 
   return axios
-      .post(URL, postBody, axiosHeader())
-      .then((res) => {
-        if (res.data.status === "success") {
-          return res;
-        } else {
-          console.log("Data Not Added.");
-          return false;
-        }
-      })
-      .catch((err) => {
-        console.error(err);
+    .post(URL, postBody, axiosHeader())
+    .then((res) => {
+      if (res.data.status === "success") {
+        return res;
+      } else {
+        console.log("Data Not Added.");
         return false;
-      });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      return false;
+    });
 }
 
 function AllWork() {
   const URL = `${BASE_URL}/WorkAllList`;
   return axios
-      .get(URL, axiosHeader())
-      .then((res) => {
-        if (res.data.status === "success") {
-          return res;
-        } else {
-          console.log("Data didn't fetch");
-          return false;
-        }
-      })
-      .catch((err) => {
-        console.error(err);
+    .get(URL, axiosHeader())
+    .then((res) => {
+      if (res.data.status === "success") {
+        return res;
+      } else {
+        console.log("Data didn't fetch");
         return false;
-      });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      return false;
+    });
 }
 
 function DeleteWork(id) {
   const URL = `${BASE_URL}/WorkDelete/${id}`;
   return axios
-      .get(URL, axiosHeader())
-      .then((res) => {
-        if (res.data.status === "success") {
-          return res;
-        } else {
-          console.log("Data didn't delete");
-          return false;
-        }
-      })
-      .catch((err) => {
-        console.error(err);
+    .get(URL, axiosHeader())
+    .then((res) => {
+      if (res.data.status === "success") {
+        return res;
+      } else {
+        console.log("Data didn't delete");
         return false;
-      });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      return false;
+    });
 }
 
 function UpdateWorkStatus(id, status) {
   const URL = `${BASE_URL}/WorkStatusUpdate/${id}/${status}`;
   return axios
-      .get(URL, axiosHeader())
-      .then((res) => {
-        if (res.data.status === "success") {
-          return res;
-        } else {
-          console.log("Work status didn't update");
-          return false;
-        }
-      })
-      .catch((err) => {
-        console.error(err);
+    .get(URL, axiosHeader())
+    .then((res) => {
+      if (res.data.status === "success") {
+        return res;
+      } else {
+        console.log("Work status didn't update");
         return false;
-      });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      return false;
+    });
 }
 
 function UpdateWorkData(id, updatedFields) {
   const URL = `${BASE_URL}/WorkUpdate/${id}`;
   return axios
-      .post(URL, updatedFields, axiosHeader())
-      .then((res) => {
-        if (res.data.status === "success") {
-          return res;
-        } else {
-          console.log("Work didn't update");
-          return false;
-        }
-      })
-      .catch((err) => {
-        console.error(err);
+    .post(URL, updatedFields, axiosHeader())
+    .then((res) => {
+      if (res.data.status === "success") {
+        return res;
+      } else {
+        console.log("Work didn't update");
         return false;
-      });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      return false;
+    });
 }
 
 function FetchWorkCount() {
   const URL = `${BASE_URL}/WorkStatusCountIndividual`;
 
   return axios
-      .get(URL, axiosHeader())
-      .then((res) => {
-        if (res.data.status === "success") {
-          return res;
-        } else {
-          console.log("Work status count didn't update");
-          return res;
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        return false;
-      });
+    .get(URL, axiosHeader())
+    .then((res) => {
+      if (res.data.status === "success") {
+        return res;
+      } else {
+        console.log("Work status count didn't update");
+        return res;
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      return false;
+    });
 }
 
 async function RecoverVerifyEmail(email) {
@@ -338,6 +336,22 @@ async function ProfileVerification(email) {
   }
 }
 
+async function WorkSearchList(query) {
+  const URL = `${BASE_URL}/WorkSearch/?q=${query}`;
+  try {
+    const response = await axios.get(URL, axiosHeader());
+    if (response.data.status === "success") {
+      return response;
+    } else {
+      console.log("Profile verification failed");
+      return false;
+    }
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
+
 export {
   UserLogin,
   UserRegistration,
@@ -355,4 +369,5 @@ export {
   ShowWorkByStatus,
   GoogleSignIn,
   ProfileVerification,
+  WorkSearchList
 };

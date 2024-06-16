@@ -54,7 +54,7 @@ const AppNavbar = () => {
               className="text-warning mx-2 cursorPointer fs-5"
               onClick={toggleOffcanvas}
             />
-            <NavLink to={"/"} className="navbar-brand">
+            <NavLink to={"/dashboard"} className="navbar-brand">
               Work Manager
             </NavLink>
           </div>
