@@ -1,12 +1,12 @@
 import React from "react";
 import Dashboard from "../components/User/Dashboard.jsx";
-import WorkByStatus from "./../components/Works/WorkByStatus";
+import WorkList from "../components/Works/WorkList.jsx";
 
 const DashboardPage = () => {
   return (
     <div>
       <Dashboard />
-      <WorkByStatus />
+      <WorkList />
     </div>
   );
 };

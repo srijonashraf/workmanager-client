@@ -1,11 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 body {
-  background-color: #FEFAF6 !important;
+  background-color: #fefaf6 !important;
+}
+
+p {
+  margin: 0 !important;
 }
 
 * {
   font-family: Poppins, sans-serif;
+}
+
+.badge-sm {
+  font-size: 10px !important;
 }
 
 .sm-text {

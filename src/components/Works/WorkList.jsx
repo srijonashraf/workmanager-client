@@ -1,12 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container, Card, Row, Col, Button } from "react-bootstrap";
+import {
+  Container,
+  Card,
+  Row,
+  Col,
+  Button,
+  ButtonGroup,
+} from "react-bootstrap";
 import { AllWork, ShowWorkByStatus } from "../../apiRequest/apiRequest.js";
 import { useParams } from "react-router-dom";
-import ModalComponent from "./Modal";
+import ModalComponent from "./Modal.jsx";
 import ModalContext from "../../context/ModalContext.js";
 import parse from "html-react-parser";
 import "../../assets/css/workList.css";
-const WorkByStatus = () => {
+
+const WorkList = () => {
   const [works, setWorks] = useState([]);
   const [detailsView, setDetailsView] = useState({
     workTitle: "",
@@ -27,7 +35,6 @@ const WorkByStatus = () => {
     setShowOpenModal,
   } = useContext(ModalContext);
 
-  // Function to fetch all works
   const fetchAllWorks = async (setWorks, setLoading) => {
     try {
       setLoading(true);
@@ -46,7 +53,6 @@ const WorkByStatus = () => {
     }
   };
 
-  // Function to fetch works by status
   const fetchWorksByStatus = async (status, setWorks, setLoading) => {
     try {
       setLoading(true);
@@ -65,7 +71,6 @@ const WorkByStatus = () => {
     }
   };
 
-  // Main useEffect hook
   useEffect(() => {
     if (!statusParam || statusParam === "allWork") {
       fetchAllWorks(setWorks, setLoading);
@@ -83,7 +88,7 @@ const WorkByStatus = () => {
           </Col>
         ) : works.length > 0 ? (
           works.map((work) => (
-            <Col key={work._id} className="mb-3 d-flex">
+            <Col key={work._id}>
               <Card
                 onClick={() => {
                   setShowOpenModal(true);
@@ -94,27 +99,32 @@ const WorkByStatus = () => {
                 }}
                 className="shadow border-0 w-100 card-hover"
               >
-                <Card.Body className="d-flex flex-column p-3">
-                  <h5 className="fw-bold mb-3">{work.workTitle}</h5>
-                  <div className="md-text mb-3">
-                    {parse(
-                      work.workDescription.length > 200
-                        ? work.workDescription.slice(0, 200) + "..."
-                        : work.workDescription
-                    )}
-                  </div>
-                  <Card.Footer className="mt-auto d-flex justify-content-center bg-white border-0">
+                <Card.Header>
+                  <Card.Title>{work.workTitle}</Card.Title>
+                </Card.Header>
+                <Card.Body>
+                  <Card.Text>
+                    <div className="md-text mb-1">
+                      {parse(
+                        work.workDescription.length > 200
+                          ? work.workDescription.slice(0, 200) + "..."
+                          : work.workDescription
+                      )}
+                    </div>
+                  </Card.Text>
+
+                  <ButtonGroup className="w-50">
                     <Button
                       variant={
                         work.workStatus === "Done"
                           ? "success"
                           : work.workStatus === "In Progress"
-                          ? "warning"
+                          ? "info"
                           : work.workStatus === "Cancelled"
-                          ? "danger"
+                          ? "secondary"
                           : "primary"
                       }
-                      className="text-white rounded-pill btn-sm me-2"
+                      className="text-white rounded-pill badge me-2 badge-sm"
                       onClick={(e) => {
                         e.stopPropagation();
                         setShowStatusModal(true);
@@ -123,9 +133,8 @@ const WorkByStatus = () => {
                     >
                       {work.workStatus}
                     </Button>
-
                     <Button
-                      className="btn-sm rounded-pill btn-dark me-2"
+                      className="text-white rounded-pill badge me-2 btn-dark badge-sm"
                       onClick={(e) => {
                         e.stopPropagation();
                         const workDetails = works.find(
@@ -143,17 +152,16 @@ const WorkByStatus = () => {
                     >
                       Edit
                     </Button>
-
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();
                         DeleteWorkRequest(work._id);
                       }}
-                      className="btn-sm rounded-pill btn-danger"
+                      className="text-white rounded-pill badge me-2 btn-danger badge-sm"
                     >
                       Delete
                     </Button>
-                  </Card.Footer>
+                  </ButtonGroup>
                 </Card.Body>
               </Card>
             </Col>
@@ -176,4 +184,4 @@ const WorkByStatus = () => {
   );
 };
 
-export default WorkByStatus;
+export default WorkList;

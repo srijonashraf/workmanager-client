@@ -14,9 +14,9 @@ import OtpContextProvider from "./context/OtpContextProvider.jsx";
 import ProtectedVerifyOtp from "./components/ProtectedRoute/ProtectedVerifyOtp.jsx";
 import ProtectedCreatePassword from "./components/ProtectedRoute/ProtectedCreatePassword.jsx";
 import { Toaster } from "react-hot-toast";
-import WorkByStatusPage from "./page/WorkByStatusPage.jsx";
 import CreateWorkPage from "./page/CreateWorkPage";
 import ModalContextProvider from "./context/ModalContextProvider.jsx";
+import WorkListPage from "./page/WorkListPage";
 
 function App() {
   const loggedIn = getToken();
@@ -31,13 +31,10 @@ function App() {
             <Routes>
               <Route path="/" element={<DashboardPage />} />
               <Route path="/createWork" element={<CreateWorkPage />} />
-              <Route path="/allWork" element={<WorkByStatusPage />} />
+              <Route path="/allWork" element={<WorkListPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/profile" element={<ProfilePage />} />
-              <Route
-                path="/workByStatus/:status"
-                element={<WorkByStatusPage />}
-              />
+              <Route path="/workByStatus/:status" element={<WorkListPage />} />
               <Route
                 path="/sendOTP/:email"
                 element={
