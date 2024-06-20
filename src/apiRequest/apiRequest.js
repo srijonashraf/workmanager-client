@@ -1,14 +1,14 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import {
-  LogoutWhenSessionExpired,
+  logoutWhenSessionExpired,
   axiosHeader,
   getBaseURL,
 } from "../helper/FunctionHelper";
 
 let BASE_URL = getBaseURL();
 
-LogoutWhenSessionExpired();
+logoutWhenSessionExpired();
 
 function UserLogin(email, password) {
   const URL = `${BASE_URL}/UserLogin`;

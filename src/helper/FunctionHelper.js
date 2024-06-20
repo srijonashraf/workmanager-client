@@ -17,7 +17,7 @@ export const axiosHeader = () => {
   };
 };
 
-export const LogoutWhenSessionExpired = () => {
+export const logoutWhenSessionExpired = () => {
   axios.interceptors.response.use(
     function (response) {
       return response;
