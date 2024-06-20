@@ -10,11 +10,18 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { CiLogout } from "react-icons/ci";
 import { GetProfileDetails } from "../../apiRequest/apiRequest.js";
 import Avatar from "react-avatar";
+import { MdDashboard } from "react-icons/md";
+import { IoIosCreate } from "react-icons/io";
+import { AiFillClockCircle } from "react-icons/ai";
+import { MdCancel } from "react-icons/md";
+import { IoIosCloudDone } from "react-icons/io";
+import { IoSettings } from "react-icons/io5";
+import { FaBarsProgress } from "react-icons/fa6";
+import { IoFileTrayStacked } from "react-icons/io5";
 
 const AppNavbar = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [firstName, setFirstName] = useState("");
-  const [profileDetails, setProfileDetails] = useState([]);
   const [img, setImg] = useState("");
 
   const toggleOffcanvas = () => {
@@ -30,7 +37,6 @@ const AppNavbar = () => {
       try {
         const res = await GetProfileDetails();
         setFirstName(res.data.data[0].firstName);
-        setProfileDetails(res.data.data[0]);
         setImg(res.data.data[0].img);
       } catch (error) {
         console.error(error);
@@ -39,6 +45,57 @@ const AppNavbar = () => {
 
     fetchData();
   }, []);
+
+  const navItems = [
+    {
+      id: 1,
+      name: "Dashboard",
+      path: "/",
+      icon: <MdDashboard />,
+    },
+    {
+      id: 2,
+      name: "Create Work",
+      path: "/createWork",
+      icon: <IoIosCreate />,
+    },
+    {
+      id: 3,
+      name: "All Work",
+      path: "/allWork",
+      icon: <IoFileTrayStacked />,
+    },
+    {
+      id: 4,
+      name: "Pending",
+      path: "/workByStatus/Pending",
+      icon: <AiFillClockCircle />,
+    },
+    {
+      id: 5,
+      name: "In Progress",
+      path: "/workByStatus/In Progress",
+      icon: <FaBarsProgress />,
+    },
+    {
+      id: 6,
+      name: "Done",
+      path: "/workByStatus/Done",
+      icon: <IoIosCloudDone />,
+    },
+    {
+      id: 7,
+      name: "Cencelled",
+      path: "/workByStatus/Cancelled",
+      icon: <MdCancel />,
+    },
+    {
+      id: 8,
+      name: "Settings",
+      path: "/profile",
+      icon: <IoSettings />,
+    },
+  ];
 
   return (
     <div className={`app-container ${showOffcanvas ? "offcanvas-open" : ""}`}>
@@ -107,84 +164,26 @@ const AppNavbar = () => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <ul className="list-group list-group-flush list-unstyled">
-            <li>
-              <NavLink
-                to="/"
-                className="list-group-item border-0 rounded-1"
-                onClick={closeOffcanvas}
-              >
-                Dashboard
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/createWork"
-                className="list-group-item border-0 rounded-1"
-                onClick={closeOffcanvas}
-              >
-                Create Work
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/allWork"
-                className="list-group-item border-0 rounded-1"
-                onClick={closeOffcanvas}
-              >
-                All Work
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to={`/workByStatus/Pending`}
-                className="list-group-item border-0 rounded-1"
-                onClick={closeOffcanvas}
-              >
-                Pending
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to={`/workByStatus/In Progress`}
-                className="list-group-item border-0 rounded-1"
-                onClick={closeOffcanvas}
-              >
-                In Progress
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to={`/workByStatus/Done`}
-                className="list-group-item border-0 rounded-1"
-                onClick={closeOffcanvas}
-              >
-                Done
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to={`/workByStatus/Cancelled`}
-                className="list-group-item border-0 rounded-1"
-                onClick={closeOffcanvas}
-              >
-                Cancelled
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/profile"
-                className="list-group-item border-0 rounded-1"
-                onClick={closeOffcanvas}
-              >
-                Settings
-              </NavLink>
-            </li>
+            {navItems.map((item) => {
+              return (
+                <li key={item.id.toString()}>
+                  <NavLink
+                    onClick={closeOffcanvas}
+                    to={item.path}
+                    className="list-group-item border-0 rounded-1 d-flex gap-2 align-items-center custom-nav-link"
+                  >
+                    {item.icon}
+                    {item.name}
+                  </NavLink>
+                </li>
+              );
+            })}
             <Button
               onClick={clearSessions}
-              className="d-flex rounded-1"
+              className="d-flex rounded-1 align-items-center gap-1"
               variant="danger"
             >
-              Logout
+              <CiLogout /> Logout
             </Button>
           </ul>
         </Offcanvas.Body>

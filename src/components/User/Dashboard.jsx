@@ -6,6 +6,7 @@ import {
 } from "../../apiRequest/apiRequest.js";
 import { useNavigate } from "react-router-dom";
 import SearchQueryContext from "../../context/SearchQuearyContext.js";
+import ModalContext from "./../../context/ModalContext";
 
 const Dashboard = () => {
   const [workCounts, setWorkCounts] = useState([]);
@@ -14,6 +15,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const { setQuery, handleQuerySearch } = useContext(SearchQueryContext);
+  const { change } = useContext(ModalContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +43,7 @@ const Dashboard = () => {
     };
 
     fetchData();
-  }, []);
+  }, [change]);
 
   const handleVerifyButton = () => {
     navigate(`/sendOTP/${profileDetails.email}`);
@@ -81,6 +83,7 @@ const Dashboard = () => {
             <input
               type="text"
               className="form-control"
+              placeholder="Search Work"
               onChange={(e) => {
                 setQuery(e.target.value);
               }}

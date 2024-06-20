@@ -17,19 +17,19 @@ export const axiosHeader = () => {
   };
 };
 
-// export const LogoutWhenSessionExpired = () => {
-//   axios.interceptors.response.use(
-//     function (response) {
-//       return response;
-//     },
-//     async function (error) {
-//       if (error.response && error.response.status === 401) {
-//         const isConfirmed = await SessionAlertSwal();
-//         if (isConfirmed) {
-//           clearSessions();
-//         }
-//       }
-//       return Promise.reject(error);
-//     }
-//   );
-// };
+export const LogoutWhenSessionExpired = () => {
+  axios.interceptors.response.use(
+    function (response) {
+      return response;
+    },
+    async function (error) {
+      if (error.response && error.response.status === 401) {
+        const isConfirmed = await SessionAlertSwal();
+        if (isConfirmed) {
+          clearSessions();
+        }
+      }
+      return Promise.reject(error);
+    }
+  );
+};

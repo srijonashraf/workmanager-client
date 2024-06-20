@@ -12,10 +12,11 @@ import { useParams } from "react-router-dom";
 import ModalComponent from "./Modal.jsx";
 import ModalContext from "../../context/ModalContext.js";
 import parse from "html-react-parser";
-import "../../assets/css/workList.css";
+import "../../assets/css/worklist.css";
 import SearchQueryContext from "../../context/SearchQuearyContext.js";
+import { DeleteAlertSwal } from "../../helper/ToasterHelper.js";
 
-const WorkList = () => {
+const WorkList = ({ searchBar }) => {
   const [works, setWorks] = useState([]);
   const [detailsView, setDetailsView] = useState({
     workTitle: "",
@@ -88,23 +89,29 @@ const WorkList = () => {
 
   return (
     <Container className="mt-3">
-      <div className="input-group w-auto form-control-sm mb-3">
-        <input
-          type="text"
-          className="form-control"
-          onChange={(e) => {
-            setQuery(e.target.value);
-          }}
-        />
-        <button
-          className="btn bg-primary-subtle btn-sm text-white"
-          data-bs-theme="dark"
-          type="submit"
-          onClick={handleQuerySearch}
-        >
-          Search
-        </button>
-      </div>
+      {searchBar ? (
+        <div className="input-group w-auto form-control-sm mb-3">
+          <input
+            type="text"
+            placeholder="Search Work"
+            className="form-control"
+            onChange={(e) => {
+              setQuery(e.target.value);
+            }}
+          />
+
+          <button
+            className="btn bg-primary-subtle btn-sm text-white"
+            data-bs-theme="dark"
+            type="submit"
+            onClick={handleQuerySearch}
+          >
+            Search
+          </button>
+        </div>
+      ) : (
+        <></>
+      )}
       <Row className="row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
         {loading ? (
           <Col className="mb-3">
@@ -128,15 +135,9 @@ const WorkList = () => {
                     });
                   }}
                 >
-                  <Card.Text>
-                    <div className="md-text mb-1 text-dark">
-                      {parse(
-                        work.workDescription.length > 200
-                          ? work.workDescription.slice(0, 200) + "..."
-                          : work.workDescription
-                      )}
-                    </div>
-                  </Card.Text>
+                  <div className="md-text mb-1 text-dark workDescription">
+                    {parse(work.workDescription)}
+                  </div>
 
                   <ButtonGroup className="w-50">
                     <Button
@@ -180,7 +181,9 @@ const WorkList = () => {
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();
-                        DeleteWorkRequest(work._id);
+                        DeleteAlertSwal().then(
+                          (res) => res && DeleteWorkRequest(work._id)
+                        );
                       }}
                       className="text-white rounded-pill badge me-2 btn-danger badge-sm"
                     >

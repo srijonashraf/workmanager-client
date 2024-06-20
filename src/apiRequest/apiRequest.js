@@ -1,12 +1,14 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import {
+  LogoutWhenSessionExpired,
   axiosHeader,
   getBaseURL,
 } from "../helper/FunctionHelper";
 
 let BASE_URL = getBaseURL();
 
+LogoutWhenSessionExpired();
 
 function UserLogin(email, password) {
   const URL = `${BASE_URL}/UserLogin`;
@@ -369,5 +371,5 @@ export {
   ShowWorkByStatus,
   GoogleSignIn,
   ProfileVerification,
-  WorkSearchList
+  WorkSearchList,
 };

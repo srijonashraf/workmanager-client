@@ -14,11 +14,6 @@ import { NavLink } from "react-router-dom";
 import { Auth, Provider } from "../../../firebase.js";
 import { signInWithPopup } from "firebase/auth";
 import { FaGoogle } from "react-icons/fa";
-import {
-  getExpireMessage,
-  setExpireMessage,
-} from "../../helper/SessionHelper.js";
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,13 +24,6 @@ const Login = () => {
     firstName: "",
     lastName: "",
   });
-
-  useEffect(() => {
-    if (getExpireMessage()) {
-      errorToast("Session Expired. Please login again");
-      setExpireMessage(false);
-    }
-  }, [getExpireMessage()]);
 
   const UserLoginRequest = async (e) => {
     e.preventDefault();

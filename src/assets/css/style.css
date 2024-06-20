@@ -69,7 +69,37 @@ p {
 
 .modal-body-content {
   word-wrap: break-word;
-  word-break: break-all;
+  word-break: break-word;
+  overflow: auto;
+}
+
+.modal-body-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  object-fit: cover;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.custom-nav-link {
+  transition: background-color 0.2s eas;
+}
+
+.custom-nav-link:hover {
+  background-color: #084298;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.workDescription img {
+  max-width: 100%;
+  object-fit: contain;
 }
 
 @keyframes wave-animation {

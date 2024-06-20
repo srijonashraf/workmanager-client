@@ -8,7 +8,7 @@ const DashboardPage = () => {
     <div>
       <SearchQueryProvider>
         <Dashboard />
-        <WorkList />
+        <WorkList searchBar={false} />
       </SearchQueryProvider>
     </div>
   );

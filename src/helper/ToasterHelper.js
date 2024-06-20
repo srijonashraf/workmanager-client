@@ -21,7 +21,21 @@ class ToasterClass {
     });
     return result.isConfirmed;
   }
+
+  async DeleteAlertSwal() {
+    const result = await Swal.fire({
+      title: "Are you sure you want to delete?",
+      text: "You can not revert the task..",
+      icon: "error",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      animation: false,
+      allowOutsideClick: true,
+      confirmButtonColor: "#C80036",
+    });
+    return result.isConfirmed;
+  }
 }
 
-export const { errorToast, successToast, SessionAlertSwal } =
+export const { errorToast, successToast, SessionAlertSwal, DeleteAlertSwal } =
   new ToasterClass();

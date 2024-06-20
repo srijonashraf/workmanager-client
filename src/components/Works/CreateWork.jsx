@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Card,
   Container,
@@ -15,13 +15,32 @@ import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import QuillToolbar from "../../utility/ReactQuillModules.js";
 import "react-quill/dist/quill.snow.css";
-import "../../assets/css/quillEditor.css";
+import { MAX_LENGTH } from "../../constants/ReactQuillMaxLength.js";
 
 const CreateWork = () => {
   const [workTitle, setWorkTitle] = useState("");
   const [workDescription, setWorkDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const quillRef = useRef(null);
+
+  useEffect(() => {
+    const quill = quillRef.current?.getEditor();
+    if (quill) {
+      const handleTextChange = () => {
+        const plainText = quill.getText().trim();
+        if (plainText.length > MAX_LENGTH) {
+          quill.deleteText(MAX_LENGTH, quill.getLength());
+        }
+      };
+
+      quill.on("text-change", handleTextChange);
+      return () => {
+        quill.off("text-change", handleTextChange);
+      };
+    }
+  }, [workDescription]);
 
   const handleAddWork = async () => {
     try {
@@ -72,10 +91,14 @@ const CreateWork = () => {
               </InputGroup>
 
               <ReactQuill
+                ref={quillRef}
                 theme="snow"
+                placeholder="Work Description"
                 value={workDescription}
                 modules={{ toolbar: QuillToolbar }}
-                onChange={setWorkDescription}
+                onChange={(content, delta, source, editor) =>
+                  setWorkDescription(editor.getHTML())
+                }
               />
 
               <Button

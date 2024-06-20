@@ -1,6 +1,5 @@
 export default function unauthorized(code){
     if(code===401){
-
         // Clear Previous
         sessionStorage.clear();
         localStorage.clear();

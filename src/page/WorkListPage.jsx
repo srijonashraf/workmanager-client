@@ -8,7 +8,7 @@ const WorkListPage = () => {
     <div>
       <SearchQueryProvider>
         <Container>
-          <WorkList />
+          <WorkList searchBar={true} />
         </Container>
       </SearchQueryProvider>
     </div>
