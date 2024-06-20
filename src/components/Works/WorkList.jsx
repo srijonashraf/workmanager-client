@@ -12,7 +12,6 @@ import { useParams } from "react-router-dom";
 import ModalComponent from "./Modal.jsx";
 import ModalContext from "../../context/ModalContext.js";
 import parse from "html-react-parser";
-import "../../assets/css/worklist.css";
 import SearchQueryContext from "../../context/SearchQuearyContext.js";
 import { DeleteAlertSwal } from "../../helper/ToasterHelper.js";
 
