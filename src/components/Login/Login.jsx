@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { successToast, errorToast } from "../../helper/ToasterHelper.js";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { Auth, Provider } from "../../../firebase.js";
 import { signInWithPopup } from "firebase/auth";
 import { FaGoogle } from "react-icons/fa";
@@ -19,11 +19,20 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState(false);
+  const [showDemoMessage, setShowDemoMessage] = useState(false);
   const [googleAuthValue, setGoogleAuthValue] = useState({
     email: "",
     firstName: "",
     lastName: "",
   });
+
+  const accountType = useParams().type;
+
+  useEffect(() => {
+    if (accountType === "demo") {
+      setShowDemoMessage(true);
+    }
+  }, [accountType]);
 
   const UserLoginRequest = async (e) => {
     e.preventDefault();
@@ -145,6 +154,24 @@ const Login = () => {
                 <FaGoogle className="mx-2" />
                 {loading ? "Logging in..." : "Sign in with Google"}
               </Button>
+
+              {showDemoMessage ? (
+                <Row className="bg-secondary p-2 rounded-2 text-white text-center">
+                  <p>
+                    Email: <span className="fw-bold">demo@demo.com</span>
+                  </p>
+                  <p>
+                    Password: <span className="fw-bold">1111</span>
+                  </p>
+                  <p className="sm-text">
+                    This account is intended for demonstration purposes, and any
+                    changes will automatically revert to their original state
+                    after new login.
+                  </p>
+                </Row>
+              ) : (
+                <></>
+              )}
 
               <Row className="float-end mt-3">
                 <span>

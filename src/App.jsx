@@ -67,6 +67,7 @@ function App() {
           <Routes>
             <Route path="*" element={<LoginPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/login/:type" element={<LoginPage />} />
             <Route path="/register" element={<RegistrationPage />} />
             <Route
               path="/sendOTP"
