@@ -307,23 +307,24 @@ const Profile = () => {
                     </Col>
                   </Row>
 
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    className="w-100"
-                    onClick={handleSubmit}
-                    disabled={
-                      loading ||
-                      formValues.email === import.meta.env.VITE_DEMO_EMAIL
-                    }
-                  >
-                    {loading ? "Loading..." : "Update Profile"}
-                  </Button>
-                  <Row className="text-center p-2 mt-2 bg-dark text-white rounded-1">
-                    <p>
-                      Its a demo account, you can not update your details here.
-                    </p>
-                  </Row>
+                  {formValues.email !== import.meta.env.VITE_DEMO_EMAIL ? (
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      className="w-100"
+                      onClick={handleSubmit}
+                      disabled={loading}
+                    >
+                      {loading ? "Loading..." : "Update Profile"}
+                    </Button>
+                  ) : (
+                    <Row className="text-center p-2 mt-2 bg-dark text-white rounded-1">
+                      <p>
+                        Its a demo account, you can not update your details
+                        here.
+                      </p>
+                    </Row>
+                  )}
                 </Form>
               </Card.Body>
             </Card>
