@@ -1,1 +1,3 @@
-### Live Site: [workmanagerweb.netlify.app](https://workmanagerweb.netlify.app/)
+# Work Manager
+##Live: 
+https://workmanagerweb.netlify.app/
